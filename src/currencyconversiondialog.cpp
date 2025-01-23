@@ -45,7 +45,6 @@ CurrencyConversionDialog::CurrencyConversionDialog(Budget *budg, QWidget *parent
 	QGridLayout *grid = new QGridLayout();
 	box1->addLayout(grid);
 
-
 	fromEdit = new EqonomizeValueEdit(1.0, false, false, this, budget);
 	grid->addWidget(fromEdit, 0, 0);
 	fromCombo = new QComboBox(this);
@@ -122,6 +121,8 @@ void CurrencyConversionDialog::updateCurrencies() {
 		if(currency == toCur) toCombo->setCurrentIndex(i);
 		i++;
 	}
+	fromEdit->setDecimals(((Currency*) fromCombo->currentData().value<void*>())->fractionalDigits());
+	toEdit->setDecimals(((Currency*) toCombo->currentData().value<void*>())->fractionalDigits());
 	if(prev_fromCur != fromCur || prev_toCur != toCur) convertFrom();
 }
 
@@ -148,6 +149,8 @@ void CurrencyConversionDialog::convertTo() {
 	convert_from = false;
 }
 void CurrencyConversionDialog::convert() {
+	fromEdit->setDecimals(((Currency*) fromCombo->currentData().value<void*>())->fractionalDigits());
+	toEdit->setDecimals(((Currency*) toCombo->currentData().value<void*>())->fractionalDigits());
 	if(convert_from) convertFrom();
 	else convertTo();
 }

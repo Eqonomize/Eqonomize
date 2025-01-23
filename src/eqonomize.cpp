@@ -8336,7 +8336,7 @@ void Eqonomize::reportBug() {
 	QDesktopServices::openUrl(QUrl("https://github.com/Eqonomize/Eqonomize/issues/new"));
 }
 void Eqonomize::showAbout() {
-	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v%4</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"https://eqonomize.github.io/\">https://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016-2024 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")).arg(qApp->applicationVersion()));
+	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v%4</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"https://eqonomize.github.io/\">https://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016-2025 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")).arg(qApp->applicationVersion()));
 }
 void Eqonomize::showAboutQt() {
 	QMessageBox::aboutQt(this);

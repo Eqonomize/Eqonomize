@@ -37,6 +37,18 @@
  </provides>
  <translation type="qt">eqonomize</translation>
  <releases>
+  <release version="1.5.9" date="2025-01-27">
+   <description>
+    <p>Changes:</p>
+    <ul>
+     <li>Add option to hide the symbol for the main currency in monetary values</li>
+     <li>Save values with up to 15 significant digits instead of a fixed number of decimals</li>
+     <li>Set maximum currency decimals, and default BTC decimals, to 8</li>
+     <li>Use decimals of current currencies in currency conversion fields</li>
+     <li>Show balancing account, if used, in ledger account list</li>
+    </ul>
+   </description>
+  </release>
   <release version="1.5.8" date="2024-10-10">
    <description>
     <p>Changes:</p>

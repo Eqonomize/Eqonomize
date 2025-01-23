@@ -1,6 +1,31 @@
-2024-10-10  Hanna Knutsson <hanna.knutsson@protonmail.com>
+2025-01-21  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
-	* Place cash, current, and credit card accounts first in account selection list
+	* Add option to hide the symbol for the main currency in monetary
+	  values
+
+2025-01-20  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Use decimals of current currencies in currency conversion fields
+
+2024-11-24  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Show balancing account, if used, in ledger account list
+
+2024-10-29  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Save values to file with up to 15 significant digits instead of a
+	  fixed number of decimals
+
+2024-10-24  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Set maximum currency decimals, and default BTC decimals, to 8
+	* Increase the number of decimal places in exchange rate field to 10
+	  when currency decimals > 4 or exchange rate > €10
+
+2024-10-09  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Place cash, current, and credit card accounts first in account
+	  selection list
 	* Fix opening of file with relative path from command line
 
 2024-09-10  Hanna Knutsson <hanna.knutsson@protonmail.com>
@@ -12,17 +37,21 @@
 2024-09-09  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Restore dark mode setting on Windows with Qt 6
-	* Allowing collapsing of Assets, Liabilities, Incomes, and Expenses in accounts and categories view using double-click
+	* Allowing collapsing of Assets, Liabilities, Incomes, and Expenses in
+	  accounts and categories view using double-click
 	* Option to edit assets group name (using "Edit..." menu item)
 
 2024-09-01  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
-	* Ask if user want to save changes before opening file from command line or file manager
+	* Ask if user want to save changes before opening file from command
+	  line or file manager
 	* Fix segfault and duplicating character when tag contains ampersand
 
 2024-06-27  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
-	* Set allowed range for ledger print time period date fields (fixes ledger print error not shown when to date is before date of first transaction)
+	* Set allowed range for ledger print time period date fields
+	  (fixes ledger print error not shown when to date is before date of
+	  first transaction)
 
 2024-05-14  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
@@ -31,7 +60,8 @@
 
 2024-05-08  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
-	* Fix saving of quantity in dialog for transaction with multiple payments
+	* Fix saving of quantity in dialog for transaction with multiple
+	  payments
 	* Exclude hidden (closed) accounts from accounts view export
 
 2024-04-07  Hanna Knutsson <hanna.knutsson@protonmail.com>
@@ -41,7 +71,8 @@
 2024-03-26  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix segfault on new account in debt payment dialog
-	* Fix value selection after prefill with default values for description, with Qt6
+	* Fix value selection after prefill with default values for
+	  description, with Qt6
 
 2024-03-01  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
@@ -50,7 +81,8 @@
 
 2023-12-02  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
-	* Only update exchange rates from the ECB, unless currencies requiring other data sources are used
+	* Only update exchange rates from the ECB, unless currencies requiring
+	  other data sources are used
 
 2023-11-28  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
@@ -65,12 +97,15 @@
 
 2023-07-04  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
-	* Use exchangerate.host as secondary exchange rate source, with mycurrency.net as backup
-	* Use fusion style by default and use system setting for dark mode on Windows with Qt >= 6.5
+	* Use exchangerate.host as secondary exchange rate source, with
+	  mycurrency.net as backup
+	* Use fusion style by default and use system setting for dark mode on
+	  Windows with Qt >= 6.5
 
 2023-06-19  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
-	* Fix set security share value for split transactions (null date where used)
+	* Fix set security share value for split transactions
+	  (null date where used)
 
 2023-06-01  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
@@ -78,11 +113,13 @@
 
 2023-05-10  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
-	* Fix monthly total for categories divided in subcategories in categories comparison report
+	* Fix monthly total for categories divided in subcategories in
+	  categories comparison report
 
 2022-12-01  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
-	* Fix months between dates calculation when first month of budget year is not January
+	* Fix months between dates calculation when first month of budget year
+	  is not January
 
 2022-11-26  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
@@ -91,7 +128,8 @@
 2022-11-25  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Make text in statistics below lists selectable
-	* Add ignore duplicate transactions property to CSV import presets and fix initial state
+	* Add ignore duplicate transactions property to CSV import presets and
+	  fix initial state
 
 2022-09-11  Francisco Miguel Biete Banon <fbiete@gmail.com>
 
@@ -109,7 +147,8 @@
 
 2022-05-17  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
-	* Fix import CSV and import QIF dialogs (wizards) with dark mode on Windows
+	* Fix import CSV and import QIF dialogs (wizards) with dark mode on
+	  Windows
 
 2022-01-02  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
