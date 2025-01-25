@@ -57,12 +57,14 @@ class AccountComboBox : public QComboBox {
 
 		Account *currentAccount() const;
 		void setCurrentAccount(Account *account);
+		bool setCurrentAccountId(qlonglong id);
 		int currentAccountIndex() const;
 		void setCurrentAccountIndex(int index);
 		void updateAccounts(Account *exclude_account = NULL, Currency *force_currency = NULL);
 		bool hasAccount() const;
 		Account *createAccount();
 		void hidePopup();
+		void setAccountType(int account_type);
 
 	signals:
 
@@ -76,6 +78,7 @@ class AccountComboBox : public QComboBox {
 	public slots:
 
 		void focusAndSelectAll();
+		void createAccountSlot();
 
 	protected slots:
 

@@ -6580,12 +6580,20 @@ bool Eqonomize::saveURL(const QUrl& url, bool do_local_sync, bool do_cloud_sync,
 
 void Eqonomize::importCSV() {
 	ImportCSVDialog *dialog = new ImportCSVDialog(b_extra, budget, this);
+	budget->setRecordNewAccounts(true);
+	budget->resetDefaultCurrencyChanged();
+	budget->resetCurrenciesModified();
 	if(dialog->exec() == QDialog::Accepted) {
 		reloadBudget();
 		emit accountsModified();
 		emit transactionsModified();
 		setModified(true);
+	} else {
+		foreach(Account* acc, budget->newAccounts) accountAdded(acc);
+		if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 	}
+	budget->newAccounts.clear();
+	budget->setRecordNewAccounts(false);
 	dialog->deleteLater();
 }
 

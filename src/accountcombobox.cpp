@@ -185,6 +185,15 @@ void AccountComboBox::setCurrentAccount(Account *account) {
 		if(index >= 0) setCurrentIndex(index);
 	}
 }
+bool AccountComboBox::setCurrentAccountId(qlonglong id) {
+	for(int i = 0; i < count(); i++) {
+		if(itemData(i).isValid() && itemData(i).value<void*>() && ((Account*) itemData(i).value<void*>())->id() == id) {
+			setCurrentIndex(i);
+			return true;
+		}
+	}
+	return false;
+}
 int AccountComboBox::currentAccountIndex() const {
 	int index = currentIndex() - firstAccountIndex();
 	if(index < 0) return -1;
@@ -329,9 +338,13 @@ void AccountComboBox::updateAccounts(Account *exclude_account, Currency *force_c
 		}
 	}
 }
+void AccountComboBox::setAccountType(int account_type) {
+	i_type = account_type;
+}
 bool AccountComboBox::hasAccount() const {
 	return count() > firstAccountIndex();
 }
+void AccountComboBox::createAccountSlot() {createAccount();}
 Account *AccountComboBox::createAccount() {
 	Account *account = NULL;
 	switch(i_type) {

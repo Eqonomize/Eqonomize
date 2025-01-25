@@ -33,6 +33,7 @@ class QComboBox;
 class QLineEdit;
 class QDateEdit;
 class QPushButton;
+class AccountComboBox;
 
 class Budget;
 class EqonomizeValueEdit;
@@ -81,13 +82,13 @@ class ImportCSVDialog : public QWizard {
 		QLabel *AC1Label;
 		QRadioButton *columnAC1Button, *valueAC1Button;
 		QSpinBox *columnAC1Edit;
-		QComboBox *valueAC1Edit;
-		QComboBox *valueAC1IncomeEdit;
+		AccountComboBox *valueAC1Edit;
+		AccountComboBox *valueAC1IncomeEdit;
 
 		QLabel *AC2Label;
 		QRadioButton *columnAC2Button, *valueAC2Button;
 		QSpinBox *columnAC2Edit;
-		QComboBox *valueAC2Edit;
+		AccountComboBox *valueAC2Edit;
 
 		QRadioButton *columnCommentsButton, *valueCommentsButton;
 		QSpinBox *columnCommentsEdit;

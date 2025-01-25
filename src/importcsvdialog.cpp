@@ -50,6 +50,7 @@
 #include "budget.h"
 #include "eqonomizevalueedit.h"
 #include "eqonomize.h"
+#include "accountcombobox.h"
 #include "importcsvdialog.h"
 
 #include <cmath>
@@ -258,12 +259,10 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 	AC1Group->addButton(valueAC1Button);
 	valueAC1Button->setChecked(true);
 	layout3->addWidget(valueAC1Button, row, 3);
-	valueAC1Edit = new QComboBox(page3);
-	valueAC1Edit->setEditable(false);
+	valueAC1Edit = new AccountComboBox(ACCOUNT_TYPE_EXPENSES, budget, true, false, false, true, true, page3, false);
 	layout3->addWidget(valueAC1Edit, row, 4);
 	row++;
-	valueAC1IncomeEdit = new QComboBox(page3);
-	valueAC1IncomeEdit->setEditable(false);
+	valueAC1IncomeEdit = new AccountComboBox(ACCOUNT_TYPE_INCOMES, budget, true, false, false, true, true, page3, false);
 	layout3->addWidget(valueAC1IncomeEdit, row, 4);
 	row++;
 
@@ -282,7 +281,7 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 	AC2Group->addButton(valueAC2Button);
 	valueAC2Button->setChecked(true);
 	layout3->addWidget(valueAC2Button, row, 3);
-	valueAC2Edit = new QComboBox(page3);
+	valueAC2Edit = new AccountComboBox(ACCOUNT_TYPE_ASSETS, budget, true, false, false, true, true, page3, false);
 	valueAC2Edit->setEditable(false);
 	layout3->addWidget(valueAC2Edit, row, 4);
 	row++;
@@ -416,6 +415,9 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 	connect(columnAC1Button, SIGNAL(toggled(bool)), columnAC1Edit, SLOT(setEnabled(bool)));
 	connect(valueAC1Button, SIGNAL(toggled(bool)), valueAC1Edit, SLOT(setEnabled(bool)));
 	connect(valueAC1Button, SIGNAL(toggled(bool)), valueAC1IncomeEdit, SLOT(setEnabled(bool)));
+	connect(valueAC1Edit, SIGNAL(newAccountRequested()), valueAC1Edit, SLOT(createAccountSlot()));
+	connect(valueAC1IncomeEdit, SIGNAL(newAccountRequested()), valueAC1IncomeEdit, SLOT(createAccountSlot()));
+	connect(valueAC2Edit, SIGNAL(newAccountRequested()), valueAC2Edit, SLOT(createAccountSlot()));
 	connect(columnAC2Button, SIGNAL(toggled(bool)), columnAC2Edit, SLOT(setEnabled(bool)));
 	connect(valueAC2Button, SIGNAL(toggled(bool)), valueAC2Edit, SLOT(setEnabled(bool)));
 	connect(columnTagsButton, SIGNAL(toggled(bool)), columnTagsEdit, SLOT(setEnabled(bool)));
@@ -510,26 +512,8 @@ void ImportCSVDialog::loadPreset(int index) {
 	if(i >= preset.count()) return;
 	if(preset.at(i).toBool()) {
 		valueAC1Button->setChecked(true);
-		qlonglong id = preset.at(i + 1).toLongLong();
-		bool b = false;
-		for(int acc_i = 0; acc_i < valueAC1Edit->count(); acc_i++) {
-			if(((Account*)  valueAC1Edit->itemData(acc_i).value<void*>())->id() == id) {
-				valueAC1Edit->setCurrentIndex(acc_i);
-				b = true;
-				break;
-			}
-		}
-		if(!b) valueAC1Edit->setCurrentIndex(0);
-		id = preset.at(i + 2).toLongLong();
-		b = false;
-		for(int acc_i = 0; acc_i < valueAC1IncomeEdit->count(); acc_i++) {
-			if(((Account*)  valueAC1IncomeEdit->itemData(acc_i).value<void*>())->id() == id) {
-				valueAC1IncomeEdit->setCurrentIndex(acc_i);
-				b = true;
-				break;
-			}
-		}
-		if(!b) valueAC1IncomeEdit->setCurrentIndex(0);
+		if(!valueAC1Edit->setCurrentAccountId(preset.at(i + 1).toLongLong())) valueAC1Edit->setCurrentIndex(1);
+		if(!valueAC1IncomeEdit->setCurrentAccountId(preset.at(i + 2).toLongLong())) valueAC1IncomeEdit->setCurrentIndex(1);
 	} else {
 		columnAC1Button->setChecked(true);
 		columnAC1Edit->setValue(preset.at(i + 1).toInt());
@@ -538,16 +522,7 @@ void ImportCSVDialog::loadPreset(int index) {
 	if(i >= preset.count()) return;
 	if(preset.at(i).toBool()) {
 		valueAC2Button->setChecked(true);
-		qlonglong id = preset.at(i + 1).toLongLong();
-		bool b = false;
-		for(int acc_i = 0; acc_i < valueAC2Edit->count(); acc_i++) {
-			if(((Account*)  valueAC2Edit->itemData(acc_i).value<void*>())->id() == id) {
-				valueAC2Edit->setCurrentIndex(acc_i);
-				b = true;
-				break;
-			}
-		}
-		if(!b) valueAC2Edit->setCurrentIndex(0);
+		if(!valueAC2Edit->setCurrentAccountId(preset.at(i + 1).toLongLong())) valueAC2Edit->setCurrentIndex(1);
 	} else {
 		columnAC2Button->setChecked(true);
 		columnAC2Edit->setValue(preset.at(i + 1).toInt());
@@ -658,13 +633,13 @@ void ImportCSVDialog::savePreset() {
 		}
 		if(valueAC1Button->isChecked()) {
 			preset << true;
-			if(valueAC1Edit->currentIndex() >= 0) {
-				preset << ((Account*)  valueAC1Edit->currentData().value<void*>())->id();
+			if(valueAC1Edit->currentAccount()) {
+				preset << valueAC1Edit->currentAccount()->id();
 			} else {
 				preset << (qlonglong) 0;
 			}
-			if(valueAC1IncomeEdit->currentIndex() >= 0) {
-				preset << ((Account*)  valueAC1IncomeEdit->currentData().value<void*>())->id();
+			if(valueAC1IncomeEdit->currentAccount()) {
+				preset << valueAC1IncomeEdit->currentAccount()->id();
 			} else {
 				preset << (qlonglong) 0;
 			}
@@ -675,8 +650,8 @@ void ImportCSVDialog::savePreset() {
 		}
 		if(valueAC2Button->isChecked()) {
 			preset << true;
-			if(valueAC2Edit->currentIndex() >= 0) {
-				preset << ((Account*)  valueAC2Edit->currentData().value<void*>())->id();
+			if(valueAC2Edit->currentAccount()) {
+				preset << valueAC2Edit->currentAccount()->id();
 			} else {
 				preset << (qlonglong) 0;
 			}
@@ -762,12 +737,7 @@ void ImportCSVDialog::typeChanged(int id) {
 	valueAC1Edit->clear();
 	valueAC1IncomeEdit->clear();
 	valueAC2Edit->clear();
-	if(id < 5) {
-		for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
-			AssetsAccount *aa = *it;
-			if(aa != budget->balancingAccount && aa->accountType() != ASSETS_TYPE_SECURITIES) valueAC2Edit->addItem(aa->nameWithParent(), QVariant::fromValue((void*) aa));
-		}
-	}
+	if(id < 5) valueAC2Edit->updateAccounts();
 	if(b_extra) {
 		quantityLabel->setVisible(id != 2);
 		valueQuantityEdit->setVisible(id != 2);
@@ -839,10 +809,8 @@ void ImportCSVDialog::typeChanged(int id) {
 			AC1Label->setText(tr("Category:"));
 			AC2Label->setText(tr("From account:"));
 			if(b_extra) payeeLabel->setText(tr("Payee:"));
-			for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
-				ExpensesAccount *ea = *it;
-				valueAC1Edit->addItem(ea->nameWithParent(), QVariant::fromValue((void*) ea));
-			}
+			valueAC1Edit->setAccountType(ACCOUNT_TYPE_EXPENSES);
+			valueAC1Edit->updateAccounts();
 			break;
 		}
 		case 1: {
@@ -851,10 +819,8 @@ void ImportCSVDialog::typeChanged(int id) {
 			AC1Label->setText(tr("Category:"));
 			AC2Label->setText(tr("To account:"));
 			if(b_extra) payeeLabel->setText(tr("Payer:"));
-			for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
-				IncomesAccount *ia = *it;
-				valueAC1Edit->addItem(ia->nameWithParent(), QVariant::fromValue((void*) ia));
-			}
+			valueAC1Edit->setAccountType(ACCOUNT_TYPE_INCOMES);
+			valueAC1Edit->updateAccounts();
 			break;
 		}
 		case 2: {
@@ -862,10 +828,8 @@ void ImportCSVDialog::typeChanged(int id) {
 			valueLabel->setText(tr("Amount:"));
 			AC1Label->setText(tr("From account:"));
 			AC2Label->setText(tr("To account:"));
-			for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
-				AssetsAccount *aa = *it;
-				if(aa != budget->balancingAccount && aa->accountType() != ASSETS_TYPE_SECURITIES) valueAC1Edit->addItem(aa->nameWithParent(), QVariant::fromValue((void*) *it));
-			}
+			valueAC1Edit->setAccountType(ACCOUNT_TYPE_ASSETS);
+			valueAC1Edit->updateAccounts();
 			break;
 		}
 		case 3: {
@@ -873,14 +837,9 @@ void ImportCSVDialog::typeChanged(int id) {
 			valueLabel->setText(tr("Value:"));
 			AC1Label->setText(tr("Category:"));
 			AC2Label->setText(tr("Account:"));
-			for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
-				ExpensesAccount *ea = *it;
-				valueAC1Edit->addItem(ea->nameWithParent(), QVariant::fromValue((void*) ea));
-			}
-			for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
-				IncomesAccount *ia = *it;
-				valueAC1IncomeEdit->addItem(ia->nameWithParent(), QVariant::fromValue((void*) ia));
-			}
+			valueAC1Edit->setAccountType(ACCOUNT_TYPE_EXPENSES);
+			valueAC1Edit->updateAccounts();
+			valueAC1IncomeEdit->updateAccounts();
 			if(b_extra) payeeLabel->setText(tr("Payee/payer:"));
 			break;
 		}
@@ -889,14 +848,9 @@ void ImportCSVDialog::typeChanged(int id) {
 			valueLabel->setText(tr("Income:"));
 			AC1Label->setText(tr("Category:"));
 			AC2Label->setText(tr("Account:"));
-			for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
-				ExpensesAccount *ea = *it;
-				valueAC1Edit->addItem(ea->nameWithParent(), QVariant::fromValue((void*) ea));
-			}
-			for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
-				IncomesAccount *ia = *it;
-				valueAC1IncomeEdit->addItem(ia->nameWithParent(), QVariant::fromValue((void*) ia));
-			}
+			valueAC1Edit->setAccountType(ACCOUNT_TYPE_EXPENSES);
+			valueAC1Edit->updateAccounts();
+			valueAC1IncomeEdit->updateAccounts();
 			if(b_extra) payeeLabel->setText(tr("Payee/payer:"));
 			break;
 		}
@@ -937,6 +891,7 @@ void ImportCSVDialog::typeChanged(int id) {
 		valueAC2Edit->setEnabled(false);
 		valueAC2Button->setEnabled(false);
 	}
+
 
 }
 void ImportCSVDialog::nextClicked() {
@@ -1275,11 +1230,19 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 		}
 	}
 	if(AC1_c < 0) {
-		if(valueAC1Edit->currentData().isValid()) ac1 = (Account*) valueAC1Edit->currentData().value<void*>();
-		if(valueAC1IncomeEdit->currentData().isValid()) ac1i = (Account*) valueAC1IncomeEdit->currentData().value<void*>();
+		ac1 = valueAC1Edit->currentAccount();
+		ac1i = valueAC1IncomeEdit->currentAccount();
+		if(!ac1 || ((type == 3 || type == 4) && !ac1i)) {
+			QMessageBox::critical(this, tr("Error"), tr("No account/category selected."));
+			return false;
+		}
 	}
 	if(AC2_c < 0) {
-		if(valueAC2Edit->currentData().isValid()) ac2 = (Account*) valueAC2Edit->currentData().value<void*>();
+		if(valueAC2Edit->currentAccount()) ac2 = valueAC2Edit->currentAccount();
+		if(!ac2) {
+			QMessageBox::critical(this, tr("Error"), tr("No account/category selected."));
+			return false;
+		}
 		if(ac1 == ac2) {
 			QMessageBox::critical(this, tr("Error"), tr("Selected from account is the same as the to account."));
 			return false;
