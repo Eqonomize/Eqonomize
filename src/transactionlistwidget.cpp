@@ -528,8 +528,9 @@ bool TransactionListWidget::exportList(QTextStream &outf, int fileformat) {
 			outf << "\t\t\t\t<tr>" << '\n';
 			QTreeWidgetItem *header = transactionsView->headerItem();
 			outf << "\t\t\t\t\t";
-			for(int index = 0; index <= comments_col; index++) {
-				if(!transactionsView->isColumnHidden(index)) {
+			for(int index_v = 0; index_v <= comments_col; index_v++) {
+				int index = transactionsView->header()->logicalIndex(index_v);
+				if(index >= 0 && !transactionsView->isColumnHidden(index)) {
 					outf << "<th>" << htmlize_string(header->text(index)) << "</th>";
 				}
 			}
@@ -544,8 +545,9 @@ bool TransactionListWidget::exportList(QTextStream &outf, int fileformat) {
 				if(!trans) trans = i->splitTransaction();
 				outf << "\t\t\t\t<tr>" << '\n';
 				outf << "\t\t\t\t\t";
-				for(int index = 0; index <= comments_col; index++) {
-					if(!transactionsView->isColumnHidden(index)) {
+				for(int index_v = 0; index_v <= comments_col; index_v++) {
+					int index = transactionsView->header()->logicalIndex(index_v);
+					if(index >= 0 && !transactionsView->isColumnHidden(index)) {
 						if(index == 0) {
 							outf << "<td nowrap>" << htmlize_string(QLocale().toString(trans->date(), QLocale::ShortFormat)) << "</td>";
 						} else if(index == 1) {

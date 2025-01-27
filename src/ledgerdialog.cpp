@@ -316,7 +316,6 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Budget *budg, Eqonomize *parent, 
 	headers << tr("Balance", "Noun. Balance of an account");
 	transactionsView->setHeaderLabels(headers);
 	transactionsView->setRootIsDecorated(false);
-	transactionsView->header()->setSectionsMovable(false);
 	transactionsView->resizeColumnToContents(0);
 	updateColumnWidths();
 	transactionsView->setColumnHidden(5, true);
@@ -416,6 +415,7 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Budget *budg, Eqonomize *parent, 
 	if(settings.value("GeneralOptions/version", 0).toInt() >= 140) {
 		transactionsView->header()->restoreState(settings.value("Ledger/listState", QByteArray()).toByteArray());
 	}
+	transactionsView->header()->setSectionsMovable(true);
 	b_ascending = settings.value("Ledger/ascending", false).toBool();
 	if(dialog_size.isValid()) {
 		resize(dialog_size);
@@ -970,8 +970,9 @@ bool LedgerDialog::exportList(QTextStream &outf, int fileformat, QDate first_dat
 			outf << "\t\t\t\t<tr>" << '\n';
 			outf << "\t\t\t\t\t";
 			QTreeWidgetItem *header = transactionsView->headerItem();
-			for(int index = 1; index <= 11; index++) {
-				if(!transactionsView->isColumnHidden(index)) outf << "<th>" << htmlize_string(header->text(index)) << "</th>";
+			for(int index_v = 0; index_v <= 11; index_v++) {
+				int index = transactionsView->header()->logicalIndex(index_v);
+				if(index > 0 && !transactionsView->isColumnHidden(index)) outf << "<th>" << htmlize_string(header->text(index)) << "</th>";
 			}
 			outf << "\n";
 			outf << "\t\t\t\t</tr>" << '\n';
@@ -988,8 +989,9 @@ bool LedgerDialog::exportList(QTextStream &outf, int fileformat, QDate first_dat
 				if(include) {
 					outf << "\t\t\t\t<tr>" << '\n';
 					outf << "\t\t\t\t\t";
-					for(int index = 1; index <= 11; index++) {
-						if(!transactionsView->isColumnHidden(index)) {
+					for(int index_v = 0; index_v <= 11; index_v++) {
+						int index = transactionsView->header()->logicalIndex(index_v);
+						if(index > 0 && !transactionsView->isColumnHidden(index)) {
 							if(index == 1) outf << "<td nowrap>" << htmlize_string(i->text(index)) << "</td>";
 							else if(index >= 8) outf << "<td nowrap align=\"right\">" << htmlize_string(i->text(index)) << "</td>";
 							else outf << "<td>" << htmlize_string(i->text(index)) << "</td>";

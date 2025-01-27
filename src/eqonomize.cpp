@@ -7157,8 +7157,9 @@ bool Eqonomize::exportScheduleList(QTextStream &outf, int fileformat) {
 			outf << "\t\t\t\t<tr>" << '\n';
 			QTreeWidgetItem *header = scheduleView->headerItem();
 			outf << "\t\t\t\t\t";
-			for(int index = 0; index <= 8; index++) {
-				if(!scheduleView->isColumnHidden(index)) outf << "<th>" << htmlize_string(header->text(index)) << "</th>";
+			for(int index_v = 0; index_v <= 8; index_v++) {
+				int index = scheduleView->header()->logicalIndex(index_v);
+				if(index >= 0 && !scheduleView->isColumnHidden(index)) outf << "<th>" << htmlize_string(header->text(index)) << "</th>";
 			}
 			outf << "\n\t\t\t\t</tr>" << '\n';
 			outf << "\t\t\t</thead>" << '\n';
@@ -7168,9 +7169,10 @@ bool Eqonomize::exportScheduleList(QTextStream &outf, int fileformat) {
 			while(i) {
 				outf << "\t\t\t\t<tr>" << '\n';
 				outf << "\t\t\t\t\t";
-				for(int index = 0; index <= 8; index++) {
-					if(!scheduleView->isColumnHidden(index)) {
-						if(index == 0)  outf << "<td nowrap>" << htmlize_string(i->text(index)) << "</td>";
+				for(int index_v = 0; index_v <= 8; index_v++) {
+					int index = scheduleView->header()->logicalIndex(index_v);
+					if(index >= 0 && !scheduleView->isColumnHidden(index)) {
+						if(index == 0) outf << "<td nowrap>" << htmlize_string(i->text(index)) << "</td>";
 						else if(index == 3)  outf << "<td nowrap align=\"right\">" << htmlize_string(i->text(index)) << "</td>";
 						else outf << "<td>" << htmlize_string(i->text(index)) << "</td>";
 					}
@@ -7240,15 +7242,12 @@ bool Eqonomize::exportSecuritiesList(QTextStream &outf, int fileformat) {
 			outf << "\t\t\t<thead>" << '\n';
 			outf << "\t\t\t\t<tr>" << '\n';
 			QTreeWidgetItem *header = securitiesView->headerItem();
-			outf << "\t\t\t\t\t<th>" << htmlize_string(header->text(0)) << "</th>";
-			outf << "<th>" << htmlize_string(header->text(1)) << "</th>";
-			outf << "<th>" << htmlize_string(header->text(2)) << "</th>";
-			outf << "<th>" << htmlize_string(header->text(3)) << "</th>";
-			outf << "<th>" << htmlize_string(header->text(4)) << "</th>";
-			outf << "<th>" << htmlize_string(header->text(5)) << "</th>";
-			outf << "<th>" << htmlize_string(header->text(6)) << "</th>";
-			outf << "<th>" << htmlize_string(header->text(7)) << "</th>";
-			outf << "<th>" << htmlize_string(header->text(8)) << "</th>" << "\n";
+			outf << "\t\t\t\t\t";
+			for(int index_v = 0; index_v <= 8; index_v++) {
+				int index = securitiesView->header()->logicalIndex(index_v);
+				if(index >= 0) outf << "<th>" << htmlize_string(header->text(index)) << "</th>";
+			}
+			outf << "\n";
 			outf << "\t\t\t\t</tr>" << '\n';
 			outf << "\t\t\t</thead>" << '\n';
 			outf << "\t\t\t<tbody>" << '\n';
@@ -7259,15 +7258,16 @@ bool Eqonomize::exportSecuritiesList(QTextStream &outf, int fileformat) {
 				if(!i->isHidden()) {
 					n++;
 					outf << "\t\t\t\t<tr>" << '\n';
-					outf << "\t\t\t\t\t<td>" << htmlize_string(i->text(0)) << "</td>";
-					outf << "<td nowrap align=\"right\">" << htmlize_string(i->text(1)) << "</td>";
-					outf << "<td nowrap align=\"right\">" << htmlize_string(i->text(2)) << "</td>";
-					outf << "<td nowrap align=\"right\">" << htmlize_string(i->text(3)) << "</td>";
-					outf << "<td nowrap align=\"right\">" << htmlize_string(i->text(4)) << "</td>";
-					outf << "<td nowrap align=\"right\">" << htmlize_string(i->text(5)) << "</td>";
-					outf << "<td nowrap align=\"right\">" << htmlize_string(i->text(6)) << "</td>";
-					outf << "<td align=\"center\">" << htmlize_string(i->text(7)) << "</td>";
-					outf << "<td align=\"center\">" << htmlize_string(i->text(8)) << "</td>" << "\n";
+					outf << "\t\t\t\t\t";
+					for(int index_v = 0; index_v <= 8; index_v++) {
+						int index = securitiesView->header()->logicalIndex(index_v);
+						if(index < 0) continue;
+						if(index == 0) outf << "<td>";
+						else if(index >= 7) outf << "<td align=\"center\">";
+						else outf << "<td nowrap align=\"right\">";
+						outf << htmlize_string(i->text(index)) << "</td>";
+					}
+					outf << "\n";
 					outf << "\t\t\t\t</tr>" << '\n';
 				}
 				++it;
@@ -7275,15 +7275,17 @@ bool Eqonomize::exportSecuritiesList(QTextStream &outf, int fileformat) {
 			}
 			outf << "\t\t\t\t<tr>" << '\n';
 			if(n > 1) {
-				outf << "\t\t\t\t\t<td style=\"border-top: thin solid\"><b>" << htmlize_string(tr("Total")) << "</b></td>";
-				outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(budget->formatMoney(total_value)) << "</b></td>";
-				outf << "<td align=\"right\" style=\"border-top: thin solid\"><b>-</b></td>";
-				outf << "<td align=\"right\" style=\"border-top: thin solid\"><b>-</b></td>";
-				outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(budget->formatMoney(total_cost)) << "</b></td>";
-				outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(budget->formatMoney(total_profit)) << "</b></td>";
-				outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(budget->formatValue(total_rate * 100, 2) + "%") << "</b></td>";
-				outf << "<td align=\"center\" style=\"border-top: thin solid\"><b>-</b></td>";
-				outf << "<td align=\"center\" style=\"border-top: thin solid\"><b>-</b></td>" << "\n";
+				outf << "\t\t\t\t\t";
+				for(int index_v = 0; index_v <= 8; index_v++) {
+					int index = securitiesView->header()->logicalIndex(index_v);
+					if(index == 0) outf << "<td style=\"border-top: thin solid\"><b>" << htmlize_string(tr("Total")) << "</b></td>";
+					else if(index == 1) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(budget->formatMoney(total_value)) << "</b></td>";
+					else if(index == 4) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(budget->formatMoney(total_cost)) << "</b></td>";
+					else if(index == 5) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(budget->formatMoney(total_profit)) << "</b></td>";
+					else if(index == 6) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(budget->formatValue(total_rate * 100, 2) + "%") << "</b></td>";
+					else if(index >= 0) outf << "<td align=\"right\" style=\"border-top: thin solid\"><b>-</b></td>";
+				}
+				outf << "\n";
 				outf << "\t\t\t\t</tr>" << '\n';
 			}
 			outf << "\t\t\t</tbody>" << '\n';
