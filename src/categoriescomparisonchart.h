@@ -44,6 +44,7 @@ class QCheckBox;
 class QComboBox;
 class QPushButton;
 class QRadioButton;
+class QAbstractButton;
 class QDateEdit;
 
 class AccountsCombo;
@@ -72,6 +73,7 @@ class CategoriesComparisonChart : public QWidget {
 		QPushButton *saveButton, *printButton;
 		QRadioButton *percentButton, *valueButton;
 #ifdef QT_CHARTS_LIB
+		QAbstractButton *deleteButton;
 		QChartView *view;
 		QChart *chart;
 		QAbstractSeries *series;
@@ -115,6 +117,7 @@ class CategoriesComparisonChart : public QWidget {
 		void sliceHovered(QPieSlice*, bool);
 		void sliceClicked(QPieSlice*);
 		void legendClicked();
+		void deleteToggled(bool);
 #endif
 
 };

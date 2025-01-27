@@ -117,6 +117,9 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 	themeCombo->addItem("Blue Icy", QChart::ChartThemeBlueIcy);
 	themeCombo->addItem("Qt", QChart::ChartThemeQt);
 	buttons->addWidget(themeCombo);
+	deleteButton = new QPushButton(LOAD_ICON("edit-delete"), QString(), this);
+	deleteButton->setCheckable(true);
+	buttons->addWidget(deleteButton);
 #endif
 	QButtonGroup *group = new QButtonGroup(this);
 	percentButton = new QRadioButton("%", this);
@@ -209,6 +212,7 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 #ifdef QT_CHARTS_LIB
 	connect(themeCombo, SIGNAL(activated(int)), this, SLOT(themeChanged(int)));
 	connect(typeCombo, SIGNAL(activated(int)), this, SLOT(typeChanged(int)));
+	connect(deleteButton, SIGNAL(toggled(bool)), this, SLOT(deleteToggled(bool)));
 #endif
 	connect(sourceCombo, SIGNAL(activated(int)), this, SLOT(sourceChanged(int)));
 	connect(accountCombo, SIGNAL(selectedAccountsChanged()), this, SLOT(updateDisplay()));
@@ -1431,15 +1435,27 @@ void CategoriesComparisonChart::themeChanged(int index) {
 void CategoriesComparisonChart::typeChanged(int type) {
 	percentButton->setEnabled(type == 0);
 	valueButton->setEnabled(type == 0);
+	deleteButton->setEnabled(type == 0);
 	updateDisplay();
 }
 void CategoriesComparisonChart::sliceHovered(QPieSlice *slice, bool state) {
 	if(!slice || slice->isExploded() || slice->percentage() >= 0.08) return;
 	slice->setLabelVisible(state);
 }
+void CategoriesComparisonChart::deleteToggled(bool b) {
+	if(b) {
+		chart->setCursor(Qt::CrossCursor);
+		chart->legend()->setCursor(Qt::CrossCursor);
+	} else {
+		chart->unsetCursor();
+		chart->legend()->unsetCursor();
+	}
+}
 void CategoriesComparisonChart::sliceClicked(QPieSlice *slice) {
 	if(!slice) return;
-	if(slice->isExploded()) {
+	if(deleteButton->isChecked()) {
+		slice->series()->remove(slice);
+	} else if(slice->isExploded()) {
 		slice->setLabelVisible(slice->percentage() >= 0.08);
 		slice->setExploded(false);
 	} else {
