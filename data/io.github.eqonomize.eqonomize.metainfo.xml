@@ -45,7 +45,11 @@
      <li>Save values with up to 15 significant digits instead of a fixed number of decimals</li>
      <li>Set maximum currency decimals, and default BTC decimals, to 8</li>
      <li>Use decimals of current currencies in currency conversion fields</li>
+     <li>Add option create a new account/category to account/category lists in import CSV dialog</li>
+     <li>Add option to remove value from pie chart</li>
      <li>Show balancing account, if used, in ledger account list</li>
+     <li>Make ledger columns movable</li>
+     <li>Preserve column order when exporting list to Html</li>
     </ul>
    </description>
   </release>

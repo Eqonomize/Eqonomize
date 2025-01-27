@@ -246,6 +246,7 @@ void CategoriesComparisonChart::resetOptions() {
 	if(index < 0) index = 0;
 	themeCombo->setCurrentIndex(index);
 	typeCombo->setCurrentIndex(0);
+	deleteButton->setChecked(false);
 	chart->setTheme(theme >= 0 ? (QChart::ChartTheme) theme : QChart::ChartThemeBlueNcs);
 #endif
 	int value_type = settings.value("valueType", 2).toInt();
@@ -1244,7 +1245,6 @@ void CategoriesComparisonChart::updateDisplay() {
 	while((index < account_order.count()) || (current_account && index < desc_order.size())) {
 		QString legend_string;
 		double legend_value = 0.0;
-		double current_value = 0.0;
 		if(account_order.isEmpty()) {
 			if(desc_order[index].isEmpty()) {
 				legend_string = tr("No description", "Referring to the transaction description property (transaction title/generic article name)");
@@ -1263,16 +1263,15 @@ void CategoriesComparisonChart::updateDisplay() {
 		}
 		int deci = 0;
 		if(valueButton->isChecked()) {
-			legend_value = current_value;
 			if(legend_value < 100.0) deci = currency->fractionalDigits();
 		} else {
-			legend_value = (current_value * 100) / value;
+			legend_value = (legend_value * 100) / value;
 			if(legend_value < 10.0 && legend_value > -10.0) {
 				legend_value = round(legend_value * 10.0) / 10.0;
 				deci = 1;
 			}
 		}
-		QGraphicsSimpleTextItem *legend_text = new QGraphicsSimpleTextItem(QString("%1 (%2%)").arg(legend_string).arg(valueButton->isChecked() ? currency->formatValue(legend_value, deci) : budget->formatValue(legend_value, deci) + "%"));
+		QGraphicsSimpleTextItem *legend_text = new QGraphicsSimpleTextItem(QString("%1 (%2)").arg(legend_string).arg(valueButton->isChecked() ? currency->formatValue(legend_value, deci) : budget->formatValue(legend_value, deci) + "%"));
 		legend_text->setFont(legend_font);
 		legend_text->setBrush(Qt::black);
 		if(legend_text->boundingRect().width() > text_width) text_width = legend_text->boundingRect().width();
@@ -1295,30 +1294,6 @@ void CategoriesComparisonChart::updateDisplay() {
 
 	index = 0;
 	while((index < account_order.count()) || (current_account && index < desc_order.size())) {
-		QString legend_string;
-		double legend_value = 0.0;
-		if(account_order.isEmpty()) {
-			if(desc_order[index].isEmpty()) {
-				legend_string = tr("No description", "Referring to the transaction description property (transaction title/generic article name)");
-			} else {
-				legend_string = desc_map[desc_order[index]];
-			}
-			legend_value = desc_values[desc_order[index]];
-		} else {
-			account = account_order.at(index);
-			if(!account) {
-				if(type == ACCOUNT_TYPE_ASSETS) legend_string = tr("Other accounts");
-				else legend_string = tr("Other categories");
-			} else if(current_account) legend_string = account->name();
-			else legend_string = account->nameWithParent();
-			legend_value = values[account];
-		}
-		legend_value = (legend_value * 100) / value;
-		if(legend_value < 10.0 && legend_value > -10.0) {
-			legend_value = round(legend_value * 10.0) / 10.0;
-		} else {
-			legend_value = round(legend_value);
-		}
 		legend_texts[index]->setPos(legend_x + fh * 1.3, legend_y + (fh * 1.5) * index);
 		scene->addItem(legend_texts[index]);
 		index++;

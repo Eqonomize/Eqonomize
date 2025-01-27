@@ -1,3 +1,17 @@
+2025-01-27  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Add option to remove value from pie chart
+	* Fix categories comparison chart when compiled without Qt Charts
+
+2025-01-26  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Make ledger columns movable
+	* Preserve column order when exporting list to Html
+
+2025-01-25  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Add option create a new account/category to account/category lists in import CSV dialog
+
 2025-01-21  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Add option to hide the symbol for the main currency in monetary
