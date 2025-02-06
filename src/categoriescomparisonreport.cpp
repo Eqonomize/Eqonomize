@@ -640,7 +640,6 @@ void CategoriesComparisonReport::updateDisplay() {
 
 	QMap<Account*, QVector<double> > month_values;
 	QMap<QString, QVector<double> > desc_month_values;
-	QMap<QString, QVector<double> > tag_month_values;
 	QMap<Account*, QMap<QString, double> > tag_values;
 	QMap<QString, QMap<QString, double> > desc_tag_values;
 
@@ -1384,8 +1383,8 @@ void CategoriesComparisonReport::updateDisplay() {
 							for(int i2 = 0; i2 < trans->tagsCount(true); i2++) {
 								QString desc = trans->getTag(i2, true);
 								tag_value[desc] -= v * count;
-								if(month_index >= 0) tag_month_values[desc][month_index] -= v * count;
-								if(month_index >= 0) month_value[month_index] -= v * count;
+								if(month_index >= 0) desc_month_values[desc][month_index2] -= v * count;
+								if(month_index >= 0) month_value[month_index2] -= v * count;
 								tag_counts[desc] += trans->quantity() * count;
 								if(b_tags) {
 									for(int i = 0; i < trans->tagsCount(true); i++) {
@@ -1400,8 +1399,8 @@ void CategoriesComparisonReport::updateDisplay() {
 							for(int i2 = 0; i2 < trans->tagsCount(true); i2++) {
 								QString desc = trans->getTag(i2, true);
 								desc_values[desc] += v * count;
-								if(month_index >= 0) desc_month_values[desc][month_index] += v * count;
-								if(month_index >= 0) month_value[month_index] += v * count;
+								if(month_index >= 0) desc_month_values[desc][month_index2] += v * count;
+								if(month_index >= 0) month_value[month_index2] += v * count;
 								desc_counts[desc] += trans->quantity() * count;
 								if(b_tags) {
 									for(int i = 0; i < trans->tagsCount(true); i++) {
