@@ -1,3 +1,18 @@
+2025-04-30  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix first date in occurrences and recurrence range dialogs
+          (when the first occurrence is later than expected from current date)
+
+2025-03-12  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix segfault when editing part of split transaction when payee and
+          quantity are hidden
+
+2025-02-06  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix segfault when selecting future date with all tags source in
+          categories comparison report
+
 2025-01-27  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Add option to remove value from pie chart
@@ -10,7 +25,8 @@
 
 2025-01-25  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
-	* Add option create a new account/category to account/category lists in import CSV dialog
+	* Add option create a new account/category to account/category lists in
+          import CSV dialog
 
 2025-01-21  Hanna Knutsson <hanna.knutsson@protonmail.com>
 

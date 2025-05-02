@@ -261,6 +261,7 @@ void EditRangeDialog::setRecurrence(Recurrence *rec) {
 		endDateEdit->setDate(date);
 		fixedCountEdit->setValue(1);
 	}
+	if(rec) setStartDate(rec->startDate());
 	saveValues();
 }
 int EditRangeDialog::fixedCount() {
@@ -603,6 +604,7 @@ void RecurrenceEditWidget::editRange() {
 }
 
 void RecurrenceEditWidget::setRecurrence(Recurrence *rec) {
+	date = rec->startDate();
 	rangeDialog->setRecurrence(rec);
 	exceptionsDialog->setRecurrence(rec);
 	if(!rec) {
