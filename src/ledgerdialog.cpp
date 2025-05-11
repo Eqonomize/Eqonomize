@@ -802,11 +802,11 @@ void LedgerDialog::hideColumn(bool do_show) {
 	transactionsView->setColumnHidden(sender()->property("column_index").toInt(), !do_show);
 }
 
-void LedgerDialog::saveConfig() {
+void LedgerDialog::saveConfig(bool only_state) {
 	QSettings settings;
-	settings.setValue("Ledger/size", size());
+	if(!only_state) settings.setValue("Ledger/size", size());
 	settings.setValue("Ledger/listState", transactionsView->header()->saveState());
-	settings.setValue("Ledger/ascending", b_ascending);
+	if(!only_state) settings.setValue("Ledger/ascending", b_ascending);
 }
 void LedgerDialog::updateColumnWidths() {
 	setColumnDateWidth(transactionsView, 1);

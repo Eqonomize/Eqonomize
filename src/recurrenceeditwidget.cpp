@@ -604,7 +604,7 @@ void RecurrenceEditWidget::editRange() {
 }
 
 void RecurrenceEditWidget::setRecurrence(Recurrence *rec) {
-	date = rec->startDate();
+	if(rec) date = rec->startDate();
 	rangeDialog->setRecurrence(rec);
 	exceptionsDialog->setRecurrence(rec);
 	if(!rec) {

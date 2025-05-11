@@ -651,7 +651,7 @@ void ConfirmScheduleListViewItem::setTransaction(Transactions *transs) {
 
 class SecurityTransactionListViewItem : public QTreeWidgetItem {
 	public:
-		SecurityTransactionListViewItem(QString, QString=QString(), QString=QString(), QString=QString());
+		SecurityTransactionListViewItem(QString, QString=QString(), QString=QString(), QString=QString(), QString=QString());
 		bool operator<(const QTreeWidgetItem &i_pre) const;
 		SecurityTransaction *trans;
 		Income *div;
@@ -662,15 +662,17 @@ class SecurityTransactionListViewItem : public QTreeWidgetItem {
 		double shares, value;
 };
 
-SecurityTransactionListViewItem::SecurityTransactionListViewItem(QString s1, QString s2, QString s3, QString s4) : QTreeWidgetItem(UserType), trans(NULL), div(NULL), rediv(NULL), strans(NULL), sdiv(NULL), srediv(NULL), ts(NULL), shares(-1.0), value(-1.0) {
+SecurityTransactionListViewItem::SecurityTransactionListViewItem(QString s1, QString s2, QString s3, QString s4, QString s5) : QTreeWidgetItem(UserType), trans(NULL), div(NULL), rediv(NULL), strans(NULL), sdiv(NULL), srediv(NULL), ts(NULL), shares(-1.0), value(-1.0) {
 	setText(0, s1);
 	setText(1, s2);
 	setText(2, s3);
 	setText(3, s4);
+	setText(4, s5);
 	setTextAlignment(0, Qt::AlignLeft | Qt::AlignVCenter);
 	setTextAlignment(1, Qt::AlignLeft | Qt::AlignVCenter);
 	setTextAlignment(2, Qt::AlignRight | Qt::AlignVCenter);
 	setTextAlignment(3, Qt::AlignRight | Qt::AlignVCenter);
+	setTextAlignment(4, Qt::AlignLeft | Qt::AlignVCenter);
 }
 bool SecurityTransactionListViewItem::operator<(const QTreeWidgetItem &i_pre) const {
 	int col = 0;
@@ -2019,26 +2021,25 @@ SecurityTransactionsDialog::SecurityTransactionsDialog(Security *sec, Eqonomize 
 	setWindowTitle(title);
 	setModal(true);
 
+	headerPopupMenu = NULL;
+
 	QVBoxLayout *box1 = new QVBoxLayout(this);
-	box1->addWidget(new QLabel(tr("Transactions for %1").arg(security->name()), this));
+	box1->addWidget(new QLabel(tr("Transactions for %1").arg(security ? security->name() : QString()), this));
 	QHBoxLayout *box2 = new QHBoxLayout();
 	box1->addLayout(box2);
 	transactionsView = new EqonomizeTreeWidget(this);
 	transactionsView->sortByColumn(0, Qt::DescendingOrder);
 	transactionsView->setAllColumnsShowFocus(true);
-	transactionsView->setColumnCount(4);
+	transactionsView->setColumnCount(5);
 	QStringList headers;
 	headers << tr("Date");
 	headers << tr("Type");
 	headers << tr("Value");
 	headers << tr("Shares", "Financial shares");
+	headers << tr("Comments");
 	transactionsView->setHeaderLabels(headers);
-	setColumnDateWidth(transactionsView, 0);
-	setColumnStrlenWidth(transactionsView, 1, 25);
-	setColumnMoneyWidth(transactionsView, 2, security->budget());
-	setColumnValueWidth(transactionsView, 3, 999999.99, 4, security->budget());
-	if(security->transactions.isEmpty()) transactionsView->setMinimumWidth(transactionsView->columnWidth(0) + transactionsView->columnWidth(1) + transactionsView->columnWidth(2) +  transactionsView->columnWidth(3) + 10);
-	else transactionsView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContentsOnFirstShow);
+	if(security) updateColumnWidths(security->budget());
+	transactionsView->setColumnHidden(4, true);
 	transactionsView->setRootIsDecorated(false);
 	QSizePolicy sp = transactionsView->sizePolicy();
 	sp.setHorizontalPolicy(QSizePolicy::MinimumExpanding);
@@ -2060,7 +2061,43 @@ SecurityTransactionsDialog::SecurityTransactionsDialog(Security *sec, Eqonomize 
 	connect(transactionsView, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(edit(QTreeWidgetItem*)));
 	connect(removeButton, SIGNAL(clicked()), this, SLOT(remove()));
 	connect(editButton, SIGNAL(clicked()), this, SLOT(edit()));
-	updateTransactions();
+	transactionsView->header()->setContextMenuPolicy(Qt::CustomContextMenu);
+	connect(transactionsView->header(), SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(popupHeaderMenu(const QPoint&)));
+
+	QSettings settings;
+	QSize dialog_size = settings.value("SecurityTransactionsDialog/size", QSize()).toSize();
+	transactionsView->header()->restoreState(settings.value("SecurityTransactionsDialog/listState", QByteArray()).toByteArray());
+	transactionsView->header()->setSectionsMovable(true);
+	if(dialog_size.isValid()) {
+		resize(dialog_size);
+	}
+
+	if(security) updateTransactions();
+
+}
+void SecurityTransactionsDialog::saveConfig(bool only_state) {
+	QSettings settings;
+	if(!only_state) settings.setValue("SecurityTransactionsDialog/size", size());
+	settings.setValue("SecurityTransactionsDialog/listState", transactionsView->header()->saveState());
+}
+void SecurityTransactionsDialog::updateColumnWidths(Budget *budg) {
+	setColumnDateWidth(transactionsView, 0);
+	setColumnStrlenWidth(transactionsView, 1, 25);
+	setColumnMoneyWidth(transactionsView, 2, budg);
+	setColumnValueWidth(transactionsView, 3, 999999.99, 4, budg);
+	int min_width_1 = transactionsView->columnWidth(0) + transactionsView->columnWidth(1) + transactionsView->columnWidth(2) + transactionsView->columnWidth(3) + 30;
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
+#	if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
+	QScreen *scr = screen();
+#	else
+	QScreen *scr = QGuiApplication::screenAt(pos());
+#	endif
+	if(!scr) scr = QGuiApplication::primaryScreen();
+	QRect rect = scr->availableGeometry();
+#else
+	QRect rect = QApplication::desktop()->availableGeometry(this);
+#endif
+	if(rect.width() > min_width_1 * 1.2) transactionsView->setMinimumWidth(min_width_1);
 }
 void SecurityTransactionsDialog::transactionSelectionChanged() {
 	QTreeWidgetItem *i = selectedItem(transactionsView);
@@ -2141,7 +2178,7 @@ void SecurityTransactionsDialog::updateTransactions() {
 	Budget *budget = security->budget();
 	for(SecurityTransactionList<SecurityTransaction*>::const_iterator it = security->transactions.constBegin(); it != security->transactions.constEnd(); ++it) {
 		SecurityTransaction *trans = *it;
-		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(trans->date(), QLocale::ShortFormat), QString(), trans->valueString(), budget->formatValue(trans->shares(), security->decimals()));
+		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(trans->date(), QLocale::ShortFormat), QString(), trans->valueString(), budget->formatValue(trans->shares(), security->decimals()), trans->comment());
 		i->trans = trans;
 		i->date = trans->date();
 		i->value = trans->value();
@@ -2152,7 +2189,7 @@ void SecurityTransactionsDialog::updateTransactions() {
 	}
 	for(SecurityTransactionList<Income*>::const_iterator it = security->dividends.constBegin(); it != security->dividends.constEnd(); ++it) {
 		Income *div = *it;
-		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(div->date(), QLocale::ShortFormat), tr("Dividend"), div->valueString(), "-");
+		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(div->date(), QLocale::ShortFormat), tr("Dividend"), div->valueString(), "-", div->comment());
 		i->div = div;
 		i->date = div->date();
 		i->value = div->value();
@@ -2160,7 +2197,7 @@ void SecurityTransactionsDialog::updateTransactions() {
 	}
 	for(SecurityTransactionList<ReinvestedDividend*>::const_iterator it = security->reinvestedDividends.constBegin(); it != security->reinvestedDividends.constEnd(); ++it) {
 		ReinvestedDividend *rediv = *it;
-		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(rediv->date(), QLocale::ShortFormat), tr("Reinvested Dividend"), rediv->valueString(), budget->formatValue(rediv->shares(), security->decimals()));
+		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(rediv->date(), QLocale::ShortFormat), tr("Reinvested Dividend"), rediv->valueString(), budget->formatValue(rediv->shares(), security->decimals()), rediv->comment());
 		i->rediv = rediv;
 		i->date = rediv->date();
 		i->shares = rediv->shares();
@@ -2186,7 +2223,7 @@ void SecurityTransactionsDialog::updateTransactions() {
 	}
 	for(ScheduledSecurityTransactionList<ScheduledTransaction*>::const_iterator it = security->scheduledTransactions.constBegin(); it != security->scheduledTransactions.constEnd(); ++it) {
 		ScheduledTransaction *strans = *it;
-		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(strans->date(), QLocale::ShortFormat), QString(), strans->transaction()->valueString(), budget->formatValue(((SecurityTransaction*) strans->transaction())->shares(), security->decimals()));
+		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(strans->date(), QLocale::ShortFormat), QString(), strans->transaction()->valueString(), budget->formatValue(((SecurityTransaction*) strans->transaction())->shares(), security->decimals()), strans->comment());
 		i->strans = strans;
 		i->date = strans->date();
 		i->value = strans->transaction()->value();
@@ -2202,7 +2239,7 @@ void SecurityTransactionsDialog::updateTransactions() {
 	}
 	for(ScheduledSecurityTransactionList<ScheduledTransaction*>::const_iterator it = security->scheduledDividends.constBegin(); it != security->scheduledDividends.constEnd(); ++it) {
 		ScheduledTransaction *strans = *it;
-		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(strans->date(), QLocale::ShortFormat), QString(), strans->transaction()->valueString(), "-");
+		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(strans->date(), QLocale::ShortFormat), QString(), strans->transaction()->valueString(), "-", strans->comment());
 		i->srediv = strans;
 		i->date = strans->date();
 		i->value = strans->transaction()->value();
@@ -2215,7 +2252,7 @@ void SecurityTransactionsDialog::updateTransactions() {
 	}
 	for(ScheduledSecurityTransactionList<ScheduledTransaction*>::const_iterator it = security->scheduledReinvestedDividends.constBegin(); it != security->scheduledReinvestedDividends.constEnd(); ++it) {
 		ScheduledTransaction *strans = *it;
-		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(strans->date(), QLocale::ShortFormat), QString(), strans->transaction()->valueString(), budget->formatValue(((ReinvestedDividend*) strans->transaction())->shares(), security->decimals()));
+		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(strans->date(), QLocale::ShortFormat), QString(), strans->transaction()->valueString(), budget->formatValue(((ReinvestedDividend*) strans->transaction())->shares(), security->decimals()), strans->comment());
 		i->sdiv = strans;
 		i->date = strans->date();
 		i->value = strans->transaction()->value();
@@ -2229,6 +2266,22 @@ void SecurityTransactionsDialog::updateTransactions() {
 	}
 	transactionsView->addTopLevelItems(items);
 	transactionsView->setSortingEnabled(true);
+}
+void SecurityTransactionsDialog::popupHeaderMenu(const QPoint &p) {
+	if(!headerPopupMenu) {
+		headerPopupMenu = new QMenu(this);
+		QTreeWidgetItem *header = transactionsView->headerItem();
+		QAction *a = NULL;
+		a = headerPopupMenu->addAction(header->text(4));
+		a->setProperty("column_index", QVariant::fromValue(4));
+		a->setCheckable(true);
+		a->setChecked(!transactionsView->isColumnHidden(4));
+		connect(a, SIGNAL(toggled(bool)), this, SLOT(hideColumn(bool)));
+	}
+	headerPopupMenu->popup(transactionsView->header()->viewport()->mapToGlobal(p));
+}
+void SecurityTransactionsDialog::hideColumn(bool do_show) {
+	transactionsView->setColumnHidden(sender()->property("column_index").toInt(), !do_show);
 }
 
 EditSecurityDialog::EditSecurityDialog(Budget *budg, QWidget *parent, QString title, bool allow_account_creation) : QDialog(parent), budget(budg), b_create_accounts(allow_account_creation) {
@@ -3266,13 +3319,17 @@ void Eqonomize::resetColumnWidths() {
 	if(ledgers.isEmpty()) {
 		LedgerDialog *dialog = new LedgerDialog((AssetsAccount*) NULL, budget, this, tr("Ledger"), b_extra);
 		dialog->updateColumnWidths();
-		dialog->saveConfig();
+		dialog->saveConfig(true);
 		dialog->deleteLater();
 	} else {
 		for(int i = 0; i < ledgers.count(); i++) {
 			ledgers.at(i)->updateColumnWidths();
 		}
 	}
+	SecurityTransactionsDialog *dialog = new SecurityTransactionsDialog((Security*) NULL, this, tr("Security Transactions", "Financial security (e.g. stock, mutual fund)"));
+	dialog->updateColumnWidths(budget);
+	dialog->saveConfig(true);
+	dialog->deleteLater();
 }
 
 void Eqonomize::selectFont() {
@@ -3806,6 +3863,7 @@ void Eqonomize::editSecurityTransactions() {
 	if(!i) return;
 	SecurityTransactionsDialog *dialog = new SecurityTransactionsDialog(i->security(), this, tr("Security Transactions", "Financial security (e.g. stock, mutual fund)"));
 	dialog->exec();
+	dialog->saveConfig();
 	dialog->deleteLater();
 }
 void Eqonomize::securitiesSelectionChanged() {

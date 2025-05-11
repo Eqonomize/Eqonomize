@@ -838,12 +838,15 @@ class SecurityTransactionsDialog : public QDialog {
 		Eqonomize *mainWin;
 		QTreeWidget *transactionsView;
 		QPushButton *editButton, *removeButton;
+		QMenu *headerPopupMenu;
 
 		void updateTransactions();
 
 	public:
 
 		SecurityTransactionsDialog(Security *sec, Eqonomize *parent, QString title);
+		void saveConfig(bool only_state = false);
+		void updateColumnWidths(Budget *budg);
 
 	protected slots:
 
@@ -851,6 +854,8 @@ class SecurityTransactionsDialog : public QDialog {
 		void edit();
 		void edit(QTreeWidgetItem*);
 		void transactionSelectionChanged();
+		void popupHeaderMenu(const QPoint&);
+		void hideColumn(bool);
 
 };
 
