@@ -37,6 +37,20 @@
  </provides>
  <translation type="qt">eqonomize</translation>
  <releases>
+  <release version="1.5.10" date="2025-05-19">
+   <description>
+    <p>Changes:</p>
+    <ul>
+     <li>Add option to show comment field in security transactions window</li>
+     <li>Fix segfault when selecting future date with all tags source in categories comparison report</li>
+     <li>Fix segfault when editing part of split transaction when payee and quantity are hidden</li>
+     <li>Fix first date in occurrences and recurrence range dialogs (when the first occurrence is later than expected from current date)</li>
+     <li>Add fallback URL for exchange rates from exchange-api</li>
+     <li>Add English translation (for improved handling of preferred languages, and plural forms)</li>
+     <li>Translate "amount" as "betrag" in German translation (avoids conflict with translation of "quantity")</li>
+    </ul>
+   </description>
+  </release>
   <release version="1.5.9" date="2025-01-27">
    <description>
     <p>Changes:</p>

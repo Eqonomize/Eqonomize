@@ -1,4 +1,4 @@
-VERSION = 1.5.9
+VERSION = 1.5.10
 isEmpty(PREFIX) {
 	PREFIX = /usr/local
 }
@@ -126,6 +126,7 @@ unix:!equals(COMPILE_RESOURCES,"yes"):!android:!macx {
 			translations/eqonomize_cs.ts \
 			translations/eqonomize_da.ts \
 			translations/eqonomize_de.ts \
+			translations/eqonomize_en.ts \
 			translations/eqonomize_es.ts \
 			translations/eqonomize_fr.ts \
 			translations/eqonomize_hu.ts \
@@ -143,6 +144,7 @@ unix:!equals(COMPILE_RESOURCES,"yes"):!android:!macx {
 			translations/eqonomize_cs.qm \
 			translations/eqonomize_da.qm \
 			translations/eqonomize_de.qm \
+			translations/eqonomize_en.qm \
 			translations/eqonomize_es.qm \
 			translations/eqonomize_fr.qm \
 			translations/eqonomize_hu.qm \

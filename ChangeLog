@@ -1,12 +1,30 @@
+2025-05-19  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Add English translation file
+	  (for improved handling of preferred languages, and plural forms)
+
+2025-05-18  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Add fallback URL for exchange rates from exchange-api
+
+2025-05-11  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Add option to show comment field in security transactions window
+
 2025-04-30  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix first date in occurrences and recurrence range dialogs
-          (when the first occurrence is later than expected from current date)
+	  (when the first occurrence is later than expected from current date)
+
+2025-03-15  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Translate "amount" as "betrag" in German translation
+	  (avoids conflict with translation of "quantity")
 
 2025-03-12  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix segfault when editing part of split transaction when payee and
-          quantity are hidden
+	  quantity are hidden
 
 2025-02-06  Hanna Knutsson <hanna.knutsson@protonmail.com>
 

@@ -2065,8 +2065,8 @@ SecurityTransactionsDialog::SecurityTransactionsDialog(Security *sec, Eqonomize 
 	connect(transactionsView->header(), SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(popupHeaderMenu(const QPoint&)));
 
 	QSettings settings;
-	QSize dialog_size = settings.value("SecurityTransactionsDialog/size", QSize()).toSize();
-	transactionsView->header()->restoreState(settings.value("SecurityTransactionsDialog/listState", QByteArray()).toByteArray());
+	QSize dialog_size = settings.value("SecurityTransactionsList/size", QSize()).toSize();
+	transactionsView->header()->restoreState(settings.value("SecurityTransactionsList/listState", QByteArray()).toByteArray());
 	transactionsView->header()->setSectionsMovable(true);
 	if(dialog_size.isValid()) {
 		resize(dialog_size);
@@ -2077,8 +2077,8 @@ SecurityTransactionsDialog::SecurityTransactionsDialog(Security *sec, Eqonomize 
 }
 void SecurityTransactionsDialog::saveConfig(bool only_state) {
 	QSettings settings;
-	if(!only_state) settings.setValue("SecurityTransactionsDialog/size", size());
-	settings.setValue("SecurityTransactionsDialog/listState", transactionsView->header()->saveState());
+	if(!only_state) settings.setValue("SecurityTransactionsList/size", size());
+	settings.setValue("SecurityTransactionsList/listState", transactionsView->header()->saveState());
 }
 void SecurityTransactionsDialog::updateColumnWidths(Budget *budg) {
 	setColumnDateWidth(transactionsView, 0);
@@ -6839,10 +6839,11 @@ void Eqonomize::updateExchangeRates(bool do_currencies_modified, bool ecb_only) 
 				connect(updateExchangeRatesReply, SIGNAL(finished()), &loop2, SLOT(quit()));
 				loop2.exec();
 				QString errors;
-				int b_error = false;
+				int b_error = 0;
 				if(updateExchangeRatesReply->error() == QNetworkReply::OperationCanceledError) {
 					//canceled by user
 					updateExchangeRatesProgressDialog->reset();
+					b_error = -1;
 				} else if(updateExchangeRatesReply->error() != QNetworkReply::NoError) {
 					updateExchangeRatesProgressDialog->reset();
 					errors = updateExchangeRatesReply->errorString();
@@ -6852,7 +6853,22 @@ void Eqonomize::updateExchangeRates(bool do_currencies_modified, bool ecb_only) 
 					errors = budget->loadExchangerateHostData(updateExchangeRatesReply->readAll());
 					if(!errors.isEmpty()) b_error = 2;
 				}
-				if(b_error) {
+				if(b_error > 0) {
+					QEventLoop loop3;
+					updateExchangeRatesReply = budget->nam.get(QNetworkRequest(QUrl("https://latest.currency-api.pages.dev/v1/currencies/eur.json")));
+					connect(updateExchangeRatesReply, SIGNAL(finished()), &loop3, SLOT(quit()));
+					loop3.exec();
+					if(updateExchangeRatesReply->error() == QNetworkReply::OperationCanceledError) {
+						//canceled by user
+						updateExchangeRatesProgressDialog->reset();
+						b_error = -1;
+					} else if(updateExchangeRatesReply->error() != QNetworkReply::NoError) {
+						updateExchangeRatesReply->abort();
+					} else if(budget->loadExchangerateHostData(updateExchangeRatesReply->readAll()).isEmpty()) {
+						b_error = 0;
+					}
+				}
+				if(b_error > 0) {
 					QEventLoop loop3;
 					updateExchangeRatesReply = budget->nam.get(QNetworkRequest(QUrl("https://www.floatrates.com/daily/eur.json")));
 					connect(updateExchangeRatesReply, SIGNAL(finished()), &loop3, SLOT(quit()));
@@ -6860,15 +6876,16 @@ void Eqonomize::updateExchangeRates(bool do_currencies_modified, bool ecb_only) 
 					if(updateExchangeRatesReply->error() == QNetworkReply::OperationCanceledError) {
 						//canceled by user
 						updateExchangeRatesProgressDialog->reset();
+						b_error = -1;
 					} else if(updateExchangeRatesReply->error() != QNetworkReply::NoError || !budget->loadFloatratesComData(updateExchangeRatesReply->readAll()).isEmpty()) {
 						if(updateExchangeRatesReply->error() != QNetworkReply::NoError) updateExchangeRatesReply->abort();
 						if(b_error == 1) QMessageBox::critical(this, tr("Error"), tr("Failed to download exchange rates from %1: %2.").arg("https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/eur.json").arg(errors));
 						else QMessageBox::critical(this, tr("Error"), tr("Error reading data from %1: %2.").arg("https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/eur.json").arg(errors));
 					} else {
-						b_error = false;
+						b_error = 0;
 					}
 				}
-				if(!b_error) settings.setValue("lastExchangeRatesUpdate", QDate::currentDate().toString(Qt::ISODate));
+				if(b_error == 0) settings.setValue("lastExchangeRatesUpdate", QDate::currentDate().toString(Qt::ISODate));
 				settings.setValue("lastExchangeRatesUpdateTry", QDate::currentDate().toString(Qt::ISODate));
 			}
 			QString error = budget->saveCurrencies();
