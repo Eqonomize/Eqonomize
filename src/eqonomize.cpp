@@ -2588,13 +2588,8 @@ Eqonomize::Eqonomize() : QMainWindow() {
 
 	setAcceptDrops(true);
 
-	QWidget *w_top = new QWidget(this);
-	setCentralWidget(w_top);
-
-	QVBoxLayout *topLayout = new QVBoxLayout(w_top);
-
-	tabs = new QTabWidget(w_top);
-	topLayout->addWidget(tabs);
+	tabs = new QTabWidget(this);
+	setCentralWidget(tabs);
 	tabs->setDocumentMode(true);
 	tabs->setIconSize(tabs->iconSize() * 1.5);
 
@@ -2614,7 +2609,6 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	connect(tabs, SIGNAL(currentChanged(int)), this, SLOT(onPageChange(int)));
 
 	QVBoxLayout *accountsLayout = new QVBoxLayout(accounts_page);
-	accountsLayout->setContentsMargins(0, 0, 0, 0);
 
 	QVBoxLayout *accountsLayoutView = new QVBoxLayout();
 	accountsLayout->addLayout(accountsLayoutView);
@@ -2783,7 +2777,6 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	connect(accountsView, SIGNAL(itemCollapsed(QTreeWidgetItem*)), this, SLOT(accountCollapsed(QTreeWidgetItem*)));
 
 	expensesLayout = new QVBoxLayout(expenses_page);
-	expensesLayout->setContentsMargins(0, 0, 0, 0);
 	expensesWidget = new TransactionListWidget(b_extra, TRANSACTION_TYPE_EXPENSE, budget, this, expenses_page);
 	connect(expensesWidget, SIGNAL(accountAdded(Account*)), this, SLOT(accountAdded(Account*)));
 	connect(expensesWidget, SIGNAL(currenciesModified()), this, SLOT(currenciesModified()));
@@ -2792,7 +2785,6 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	expensesLayout->addWidget(expensesWidget);
 
 	incomesLayout = new QVBoxLayout(incomes_page);
-	incomesLayout->setContentsMargins(0, 0, 0, 0);
 	incomesWidget = new TransactionListWidget(b_extra, TRANSACTION_TYPE_INCOME, budget, this, incomes_page);
 	connect(incomesWidget, SIGNAL(accountAdded(Account*)), this, SLOT(accountAdded(Account*)));
 	connect(incomesWidget, SIGNAL(currenciesModified()), this, SLOT(currenciesModified()));
@@ -2801,7 +2793,6 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	incomesLayout->addWidget(incomesWidget);
 
 	transfersLayout = new QVBoxLayout(transfers_page);
-	transfersLayout->setContentsMargins(0, 0, 0, 0);
 	transfersWidget = new TransactionListWidget(b_extra, TRANSACTION_TYPE_TRANSFER, budget, this, transfers_page);
 	connect(transfersWidget, SIGNAL(accountAdded(Account*)), this, SLOT(accountAdded(Account*)));
 	connect(transfersWidget, SIGNAL(currenciesModified()), this, SLOT(currenciesModified()));
@@ -2810,7 +2801,6 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	transfersLayout->addWidget(transfersWidget);
 
 	QVBoxLayout *securitiesLayout = new QVBoxLayout(securities_page);
-	securitiesLayout->setContentsMargins(0, securitiesLayout->contentsMargins().top(), 0, 0);
 
 	QDialogButtonBox *securitiesButtons = new QDialogButtonBox(securities_page);
 	newSecurityButton = securitiesButtons->addButton(tr("New Security…", "Financial security (e.g. stock, mutual fund)"), QDialogButtonBox::ActionRole);
@@ -2908,7 +2898,6 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	connect(securitiesView, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(popupSecuritiesMenu(const QPoint&)));
 
 	QVBoxLayout *scheduleLayout = new QVBoxLayout(schedule_page);
-	scheduleLayout->setContentsMargins(0, scheduleLayout->contentsMargins().top(), 0, 0);
 
 	QDialogButtonBox *scheduleButtons = new QDialogButtonBox(schedule_page);
 	newScheduleButton = scheduleButtons->addButton(tr("New Schedule"), QDialogButtonBox::ActionRole);
