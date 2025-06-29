@@ -785,7 +785,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		editLayout->addWidget(lenderEdit, TEROWCOL(i, 1));
 		i++;
 	}
-	if(!b_autoedit && (transtype == TRANSACTION_TYPE_INCOME || transtype == TRANSACTION_TYPE_EXPENSE) && !multiaccount && !sec) {
+	if(!b_autoedit && ((transtype == TRANSACTION_TYPE_INCOME && !sec && !select_security) || transtype == TRANSACTION_TYPE_EXPENSE) && !multiaccount) {
 		editLayout->addWidget(new QLabel(tr("Tags:"), this), TEROWCOL(i, 0));
 		tagButton = new TagButton(false, allow_account_creation, budget, this);
 		editLayout->addWidget(tagButton, TEROWCOL(i, 1));
@@ -1734,6 +1734,8 @@ bool TransactionEditWidget::modifyTransaction(Transaction *trans) {
 		return true;
 	} else if(b_transsec) {
 		return false;
+	} else if(trans->type() == TRANSACTION_TYPE_INCOME) {
+		if(securityCombo) ((Income*) trans)->setSecurity(selectedSecurity());
 	}
 	if(dateEdit) trans->setDate(dateEdit->date());
 	if(fromCombo) trans->setFromAccount(fromCombo->currentAccount());

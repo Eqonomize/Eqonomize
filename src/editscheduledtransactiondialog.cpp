@@ -52,7 +52,7 @@ EditScheduledTransactionDialog::EditScheduledTransactionDialog(bool extra_parame
 		}
 		case TRANSACTION_TYPE_INCOME: {
 			transactionEditWidget = new TransactionEditWidget(false, b_extra, transaction_type, NULL, false, security, SECURITY_ALL_VALUES, select_security, budget, NULL, allow_account_creation);
-			if(security) tabs->addTab(transactionEditWidget, tr("Dividend"));
+			if(select_security || security) tabs->addTab(transactionEditWidget, tr("Dividend"));
 			else tabs->addTab(transactionEditWidget, tr("Income"));
 			break;
 		}
