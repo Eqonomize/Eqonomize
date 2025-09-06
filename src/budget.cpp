@@ -2661,6 +2661,10 @@ void Budget::addTransaction(Transaction *trans) {
 	transactions.inSort(trans);
 }
 void Budget::removeTransaction(Transaction *trans, bool keep) {
+	removeTransaction(trans, trans, keep);
+}
+void Budget::removeTransaction(Transaction *trans, Transaction *oldtrans, bool keep) {
+	if(!oldtrans) oldtrans = trans;
 	if(trans->parentSplit()) {
 		trans->parentSplit()->removeTransaction(trans, keep);
 		return;
@@ -2676,9 +2680,9 @@ void Budget::removeTransaction(Transaction *trans, bool keep) {
 		}
 		case TRANSACTION_TYPE_INCOME: {
 			incomes.setAutoDelete(false);
-			if(((Income*) trans)->security()) {
-				if(trans->subtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) ((Income*) trans)->security()->reinvestedDividends.removeRef((ReinvestedDividend*) trans);
-				else ((Income*) trans)->security()->dividends.removeRef((Income*) trans);
+			if(((Income*) oldtrans)->security()) {
+				if(oldtrans->subtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) ((Income*) oldtrans)->security()->reinvestedDividends.removeRef((ReinvestedDividend*) trans);
+				else ((Income*) oldtrans)->security()->dividends.removeRef((Income*) trans);
 			}
 			incomes.removeRef((Income*) trans);
 			incomes.setAutoDelete(true);
@@ -2695,9 +2699,10 @@ void Budget::removeTransaction(Transaction *trans, bool keep) {
 		case TRANSACTION_TYPE_SECURITY_BUY: {}
 		case TRANSACTION_TYPE_SECURITY_SELL: {
 			SecurityTransaction *sectrans = (SecurityTransaction*) trans;
-			sectrans->security()->removeQuotation(sectrans->date(), true);
+			Security *sec = ((SecurityTransaction*) oldtrans)->security();
+			sec->removeQuotation(sectrans->date(), true);
 			securityTransactions.setAutoDelete(false);
-			sectrans->security()->transactions.removeRef(sectrans);
+			sec->transactions.removeRef(sectrans);
 			securityTransactions.removeRef(sectrans);
 			securityTransactions.setAutoDelete(true);
 			if(!keep) delete trans;
@@ -2770,11 +2775,15 @@ void Budget::addScheduledTransaction(ScheduledTransaction *strans) {
 	}
 }
 void Budget::removeScheduledTransaction(ScheduledTransaction *strans, bool keep) {
-	 if(strans->transactiontype() == TRANSACTION_TYPE_SECURITY_BUY || strans->transactiontype() == TRANSACTION_TYPE_SECURITY_SELL) {
-		((SecurityTransaction*) strans->transaction())->security()->scheduledTransactions.removeRef(strans);
-	 } else if(strans->transactiontype() == TRANSACTION_TYPE_INCOME && ((Income*) strans->transaction())->security()) {
-		if(strans->transactionsubtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) ((Income*) strans->transaction())->security()->scheduledReinvestedDividends.removeRef(strans);
-		else ((Income*) strans->transaction())->security()->scheduledDividends.removeRef(strans);
+	removeScheduledTransaction(strans, strans, keep);
+}
+void Budget::removeScheduledTransaction(ScheduledTransaction *strans, ScheduledTransaction *oldstrans, bool keep) {
+	if(!oldstrans) oldstrans = strans;
+	 if(oldstrans->transactiontype() == TRANSACTION_TYPE_SECURITY_BUY || oldstrans->transactiontype() == TRANSACTION_TYPE_SECURITY_SELL) {
+		((SecurityTransaction*) oldstrans->transaction())->security()->scheduledTransactions.removeRef(strans);
+	 } else if(oldstrans->transactiontype() == TRANSACTION_TYPE_INCOME && ((Income*) oldstrans->transaction())->security()) {
+		if(oldstrans->transactionsubtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) ((Income*) oldstrans->transaction())->security()->scheduledReinvestedDividends.removeRef(strans);
+		else ((Income*) oldstrans->transaction())->security()->scheduledDividends.removeRef(strans);
 	}
 	if(keep) scheduledTransactions.setAutoDelete(false);
 	scheduledTransactions.removeRef(strans);

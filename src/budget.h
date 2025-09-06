@@ -209,9 +209,11 @@ class Budget {
 
 		void addTransactions(Transactions*);
 		void removeTransaction(Transaction*, bool keep = false);
+		void removeTransaction(Transaction*, Transaction*, bool keep = false);
 
 		void addScheduledTransaction(ScheduledTransaction*);
 		void removeScheduledTransaction(ScheduledTransaction*, bool keep = false);
+		void removeScheduledTransaction(ScheduledTransaction*, ScheduledTransaction*, bool keep = false);
 
 		void addSplitTransaction(SplitTransaction*);
 		void removeSplitTransaction(SplitTransaction*, bool keep = false);

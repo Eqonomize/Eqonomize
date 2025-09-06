@@ -4632,8 +4632,8 @@ bool Eqonomize::editScheduledTransaction(ScheduledTransaction *strans, QWidget *
 				removeOldLinks(strans, old_strans);
 				if(!strans->recurrence() && strans->transaction()->date() <= QDate::currentDate()) {
 					Transactions *trans = strans->transaction()->copy();
+					budget->removeScheduledTransaction(strans, old_strans, true);
 					transactionRemoved(strans, old_strans);
-					budget->removeScheduledTransaction(strans, true);
 					delete strans;
 					budget->addTransactions(trans);
 					transactionAdded(trans);
@@ -5097,10 +5097,14 @@ bool Eqonomize::editTransaction(Transaction *trans, QWidget *parent, bool clone_
 		} else {
 			removeOldLinks(trans, oldtrans);
 			if((!rec || rec->firstOccurrence() == rec->lastOccurrence()) && trans->date() <= QDate::currentDate()) {
+				if((trans->type() == TRANSACTION_TYPE_INCOME && ((Income*) trans)->security() != ((Income*) oldtrans)->security()) || ((trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL) && ((SecurityTransaction*) trans)->security() != ((SecurityTransaction*) oldtrans)->security())) {
+					budget->removeTransaction(trans, oldtrans, true);
+					budget->addTransaction(trans);
+				}
 				transactionModified(trans, oldtrans);
 			} else {
+				budget->removeTransaction(trans, oldtrans, true);
 				transactionRemoved(trans, oldtrans);
-				budget->removeTransaction(trans, true);
 				ScheduledTransaction *strans = new ScheduledTransaction(budget, trans, rec);
 				QSettings settings;
 				settings.beginGroup("GeneralOptions");
@@ -9965,11 +9969,6 @@ void Eqonomize::transactionModified(Transactions *transs, Transactions *oldtrans
 			Transaction *oldtrans = (Transaction*) oldtranss;
 			subtractTransactionValue(oldtrans, true);
 			addTransactionValue(trans, trans->date(), true);
-			if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL) {
-				updateSecurity(((SecurityTransaction*) trans)->security());
-			} else if(trans->type() == TRANSACTION_TYPE_INCOME && ((Income*) trans)->security()) {
-				updateSecurity(((Income*) trans)->security());
-			}
 			if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL) {
 				updateSecurity(((SecurityTransaction*) trans)->security());
 				if(((SecurityTransaction*) trans)->security() != ((SecurityTransaction*) oldtrans)->security()) {
