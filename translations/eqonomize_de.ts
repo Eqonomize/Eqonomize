@@ -5911,7 +5911,7 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
     <message>
         <location filename="../src/eqonomize.cpp" line="2839"/>
         <source>Yearly Rate</source>
-        <translation>Jährliche Gebühr</translation>
+        <translation>Jährliche Rendite</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2840"/>
