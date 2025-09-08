@@ -103,6 +103,8 @@ void CurrencyConversionDialog::updateCurrencies() {
 			if(!fromCur) fromCur = toCur;
 		}
 	}
+	fromCombo->blockSignals(true);
+	toCombo->blockSignals(true);
 	fromCombo->clear();
 	toCombo->clear();
 	int i = 0;
@@ -123,6 +125,8 @@ void CurrencyConversionDialog::updateCurrencies() {
 	}
 	fromEdit->setDecimals(((Currency*) fromCombo->currentData().value<void*>())->fractionalDigits());
 	toEdit->setDecimals(((Currency*) toCombo->currentData().value<void*>())->fractionalDigits());
+	fromCombo->blockSignals(false);
+	toCombo->blockSignals(false);
 	if(prev_fromCur != fromCur || prev_toCur != toCur) convertFrom();
 }
 
