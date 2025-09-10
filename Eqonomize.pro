@@ -32,10 +32,17 @@ unix:!equals(COMPILE_RESOURCES,"yes"):!android:!macx {
 		}
 	}
 } else {
-	TRANSLATIONS_DIR = ":/translations"
-	ICON_DIR = ":/icons"
-	DATA_DIR = ":/data"
-	DOCUMENTATION_DIR = ":/doc/html"
+	win32:!msvc: {
+		TRANSLATIONS_DIR = ":\/translations"
+		ICON_DIR = ":\/icons"
+		DATA_DIR = ":\/data"
+		DOCUMENTATION_DIR = ":\/doc\/html"
+	} else {
+		TRANSLATIONS_DIR = ":/translations"
+		ICON_DIR = ":/icons"
+		DATA_DIR = ":/data"
+		DOCUMENTATION_DIR = ":/doc/html"
+	}
 	DEFINES += RESOURCES_COMPILED=1
 }
 isEmpty(MAN_DIR) {
