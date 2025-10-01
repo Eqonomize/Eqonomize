@@ -76,6 +76,7 @@ int main(int argc, char **argv) {
 		}
 	}
 
+	setlocale(LC_ALL, "");
 	QString locale = setlocale(LC_MONETARY, NULL);
 	if(locale == QLocale::c().name()) {
 		setlocale(LC_MONETARY, QLocale::system().name().toLocal8Bit());
