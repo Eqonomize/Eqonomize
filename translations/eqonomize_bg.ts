@@ -6189,7 +6189,7 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <location filename="../src/eqonomize.cpp" line="8101"/>
         <source>Close Security</source>
         <comment>Mark security as closed</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Затваряне на ценна книга</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4480"/>
@@ -6229,7 +6229,7 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <location filename="../src/eqonomize.cpp" line="5773"/>
         <location filename="../src/eqonomize.cpp" line="8030"/>
         <source>Group Accounts</source>
-        <translation type="unfinished"></translation>
+        <translation type="finished">Групиране на сметките</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="6319"/>
@@ -6274,17 +6274,17 @@ Confirm that they have indeed occurred (or will occur today).</source>
     <message>
         <location filename="../src/eqonomize.cpp" line="8031"/>
         <source>Group by Type</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Групиране по вид</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="8033"/>
         <source>Group by Bank</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Групиране по банка</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="8035"/>
         <source>Group by Currency</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Групиране по валута</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="8055"/>
@@ -6301,7 +6301,7 @@ Confirm that they have indeed occurred (or will occur today).</source>
     <message>
         <location filename="../src/eqonomize.cpp" line="8178"/>
         <source>Reset Column Widths</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ширина на колоните по подразбиране</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="8263"/>
@@ -6321,7 +6321,7 @@ Confirm that they have indeed occurred (or will occur today).</source>
     <message>
         <location filename="../src/eqonomize.cpp" line="9229"/>
         <source>Rename Account Group</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Преименуване на група</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="9229"/>
@@ -6536,7 +6536,7 @@ Confirm that they have indeed occurred (or will occur today).</source>
     <message>
         <location filename="../src/eqonomize.cpp" line="8024"/>
         <source>Reconcile Account…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Равняване на сметка...</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="8025"/>
@@ -6556,7 +6556,7 @@ Confirm that they have indeed occurred (or will occur today).</source>
     <message>
         <location filename="../src/eqonomize.cpp" line="8128"/>
         <source>Show symbol for main currency</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Показване на основната валута</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="8139"/>
@@ -7139,7 +7139,7 @@ Confirm that they have indeed occurred (or will occur today).</source>
     <message>
         <location filename="../src/eqonomize.cpp" line="7992"/>
         <source>Import</source>
-        <translation>Внасяне</translation>
+        <translation>Импорт</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="7994"/>
@@ -7159,7 +7159,7 @@ Confirm that they have indeed occurred (or will occur today).</source>
     <message>
         <location filename="../src/eqonomize.cpp" line="7998"/>
         <source>Export As QIF File…</source>
-        <translation>Износ като файл QIF …</translation>
+        <translation>Експорт като файл QIF …</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="8000"/>
@@ -7496,7 +7496,7 @@ Confirm that they have indeed occurred (or will occur today).</source>
     <message>
         <location filename="../src/eqonomize.cpp" line="8186"/>
         <source>Dark Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="finished">Тъмен режим</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="8254"/>
@@ -8037,7 +8037,7 @@ What do you want to do with them?</source>
     <message>
         <location filename="../src/qifimportexport.cpp" line="463"/>
         <source>Export QIF File</source>
-        <translation>Износ на QIF файла</translation>
+        <translation>Експорт на QIF файла</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="471"/>
