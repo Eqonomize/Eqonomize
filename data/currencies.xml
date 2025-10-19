@@ -36,6 +36,9 @@
 	<currency code="BBD" symbol="$" name="Barbadian dollar" source="currency-api">
 		<rate value="2.23776538" date="2025-05-14"/>
 	</currency>
+	<currency code="BCH" symbol="BCash" name="Bitcoin Cash" source="currency-api">
+		<rate value="0.024593376" date="2025-10-18"/>
+	</currency>
 	<currency code="BDT" symbol="৳" name="Bangladeshi taka" source="currency-api">
 		<rate value="135.88064189" date="2025-05-14"/>
 	</currency>
@@ -50,6 +53,9 @@
 	</currency>
 	<currency code="BMD" symbol="$" name="Bermudian dollar" source="currency-api">
 		<rate value="1.11888269" date="2025-05-14"/>
+	</currency>
+	<currency code="BNB" symbol="$" name="BNB Smart Chain" source="currency-api">
+		<rate value="0.0010710174" date="2025-10-18"/>
 	</currency>
 	<currency code="BND" symbol="$" name="Brunei dollar" source="currency-api">
 		<rate value="1.45653866" date="2025-05-14"/>
@@ -125,6 +131,9 @@
 	</currency>
 	<currency code="ETB" symbol="Br" name="Ethiopian birr" source="currency-api">
 		<rate value="150.33458537" date="2025-05-14"/>
+	</currency>
+	<currency code="ETH" symbol="ETH" name="Ethereum" source="currency-api">
+		<rate value="0.00030128478" date="2025-10-18"/>
 	</currency>
 	<currency code="FJD" symbol="$" name="Fijian dollar" source="currency-api">
 		<rate value="2.52983375" date="2025-05-14"/>
@@ -236,6 +245,9 @@
 	</currency>
 	<currency code="LRD" symbol="$" name="Liberian dollar" source="currency-api">
 		<rate value="223.69239337" date="2025-05-14"/>
+	</currency>
+	<currency code="LTC" symbol="Ł" name="Litecoin" source="currency-api">
+		<rate value="0.012833311" date="2025-10-18"/>
 	</currency>
 	<currency code="LSL" symbol="L" name="Lesotho loti" source="currency-api">
 		<rate value="20.48393886" date="2025-05-14"/>
@@ -363,6 +375,9 @@
 	<currency code="SLL" symbol="Le" name="Sierra Leonean leone" source="currency-api">
 		<rate value="25505.06044556" date="2025-05-14"/>
 	</currency>
+	<currency code="SOL" symbol="SOL" name="Solana" source="currency-api">
+		<rate value="0.0063129399" date="2025-10-18"/>
+	</currency>
 	<currency code="SOS" symbol="Sh.So." name="Somali shilling" source="currency-api">
 		<rate value="638.43778419" date="2025-05-14"/>
 	</currency>
@@ -416,6 +431,12 @@
 	</currency>
 	<currency code="USD" symbol="$" name="United States dollar" source="ECB">
 		<rate value="1.1214" date="2025-05-14"/>
+	</currency>
+	<currency code="USDC" symbol="$" name="United States dollar Circle" source="currency-api">
+		<rate value="1.15766316" date="2025-10-18"/>
+	</currency>
+	<currency code="USDT" symbol="₮" name="United States dollar Tether" source="currency-api">
+		<rate value="1.16572342" date="2025-10-18"/>
 	</currency>
 	<currency code="UYU" symbol="$" name="Uruguayan peso" source="currency-api">
 		<rate value="46.74229381" date="2025-05-14"/>

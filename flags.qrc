@@ -13,12 +13,14 @@
 <file>data/flags/AZN.png</file>
 <file>data/flags/BAM.png</file>
 <file>data/flags/BBD.png</file>
+<file>data/flags/BCH.png</file>
 <file>data/flags/BDT.png</file>
 <file>data/flags/BEF.png</file>
 <file>data/flags/BGN.png</file>
 <file>data/flags/BHD.png</file>
 <file>data/flags/BIF.png</file>
 <file>data/flags/BMD.png</file>
+<file>data/flags/BNB.png</file>
 <file>data/flags/BND.png</file>
 <file>data/flags/BOB.png</file>
 <file>data/flags/BRL.png</file>
@@ -50,6 +52,7 @@
 <file>data/flags/ERN.png</file>
 <file>data/flags/ESP.png</file>
 <file>data/flags/ETB.png</file>
+<file>data/flags/ETH.png</file>
 <file>data/flags/eurocent.png</file>
 <file>data/flags/EUR.png</file>
 <file>data/flags/FIM.png</file>
@@ -96,6 +99,7 @@
 <file>data/flags/LKR.png</file>
 <file>data/flags/LRD.png</file>
 <file>data/flags/LSL.png</file>
+<file>data/flags/LTC.png</file>
 <file>data/flags/LTL.png</file>
 <file>data/flags/LUF.png</file>
 <file>data/flags/LVL.png</file>
@@ -146,6 +150,7 @@
 <file>data/flags/SIT.png</file>
 <file>data/flags/SKK.png</file>
 <file>data/flags/SLL.png</file>
+<file>data/flags/SOL.png</file>
 <file>data/flags/SOS.png</file>
 <file>data/flags/SRD.png</file>
 <file>data/flags/STD.png</file>
@@ -164,6 +169,8 @@
 <file>data/flags/UAH.png</file>
 <file>data/flags/UGX.png</file>
 <file>data/flags/USD.png</file>
+<file>data/flags/USDC.png</file>
+<file>data/flags/USDT.png</file>
 <file>data/flags/UYU.png</file>
 <file>data/flags/UZS.png</file>
 <file>data/flags/VEF.png</file>
