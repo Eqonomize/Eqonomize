@@ -1,3 +1,42 @@
+2025-10-17  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Automatically increase number of decimals for currencies with exchange rate > €10
+
+2025-10-19  Victor Nikiforov <victor.nike@gmail.com>
+
+	* Add more crypto currencies
+
+2025-10-17  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Clear selection or filter in transactions list with Escape key
+
+2025-10-01  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix numerical and monetary formats in some cases on Windows
+
+2025-09-10  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix compilation with MSYS/MinGW
+
+2025-09-08  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix segfault when updating exchange rates while currency conversion dialog is open
+
+2025-09-06  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix transaction with changed associated security not moved to new
+	  security in securities and security transactions lists
+
+2025-06-20  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Move margins from tab widget to tab contents
+
+2025-05-29  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix security changes not saved when editing dividend
+	* Fix tags shown in new dividend dialog when no security is selected
+	* Fix tab title in new dividend dialog when no security is selected
+
 2025-05-19  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Add English translation file

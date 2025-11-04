@@ -243,8 +243,7 @@ double Currency::convertFrom(double value, const Currency *from_currency, const 
 QString Currency::formatValue(double value, int nr_of_decimals, bool show_currency, bool always_show_sign, bool conventional_sign_placement) const {
 	if(show_currency && !o_budget->show_default_currency && this == o_budget->defaultCurrency()) show_currency = false;
 	if(nr_of_decimals < 0) {
-		if(i_decimals < 0) nr_of_decimals = MONETARY_DECIMAL_PLACES;
-		else nr_of_decimals = i_decimals;
+		nr_of_decimals = fractionalDigits(true);
 	}
 	if(is_zero(value)) value = 0.0;
 	QString s;
@@ -398,7 +397,13 @@ bool Currency::useCodeSpace(bool neg) const {
 }
 
 int Currency::fractionalDigits(bool return_default_if_unset) const {
-	if(return_default_if_unset && i_decimals < 0) return o_budget->monetary_decimal_places;
+	if(return_default_if_unset && i_decimals < 0) {
+		if(!rates.isEmpty() && rates.last() < 0.1) {
+			int d = 2 - (int) round(log10(rates.last()));
+			return d + d % 2;
+		}
+		return o_budget->monetary_decimal_places;
+	}
 	return i_decimals;
 }
 void Currency::setFractionalDigits(int new_frac_digits) {

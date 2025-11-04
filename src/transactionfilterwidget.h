@@ -89,10 +89,13 @@ class TransactionFilterWidget : public QWidget {
 
 		void toChanged(const QDate&);
 		void fromChanged(const QDate&);
-		void clearFilter();
 		void checkEnableClear();
 		void onToActivated(int);
 		void onFromActivated(int);
+
+	public slots:
+
+		void clearFilter();
 
 	signals:
 

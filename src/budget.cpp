@@ -272,7 +272,7 @@ Budget::Budget() {
 	currency_code_space_neg = (lc->int_n_sep_by_space == 1);
 	monetary_sign_p_code_neg = (int) lc->int_n_sign_posn;
 	monetary_sign_p_code_pos = (int) lc->int_p_sign_posn;
-#endif
+#	endif
 	if(monetary_sign_p_symbol_neg > 4) monetary_sign_p_symbol_neg = 1;
 	if(monetary_sign_p_symbol_pos > 4) monetary_sign_p_symbol_pos = 1;
 	if(monetary_sign_p_code_neg > 4) monetary_sign_p_code_neg = 1;

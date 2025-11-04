@@ -366,6 +366,17 @@ void TransactionListWidget::updateStatistics() {
 
 void TransactionListWidget::keyPressEvent(QKeyEvent *e) {
 	if(e == key_event) return;
+	if(e->key() == Qt::Key_Escape && (e->modifiers() == Qt::NoModifier || e->modifiers() == Qt::KeypadModifier)) {
+		if(!transactionsView->selectedItems().isEmpty()) {
+			transactionsView->clearSelection();
+			e->accept();
+			return;
+		} else if(tabs->currentWidget() == filterWidget) {
+			filterWidget->clearFilter();
+			e->accept();
+			return;
+		}
+	}
 	QWidget::keyPressEvent(e);
 	if(!e->isAccepted() && editWidget->firstHasFocus() && e->key() != Qt::Key_Enter && e->key() != Qt::Key_Return) {
 #if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
