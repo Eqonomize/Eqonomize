@@ -15,12 +15,15 @@ description: |
 
 grade: stable
 confinement: strict
-base: core18
+base: core24
+compression: lzo
 
 apps:
   eqonomize-hk:
-    command: bin/desktop-launch eqonomize
-    plugs: [x11, desktop, desktop-legacy, wayland, unity7, gsettings, home, network, cups-control, removable-media]
+    extensions:
+      - kde-neon-6
+    command: usr/bin/eqonomize
+    plugs: [home, network, cups, removable-media]
 
 parts:
   eqonomize:
@@ -28,46 +31,13 @@ parts:
     source-type: tar
     source-checksum: sha512/b5b4a3737be2d6962d374fac596aeabd2053aed1f2f884588e54dfea4a450941d8777e423a05d7ced46e0e21dd469c1b9ca2a03dd066114fa75de78c6f53e0c8
     plugin: qmake
-    qt-version: qt5
-    after: [desktop-qt5]
-    options:
-      - PREFIX=/usr
+    qmake-parameters:
       - COMPILE_RESOURCES="yes"
-
-  desktop-qt5:
-    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
-    source-tag: v20180201
-    source-depth: 1
-    source-subdir: qt
-    plugin: make
-    make-parameters: ["FLAVOR=qt5"]
-    build-packages:
-      - build-essential
-      - qtbase5-dev
-      - libqt5charts5-dev
-      - dpkg-dev
-    stage-packages:
-      - libxkbcommon0
-      - ttf-ubuntu-font-family
-      - dmz-cursor-theme
-      - light-themes
-      - adwaita-icon-theme
-      - gnome-themes-standard
-      - shared-mime-info
-      - libqt5core5a
-      - libqt5gui5
-      - libqt5network5
-      - libqt5printsupport5
-      - libqt5charts5
-      - libgtk2.0-0
-      - libgdk-pixbuf2.0-0
-      - libqt5svg5
-      - qtwayland5
-      - qt5-gtk-platformtheme
-      - qt5-style-plugins
-      - locales-all
-      - xdg-user-dirs
-      - fcitx-frontend-qt5
-    override-build: |
-      snapcraftctl build
-      sed -i '/export QT_QPA_PLATFORMTHEME=appmenu-qt5/d' $SNAPCRAFT_PART_INSTALL/bin/desktop-launch
+      - PREFIX=/usr
+    build-environment:
+      - LD_LIBRARY_PATH: $LD_LIBRARY_PATH:/snap/kde-qt6-core24-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR
+      - PKG_CONFIG_PATH: $CRAFT_STAGE/usr/lib/pkgconfig:/snap/kde-qt6-core24-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pkgconfig
+      - PATH: /snap/kde-qt6-core24-sdk/current/usr/bin/qt6:$PATH
+    build-snaps:
+      - core24
+      - kf6-core24
