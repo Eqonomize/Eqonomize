@@ -1,0 +1,24 @@
+diff --git a/src/eqonomize.cpp b/src/eqonomize.cpp
+index 7f20420..98df813 100644
+--- a/src/eqonomize.cpp
++++ b/src/eqonomize.cpp
+@@ -2533,9 +2533,9 @@ Eqonomize::Eqonomize() : QMainWindow() {
+ 	QSettings settings;
+ 	settings.beginGroup("GeneralOptions");
+ 
+-	if(!settings.value("darkMode").isNull()) {
++	//if(!settings.value("darkMode").isNull()) {
+ 		updatePalette(settings.value("darkMode", false).toBool(), true);
+-	}
++	//}
+ 
+ 	b_extra = settings.value("useExtraProperties", true).toBool();
+ 	budget->show_default_currency = settings.value("showDefaultCurrency", true).toBool();
+@@ -3424,7 +3424,6 @@ void Eqonomize::updatePalette(bool dark_mode, bool initial) {
+ 		if(!s) s = QApplication::style();
+ 		p = s->standardPalette();
+ #else
+-		if(initial) return;
+ 		p = QApplication::style()->standardPalette();
+ #endif
+ 	}

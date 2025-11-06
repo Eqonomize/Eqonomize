@@ -18,6 +18,10 @@ confinement: strict
 base: core24
 compression: lzo
 
+platforms:
+  amd64:
+  arm64:
+
 apps:
   eqonomize-hk:
     extensions:
@@ -33,6 +37,7 @@ parts:
     plugin: qmake
     qmake-parameters:
       - COMPILE_RESOURCES="yes"
+      - INSTALL_THEME_ICONS="no"
       - PREFIX=/usr
     build-environment:
       - LD_LIBRARY_PATH: $LD_LIBRARY_PATH:/snap/kde-qt6-core24-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR
@@ -41,3 +46,16 @@ parts:
     build-snaps:
       - core24
       - kf6-core24
+    after:
+      - patches
+    override-pull: |
+      craftctl default
+      patch -p1 < $CRAFT_PROJECT_DIR/snap/patches/snap.patch
+
+  patches:
+    source: snap/patches
+    plugin: dump
+    organize:
+      "*": patches/
+    prime:
+      - -*
