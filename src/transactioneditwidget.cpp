@@ -416,7 +416,7 @@ void TagMenu::mouseReleaseEvent(QMouseEvent *e) {
 	}
 }
 QString TagMenu::createTag() {
-	QString new_tag = QInputDialog::getText(this, tr("New Tag"), tr("Tag:")).trimmed();
+	QString new_tag = QInputDialog::getText(qobject_cast<QWidget*>(parent()), tr("New Tag"), tr("Tag:")).trimmed();
 	if(!new_tag.isEmpty()) {
 		if((new_tag.contains(",") && new_tag.contains("\"") && new_tag.contains("\'")) || (new_tag[0] == '\'' && new_tag.contains("\"")) || (new_tag[0] == '\"' && new_tag.contains("\'"))) {
 			if(new_tag[0] == '\'') new_tag.remove("\'");
@@ -2128,8 +2128,6 @@ void TransactionEditWidget::setTransaction(Transaction *trans) {
 	}
 	if(trans == NULL) {
 		value_set = false; shares_set = false; sharevalue_set = false;
-		description_changed = false;
-		payee_changed = false;
 		if(dateEdit) dateEdit->setDate(QDate::currentDate());
 		if(b_sec) {
 			if(sharesEdit) sharesEdit->setValue(0.0);
@@ -2196,8 +2194,6 @@ void TransactionEditWidget::setTransaction(Transaction *trans) {
 				else sharesEdit->setFocus();
 			}
 		} else {
-			description_changed = false;
-			payee_changed = false;
 			if(descriptionEdit) {
 				descriptionEdit->setText(trans->description());
 				if(isVisible()) {
@@ -2213,6 +2209,8 @@ void TransactionEditWidget::setTransaction(Transaction *trans) {
 		}
 		if(dateEdit) emit dateChanged(trans->date());
 	}
+	description_changed = false;
+	payee_changed = false;
 	if(tagButton) tagButton->setTransaction(trans);
 	blockSignals(false);
 	if(valueEdit) valueEdit->blockSignals(false);
