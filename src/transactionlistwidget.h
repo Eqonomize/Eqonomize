@@ -93,6 +93,7 @@ class TransactionListWidget : public QWidget {
 		QKeyEvent *key_event;
 
 		void keyPressEvent(QKeyEvent*);
+		void updateTransactionColor(QTreeWidgetItem*);
 
 	signals:
 

@@ -1671,16 +1671,7 @@ void TransactionListWidget::appendFilterTransaction(Transactions *transs, bool u
 		transactionsView->insertTopLevelItem(0, i);
 		if(right_align_values) i->setTextAlignment(2, Qt::AlignRight | Qt::AlignVCenter);
 
-		if((split && split->cost() > 0.0) || (trans && ((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() > 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() < 0.0)))) {
-			if(!expenseColor.isValid()) expenseColor = createExpenseColor(i, 2);
-			i->setForeground(2, expenseColor);
-		} else if((split && split->cost() < 0.0) || (trans && ((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() < 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() > 0.0)))) {
-			if(!incomeColor.isValid()) incomeColor = createIncomeColor(i, 2);
-			i->setForeground(2, incomeColor);
-		} else {
-			if(!transferColor.isValid()) transferColor = createTransferColor(i, 2);
-			i->setForeground(2, transferColor);
-		}
+		updateTransactionColor(i);
 		if(strans) {
 			QFont font = i->font(0);
 			font.setItalic(true);
@@ -1786,6 +1777,20 @@ void TransactionListWidget::onTransactionAdded(Transactions *trans) {
 		}
 	}
 }
+void TransactionListWidget::updateTransactionColor(QTreeWidgetItem *i) {
+	SplitTransaction *split = ((TransactionListViewItem*) i)->splitTransaction();
+	Transaction *trans = ((TransactionListViewItem*) i)->transaction();
+	if((split && split->cost() > 0.0) || (trans && ((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() > 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() < 0.0)))) {
+		if(!expenseColor.isValid()) expenseColor = createExpenseColor(i, 2);
+		i->setForeground(2, expenseColor);
+	} else if((split && split->cost() < 0.0) || (trans && ((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() < 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() > 0.0)))) {
+		if(!incomeColor.isValid()) incomeColor = createIncomeColor(i, 2);
+		i->setForeground(2, incomeColor);
+	} else {
+		if(!transferColor.isValid()) transferColor = createTransferColor(i, 2);
+		i->setForeground(2, transferColor);
+	}
+}
 void TransactionListWidget::onTransactionModified(Transactions *transs, Transactions *oldtranss) {
 	switch(transs->generaltype()) {
 		case GENERAL_TRANSACTION_TYPE_SINGLE: {
@@ -1829,6 +1834,7 @@ void TransactionListWidget::onTransactionModified(Transactions *transs, Transact
 					else i->setIcon(2, QIcon());
 					if(trans->linksCount(true) > 0) i->setIcon(comments_col, LOAD_ICON_STATUS("go-jump"));
 					else i->setIcon(comments_col, QIcon());
+					updateTransactionColor(i);
 				}
 				updateStatistics();
 			}
@@ -1919,6 +1925,7 @@ void TransactionListWidget::onTransactionModified(Transactions *transs, Transact
 					else i->setIcon(2, QIcon());
 					if(split->linksCount() > 0) i->setIcon(comments_col, LOAD_ICON_STATUS("go-jump"));
 					else i->setIcon(comments_col, QIcon());
+					updateTransactionColor(i);
 				}
 				updateStatistics();
 			}
