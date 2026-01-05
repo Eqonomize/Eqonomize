@@ -45,6 +45,7 @@
 #include <QSettings>
 
 #include "budget.h"
+#include "accountcombobox.h"
 #include "editscheduledtransactiondialog.h"
 #include "eqonomize.h"
 #include "recurrence.h"
@@ -409,6 +410,7 @@ void TransactionListWidget::popupListMenu(const QPoint &p) {
 		listPopupMenu->addAction(mainWin->ActionEditSplitTransaction);
 		listPopupMenu->addAction(mainWin->ActionJoinTransactions);
 		listPopupMenu->addAction(mainWin->ActionSplitUpTransaction);
+		if(transtype != TRANSACTION_TYPE_TRANSFER) listPopupMenu->addAction(mainWin->ActionConvertToTransfer);
 		listPopupMenu->addSeparator();
 		listPopupMenu->addAction(mainWin->ActionTags);
 		listPopupMenu->addAction(mainWin->ActionLinks);
@@ -792,6 +794,52 @@ void TransactionListWidget::modifyTags() {
 				mainWin->tagMenu->modifyTransaction(trans);
 				mainWin->transactionModified(trans, oldtrans);
 				delete oldtrans;
+			}
+		}
+		if(selection.count() > 1) mainWin->endBatchEdit();
+		transactionSelectionChanged();
+	}
+}
+void TransactionListWidget::convertToTransfer() {
+	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
+	if(selection.count() >= 1) {
+		if(selection.count() > 1) mainWin->startBatchEdit();
+		QDialog *dialog = new QDialog(this);
+		dialog->setWindowTitle(tr("Select Account"));
+		QVBoxLayout *box1 = new QVBoxLayout(dialog);
+		AccountComboBox *accountEdit = new AccountComboBox(ACCOUNT_TYPE_ASSETS, budget, true, false, false, true, true, dialog);
+		accountEdit->updateAccounts();
+		box1->addWidget(accountEdit);
+		QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, Qt::Horizontal, dialog);
+		buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+		buttonBox->button(QDialogButtonBox::Cancel)->setAutoDefault(false);
+		buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
+		connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), dialog, SLOT(reject()));
+		connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), dialog, SLOT(accept()));
+		box1->addWidget(buttonBox);
+		if(dialog->exec() == QDialog::Accepted && accountEdit->currentAccount()) {
+			for(int index = 0; index < selection.size(); index++) {
+				TransactionListViewItem *i = (TransactionListViewItem*) selection.at(index);
+				Transaction *trans = i->transaction();
+				if(trans && (trans->fromAccount() == accountEdit->currentAccount() || trans->toAccount() == accountEdit->currentAccount())) {
+					QMessageBox::critical(this, tr("Error"), tr("Cannot transfer money to and from the same account."));
+					break;
+				}
+			}
+			for(int index = 0; index < selection.size(); index++) {
+				TransactionListViewItem *i = (TransactionListViewItem*) selection.at(index);
+				Transaction *trans = i->transaction();
+				if(!trans || i->splitTransaction() || i->scheduledTransaction()) continue;
+				Transfer *transfer = new Transfer(budget);
+				transfer->set(trans);
+				if(transfer->fromAccount()->type() != ACCOUNT_TYPE_ASSETS) transfer->setFromAccount(accountEdit->currentAccount());
+				if(transfer->toAccount()->type() != ACCOUNT_TYPE_ASSETS) transfer->setToAccount(accountEdit->currentAccount());
+				transfer->setAmount(transfer->amount());
+				budget->removeTransaction(trans, true);
+				budget->addTransaction(transfer);
+				mainWin->transactionRemoved(trans);
+				mainWin->transactionAdded(transfer);
+				delete trans;
 			}
 		}
 		if(selection.count() > 1) mainWin->endBatchEdit();
@@ -2177,7 +2225,7 @@ void TransactionListWidget::newRefundRepayment() {
 }
 void TransactionListWidget::updateTransactionActions() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
-	bool b_transaction = false, b_scheduledtransaction = false, b_split = false, b_split2 = false, b_join = false, b_delete = false, b_attachment = false, b_select = false, b_time = false, b_tags = false, b_clone = false, b_link = false, b_link_to = false, b_edit = true;
+	bool b_transaction = false, b_scheduledtransaction = false, b_split = false, b_split2 = false, b_join = false, b_delete = false, b_attachment = false, b_select = false, b_time = false, b_tags = false, b_clone = false, b_link = false, b_link_to = false, b_edit = true, b_convert = (transtype != TRANSACTION_TYPE_TRANSFER);
 	bool refundable = false, repayable = false;
 	QList<Transactions*> list;
 	Transactions *link_trans = mainWin->getLinkTransaction();
@@ -2207,6 +2255,7 @@ void TransactionListWidget::updateTransactionActions() {
 			}
 			list << i->transaction();
 		}
+		if(b_convert) b_convert = !i->scheduledTransaction() && !i->splitTransaction() && i->transaction() && !i->transaction()->parentSplit() && ((i->transaction()->type() == TRANSACTION_TYPE_INCOME && !((Income*) i->transaction())->security()) || i->transaction()->type() == TRANSACTION_TYPE_EXPENSE);
 		b_clone = true;
 		b_select = true;
 		mainWin->updateLinksAction(list[0], !b_scheduledtransaction || i->scheduledTransaction()->isOneTimeTransaction());
@@ -2241,6 +2290,7 @@ void TransactionListWidget::updateTransactionActions() {
 			}
 			if(b_join && (i->splitTransaction() || i->scheduledTransaction() || i->transaction()->parentSplit())) {
 				b_join = false;
+				b_convert = false;
 			}
 			if(i->scheduledTransaction()) {
 				if((b_link || b_link_to) && !i->scheduledTransaction()->isOneTimeTransaction()) {
@@ -2254,6 +2304,7 @@ void TransactionListWidget::updateTransactionActions() {
 				if(!i->splitTransaction()) b_delete = false;
 			}
 			Transaction *trans = i->transaction();
+			if(b_convert && (!trans || trans->parentSplit() || ((i->transaction()->type() != TRANSACTION_TYPE_INCOME || !((Income*) i->transaction())->security()) && i->transaction()->type() != TRANSACTION_TYPE_EXPENSE))) b_convert = false;
 			if(b_link_to && i->transaction() != link_trans && i->splitTransaction() != link_trans && trans && trans->parentSplit() && (trans->parentSplit() == link_trans || trans->parentSplit() == link_parent)) b_link_to = false;
 			if(b_split) {
 				if(!trans) {
@@ -2317,6 +2368,7 @@ void TransactionListWidget::updateTransactionActions() {
 	mainWin->ActionDeleteSplitTransaction->setEnabled(b_split);
 	mainWin->ActionJoinTransactions->setEnabled(b_join);
 	mainWin->ActionSplitUpTransaction->setEnabled(b_split || b_split2);
+	mainWin->ActionConvertToTransfer->setEnabled(b_convert);
 	mainWin->ActionCloneTransaction->setEnabled(b_clone);
 	if(b_tags) {
 		mainWin->ActionTags->setEnabled(true);

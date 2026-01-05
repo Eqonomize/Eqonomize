@@ -2194,6 +2194,8 @@ void TransactionEditWidget::setTransaction(Transaction *trans) {
 				else sharesEdit->setFocus();
 			}
 		} else {
+			description_changed = false;
+			payee_changed = false;
 			if(descriptionEdit) {
 				descriptionEdit->setText(trans->description());
 				if(isVisible()) {

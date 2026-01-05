@@ -239,7 +239,7 @@ class Eqonomize : public QMainWindow {
 		QAction *ActionNewExpense, *ActionNewIncome, *ActionNewTransfer, *ActionNewMultiItemTransaction;
 		QAction *ActionNewMultiAccountExpense, *ActionNewExpenseWithLoan, *ActionNewDebtPayment, *ActionNewDebtInterest;
 		QAction *ActionEditTransaction, *ActionEditScheduledTransaction, *ActionEditSplitTransaction;
-		QAction *ActionJoinTransactions, *ActionSplitUpTransaction;
+		QAction *ActionJoinTransactions, *ActionSplitUpTransaction, *ActionConvertToTransfer;
 		QAction *ActionCloneTransaction;
 		QAction *ActionEditTimestamp;
 		QAction *ActionTags, *ActionLinks, *ActionCreateLink, *ActionLinkTo, *ActionCancelLinkTo;
@@ -484,6 +484,7 @@ class Eqonomize : public QMainWindow {
 		void deleteSelectedSplitTransaction();
 		void joinSelectedTransactions();
 		void splitUpSelectedTransaction();
+		void convertToTransfer();
 
 		void selectAssociatedFile();
 		void openAssociatedFile();

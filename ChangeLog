@@ -1,3 +1,7 @@
+2026-01-05  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Add option to convert one or multiple expenses or incomes to transfers (opens a dialog to select an account)
+
 2026-01-02  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Do not update properties with default values if description or payee/payer has not been modified (and amount is zero), when editing existing transaction

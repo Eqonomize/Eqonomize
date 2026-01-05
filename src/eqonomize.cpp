@@ -5023,6 +5023,14 @@ void Eqonomize::splitUpSelectedTransaction() {
 	if(!w) return;
 	w->splitUpTransaction();
 }
+void Eqonomize::convertToTransfer() {
+	TransactionListWidget *w = NULL;
+	if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) w = expensesWidget;
+	else if(tabs->currentIndex() == INCOMES_PAGE_INDEX) w = incomesWidget;
+	else return;
+	if(!w) return;
+	w->convertToTransfer();
+}
 bool Eqonomize::editTransaction(Transaction *trans) {
 	return editTransaction(trans, this);
 }
@@ -5721,6 +5729,7 @@ void Eqonomize::updateTransactionActions() {
 		ActionCloneTransaction->setEnabled(b_scheduledtransaction);
 		ActionJoinTransactions->setEnabled(false);
 		ActionSplitUpTransaction->setEnabled(false);
+		ActionConvertToTransfer->setEnabled(false);
 		ActionEditTimestamp->setEnabled(b_scheduledtransaction);
 		ActionTags->setEnabled(b_scheduledtransaction);
 		ActionCreateLink->setEnabled(b_scheduledtransaction);
@@ -8056,6 +8065,7 @@ void Eqonomize::setupActions() {
 	NEW_ACTION(ActionJoinTransactions, tr("Join Transactions…"), "eqz-join-transactions", 0, this, SLOT(joinSelectedTransactions()), "join_transactions", transactionsMenu);
 	//: split up joined transactions
 	NEW_ACTION(ActionSplitUpTransaction, tr("Split Up Transaction"), "eqz-split-transaction", 0, this, SLOT(splitUpSelectedTransaction()), "split_up_transaction", transactionsMenu);
+	NEW_ACTION_ALT(ActionConvertToTransfer, tr("Convert to Transfer…"), "document-edit", "eqz-edit", 0, this, SLOT(convertToTransfer()), "convert_to_transfer", transactionsMenu);
 	transactionsMenu->addSeparator();
 	tagMenu = new TagMenu(budget, this, true);
 	connect(tagMenu, SIGNAL(selectedTagsChanged()), this, SLOT(tagsChanged()));
@@ -8274,6 +8284,7 @@ void Eqonomize::setupActions() {
 	ActionCloneTransaction->setEnabled(false);
 	ActionJoinTransactions->setEnabled(false);
 	ActionSplitUpTransaction->setEnabled(false);
+	ActionConvertToTransfer->setEnabled(false);
 	ActionEditTimestamp->setEnabled(false);
 	ActionTags->setEnabled(false);
 	ActionLinks->setEnabled(false);
