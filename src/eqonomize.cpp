@@ -8065,7 +8065,7 @@ void Eqonomize::setupActions() {
 	NEW_ACTION(ActionJoinTransactions, tr("Join Transactions…"), "eqz-join-transactions", 0, this, SLOT(joinSelectedTransactions()), "join_transactions", transactionsMenu);
 	//: split up joined transactions
 	NEW_ACTION(ActionSplitUpTransaction, tr("Split Up Transaction"), "eqz-split-transaction", 0, this, SLOT(splitUpSelectedTransaction()), "split_up_transaction", transactionsMenu);
-	NEW_ACTION_ALT(ActionConvertToTransfer, tr("Convert to Transfer…"), "document-edit", "eqz-edit", 0, this, SLOT(convertToTransfer()), "convert_to_transfer", transactionsMenu);
+	NEW_ACTION(ActionConvertToTransfer, tr("Convert to Transfer…"), "view-refresh", 0, this, SLOT(convertToTransfer()), "convert_to_transfer", transactionsMenu);
 	transactionsMenu->addSeparator();
 	tagMenu = new TagMenu(budget, this, true);
 	connect(tagMenu, SIGNAL(selectedTagsChanged()), this, SLOT(tagsChanged()));

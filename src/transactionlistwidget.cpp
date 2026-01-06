@@ -808,6 +808,7 @@ void TransactionListWidget::convertToTransfer() {
 		QVBoxLayout *box1 = new QVBoxLayout(dialog);
 		AccountComboBox *accountEdit = new AccountComboBox(ACCOUNT_TYPE_ASSETS, budget, true, false, false, true, true, dialog);
 		accountEdit->updateAccounts();
+		connect(accountEdit, SIGNAL(newAccountRequested()), accountEdit, SLOT(createAccountSlot()));
 		box1->addWidget(accountEdit);
 		QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, Qt::Horizontal, dialog);
 		buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
@@ -2337,6 +2338,7 @@ void TransactionListWidget::updateTransactionActions() {
 		mainWin->updateLinksAction(NULL);
 	} else {
 		mainWin->updateLinksAction(NULL);
+		b_convert = false;
 	}
 	b_tags = b_transaction;
 	if(b_tags) {
