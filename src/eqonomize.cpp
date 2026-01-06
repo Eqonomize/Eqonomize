@@ -6164,9 +6164,9 @@ void Eqonomize::securitiesCurrentYear() {
 	updateSecurities();
 }
 
-void Eqonomize::setModified(bool has_been_modified) {
+void Eqonomize::setModified(bool has_been_modified, bool auto_save) {
 	modified_auto_save = has_been_modified;
-	if(has_been_modified) autoSave();
+	if(has_been_modified && auto_save) autoSave();
 	if(modified == has_been_modified) return;
 	modified = has_been_modified;
 	ActionFileSave->setEnabled(modified || !current_url.isValid());
@@ -9796,6 +9796,7 @@ void Eqonomize::tagAdded(QString tag) {
 	tagsItem->setHidden(false);
 	tagsItem->sortChildren(0, Qt::AscendingOrder);
 	emit tagsModified();
+	setModified(true, false);
 }
 void Eqonomize::tagsChanged() {
 	ActionTags->setText(tr("Tags") + QString(" (") + QString::number(tagMenu->selectedTagsCount()) + ")");
@@ -9827,6 +9828,7 @@ void Eqonomize::newTag() {
 		if(str.isEmpty()) {
 			budget->tagAdded(new_tag);
 			tagAdded(new_tag);
+			setModified(true);
 		} else {
 			new_tag = str;
 		}
@@ -9873,6 +9875,7 @@ void Eqonomize::deleteTag() {
 	incomesWidget->tagsModified();
 	transfersWidget->tagsModified();
 	emit tagsModified();
+	setModified(true);
 }
 void Eqonomize::renameTag() {
 	QTreeWidgetItem *i = selectedItem(accountsView);
@@ -9908,6 +9911,7 @@ void Eqonomize::renameTag() {
 		tag_change.remove(tag);
 		tag_value.remove(tag);
 		emit tagsModified();
+		setModified(true);
 	}
 }
 

@@ -947,6 +947,16 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 					}
 				}
 			}
+		} else if(xml.name() == XML_COMPARE_CONST_CHAR("tags")) {
+			if(merge) {
+				xml.skipCurrentElement();
+			} else {
+				Expense trans;
+				trans.readTags(xml.readElementText());
+				for(int i = 0; i < trans.tagsCount(false); i++) {
+					if(!tags.contains(trans.getTag(i))) tags << trans.getTag(i);
+				}
+			}
 		} else if(xml.name() == XML_COMPARE_CONST_CHAR("currency")) {
 			QString cur_code = xml.attributes().value("code").trimmed().toString();
 			if(!cur && !cur_code.isEmpty()) {
@@ -2531,11 +2541,15 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions, bool 
 		security->save(&xml);
 		xml.writeEndElement();
 	}
+	QVector<QString> unused_tags = tags;
 	for(ScheduledTransactionList<ScheduledTransaction*>::const_iterator it = scheduledTransactions.constBegin(); it != scheduledTransactions.constEnd(); ++it) {
 		ScheduledTransaction *strans = *it;
 		xml.writeStartElement("schedule");
 		strans->save(&xml);
 		xml.writeEndElement();
+		for(int i = 0; i < strans->tagsCount(false); i++) {
+			if(unused_tags.contains(strans->getTag(i))) unused_tags.removeAll(strans->getTag(i));
+		}
 	}
 	for(SplitTransactionList<SplitTransaction*>::const_iterator it = splitTransactions.constBegin(); it != splitTransactions.constEnd(); ++it) {
 		SplitTransaction *split = *it;
@@ -2557,6 +2571,9 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions, bool 
 			}
 			split->save(&xml);
 			xml.writeEndElement();
+			for(int i = 0; i < split->tagsCount(false); i++) {
+				if(unused_tags.contains(split->getTag(i))) unused_tags.removeAll(split->getTag(i));
+			}
 		}
 	}
 
@@ -2601,7 +2618,17 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions, bool 
 			}
 			trans->save(&xml);
 			xml.writeEndElement();
+			for(int i = 0; i < trans->tagsCount(false); i++) {
+				if(unused_tags.contains(trans->getTag(i))) unused_tags.removeAll(trans->getTag(i));
+			}
 		}
+	}
+	if(!unused_tags.isEmpty()) {
+		xml.writeStartElement("tags");
+		Expense trans;
+		for(int i = 0; i < unused_tags.count(); i++) trans.addTag(unused_tags[i]);
+		xml.writeCharacters(trans.writeTags());
+		xml.writeEndElement();
 	}
 
 	xml.writeEndElement();

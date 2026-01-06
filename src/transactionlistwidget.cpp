@@ -803,7 +803,6 @@ void TransactionListWidget::modifyTags() {
 void TransactionListWidget::convertToTransfer() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
 	if(selection.count() >= 1) {
-		if(selection.count() > 1) mainWin->startBatchEdit();
 		QDialog *dialog = new QDialog(this);
 		dialog->setWindowTitle(tr("Select Account"));
 		QVBoxLayout *box1 = new QVBoxLayout(dialog);
@@ -817,7 +816,14 @@ void TransactionListWidget::convertToTransfer() {
 		connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), dialog, SLOT(reject()));
 		connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), dialog, SLOT(accept()));
 		box1->addWidget(buttonBox);
+		budget->setRecordNewAccounts(true);
+		budget->resetDefaultCurrencyChanged();
+		budget->resetCurrenciesModified();
 		if(dialog->exec() == QDialog::Accepted && accountEdit->currentAccount()) {
+			foreach(Account* acc, budget->newAccounts) emit accountAdded(acc);
+			if(!budget->newAccounts.isEmpty()) updateAccounts();
+			budget->newAccounts.clear();
+			if(selection.count() > 1) mainWin->startBatchEdit();
 			for(int index = 0; index < selection.size(); index++) {
 				TransactionListViewItem *i = (TransactionListViewItem*) selection.at(index);
 				Transaction *trans = i->transaction();
@@ -841,8 +847,14 @@ void TransactionListWidget::convertToTransfer() {
 				mainWin->transactionAdded(transfer);
 				delete trans;
 			}
+			if(selection.count() > 1) mainWin->endBatchEdit();
+		} else {
+			foreach(Account* acc, budget->newAccounts) emit accountAdded(acc);
+			if(!budget->newAccounts.isEmpty()) updateAccounts();
+			budget->newAccounts.clear();
 		}
-		if(selection.count() > 1) mainWin->endBatchEdit();
+		if(budget->currenciesModified() || budget->defaultCurrencyChanged()) emit currenciesModified();
+		budget->setRecordNewAccounts(false);
 		transactionSelectionChanged();
 	}
 }

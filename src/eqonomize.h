@@ -207,7 +207,7 @@ class Eqonomize : public QMainWindow {
 		void updateSecurityAccount(AssetsAccount *account, bool update_display = true);
 		bool editSecurityTrade(SecurityTrade *ts, QWidget *parent);
 		void editSecurityTrade(SecurityTrade *ts);
-		void setModified(bool has_been_modified = true);
+		void setModified(bool has_been_modified = true, bool auto_save = true);
 		void showExpenses();
 		void showIncomes();
 		void showTransfers();
