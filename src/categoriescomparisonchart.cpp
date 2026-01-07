@@ -92,7 +92,7 @@
 extern QString last_picture_directory;
 extern void calculate_minmax_lines(double &maxvalue, double &minvalue, int &y_lines, int &y_minor, bool minmaxequal = false, bool use_deciminor = true);
 
-CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *parent) : QWidget(parent), budget(budg) {
+CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *parent, bool extra_parameters) : QWidget(parent), budget(budg), b_extra(extra_parameters) {
 
 	QVBoxLayout *layout = new QVBoxLayout(this);
 	layout->setContentsMargins(0, 0, 0, 0);
@@ -150,22 +150,21 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 	view->setRenderHint(QPainter::Antialiasing, true);
 	layout->addWidget(view);
 	QWidget *settingsWidget = new QWidget(this);
-	QHBoxLayout *settingsLayout = new QHBoxLayout(settingsWidget);
+	QVBoxLayout *settingsLayout = new QVBoxLayout(settingsWidget);
 
 	QHBoxLayout *choicesLayout = new QHBoxLayout();
-	settingsLayout->addLayout(choicesLayout);
 	fromButton = new QCheckBox(tr("From"), settingsWidget);
 	fromButton->setChecked(true);
 	choicesLayout->addWidget(fromButton);
 	fromEdit = new EqonomizeDateEdit(settingsWidget);
 	fromEdit->setCalendarPopup(true);
 	choicesLayout->addWidget(fromEdit);
-	choicesLayout->setStretchFactor(fromEdit, 1);
+	//choicesLayout->setStretchFactor(fromEdit, 1);
 	choicesLayout->addWidget(new QLabel(tr("To"), settingsWidget));
 	toEdit = new EqonomizeDateEdit(settingsWidget);
 	toEdit->setCalendarPopup(true);
 	choicesLayout->addWidget(toEdit);
-	choicesLayout->setStretchFactor(toEdit, 1);
+	//choicesLayout->setStretchFactor(toEdit, 1);
 	prevYearButton = new QPushButton(LOAD_ICON("eqz-previous-year"), "", settingsWidget);
 	choicesLayout->addWidget(prevYearButton);
 	prevMonthButton = new QPushButton(LOAD_ICON("eqz-previous-month"), "", settingsWidget);
@@ -174,11 +173,9 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 	choicesLayout->addWidget(nextMonthButton);
 	nextYearButton = new QPushButton(LOAD_ICON("eqz-next-year"), "", settingsWidget);
 	choicesLayout->addWidget(nextYearButton);
-	settingsLayout->addSpacing(12);
-	settingsLayout->setStretchFactor(choicesLayout, 1);
+	choicesLayout->addStretch(1);
 
 	QHBoxLayout *typeLayout = new QHBoxLayout();
-	settingsLayout->addLayout(typeLayout);
 	typeLayout->addWidget(new QLabel(tr("Source:"), settingsWidget));
 	sourceCombo = new QComboBox(settingsWidget);
 	sourceCombo->setEditable(false);
@@ -197,11 +194,22 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 	}
 	typeLayout->addWidget(sourceCombo);
 	typeLayout->setStretchFactor(sourceCombo, 1);
+	categoryTypeCombo = new QComboBox(settingsWidget);
+	categoryTypeCombo->addItem(tr("Subcategories"));
+	categoryTypeCombo->addItem(tr("Descriptions"));
+	if(b_extra) categoryTypeCombo->addItem(tr("Payees"));
+	categoryTypeCombo->addItem(tr("Tags"));
+	categoryTypeCombo->setEditable(false);
+	categoryTypeCombo->setCurrentIndex(0);
+	typeLayout->addWidget(categoryTypeCombo);
+	typeLayout->setStretchFactor(categoryTypeCombo, 1);
 	accountCombo = new AccountsCombo(budget, settingsWidget, true);
 	accountCombo->updateAccounts(ACCOUNT_TYPE_ASSETS);
 	typeLayout->addWidget(accountCombo);
 	typeLayout->setStretchFactor(accountCombo, 1);
-	settingsLayout->setStretchFactor(typeLayout, 2);
+
+	settingsLayout->addLayout(typeLayout);
+	settingsLayout->addLayout(choicesLayout);
 
 	current_account = NULL;
 
@@ -215,6 +223,7 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 	connect(deleteButton, SIGNAL(toggled(bool)), this, SLOT(deleteToggled(bool)));
 #endif
 	connect(sourceCombo, SIGNAL(activated(int)), this, SLOT(sourceChanged(int)));
+	connect(categoryTypeCombo, SIGNAL(activated(int)), this, SLOT(categoryTypeChanged(int)));
 	connect(accountCombo, SIGNAL(selectedAccountsChanged()), this, SLOT(updateDisplay()));
 	connect(prevMonthButton, SIGNAL(clicked()), this, SLOT(prevMonth()));
 	connect(nextMonthButton, SIGNAL(clicked()), this, SLOT(nextMonth()));
@@ -285,10 +294,45 @@ void CategoriesComparisonChart::resetOptions() {
 	sourceChanged(0);
 }
 
+void CategoriesComparisonChart::categoryTypeChanged(int index) {
+	int i = sourceCombo->currentIndex() - 5;
+	CategoryAccount *current_account = (i < (int) budget->expensesAccounts.count() ? (CategoryAccount*) budget->expensesAccounts.at(i) : (CategoryAccount*) budget->incomesAccounts.at(i - budget->expensesAccounts.count()));
+	QSettings settings;
+	settings.beginGroup("CategoriesComparisonChart");
+	if(!current_account->subCategories.isEmpty()) {
+		settings.setValue("useSubcategories", index == 0);
+		index--;
+	}
+	if(!b_extra && index == 1) index = 2;
+	if(index >= 0) settings.setValue("categoryType", index);
+	updateDisplay();
+}
 void CategoriesComparisonChart::sourceChanged(int index) {
 	fromButton->setEnabled(index != 4);
 	fromEdit->setEnabled(index != 4);
 	accountCombo->setEnabled(index != 4);
+	categoryTypeCombo->setEnabled(index > 4);
+	if(index > 4) {
+		categoryTypeCombo->blockSignals(true);
+		categoryTypeCombo->clear();
+		int i = index - 5;
+		CategoryAccount *current_account = (i < (int) budget->expensesAccounts.count() ? (CategoryAccount*) budget->expensesAccounts.at(i) : (CategoryAccount*) budget->incomesAccounts.at(i - budget->expensesAccounts.count()));
+		if(!current_account->subCategories.isEmpty()) categoryTypeCombo->addItem(tr("Subcategories"));
+		categoryTypeCombo->addItem(tr("Descriptions"));
+		if(b_extra) categoryTypeCombo->addItem(i < (int) budget->expensesAccounts.count() ? tr("Payees") : tr("Payers"));
+		categoryTypeCombo->addItem(tr("Tags"));
+		QSettings settings;
+		settings.beginGroup("CategoriesComparisonChart");
+		i = settings.value("categoryType", 0).toInt();
+		if(!b_extra && i == 2) i = 1;
+		else if(!b_extra && i == 1) i = 0;
+		if(!current_account->subCategories.isEmpty()) {
+			if(settings.value("useSubcategories", true).toBool()) i = 0;
+			else i++;
+		}
+		categoryTypeCombo->setCurrentIndex(i);
+		categoryTypeCombo->blockSignals(false);
+	}
 	updateDisplay();
 }
 void CategoriesComparisonChart::saveConfig() {
@@ -625,6 +669,7 @@ void CategoriesComparisonChart::updateDisplay() {
 	bool single_assets = assets_selected && accountCombo->selectedAccounts().count() == 1;
 
 	bool include_subs = false;
+	int category_type = 0;
 
 	QString title_string = tr("Expenses");
 
@@ -697,7 +742,13 @@ void CategoriesComparisonChart::updateDisplay() {
 				if(type == ACCOUNT_TYPE_EXPENSES) title_string = tr("Expenses: %1").arg(current_account->nameWithParent());
 				else title_string = tr("Incomes: %1").arg(current_account->nameWithParent());
 			}
+			category_type = categoryTypeCombo->currentIndex();
 			include_subs = !current_account->subCategories.isEmpty();
+			if(include_subs) {
+				category_type--;
+				if(category_type >= 0) include_subs = false;
+			}
+			if(!b_extra && category_type == 1) category_type = 2;
 			if(include_subs) {
 				values[current_account] = 0.0;
 				counts[current_account] = 0.0;
@@ -712,10 +763,24 @@ void CategoriesComparisonChart::updateDisplay() {
 					Transaction *trans = *it;
 					if(trans->date() <= to_date && (!assets_selected || accountCombo->testTransactionRelation(trans))) {
 						if(trans->date() < first_date) break;
-						if((trans->fromAccount() == current_account || trans->toAccount() == current_account) && !desc_map.contains(trans->description().toLower())) {
-							desc_map[trans->description().toLower()] = trans->description();
-							desc_values[trans->description().toLower()] = 0.0;
-							desc_counts[trans->description().toLower()] = 0.0;
+						if((trans->fromAccount() == current_account || trans->toAccount() == current_account)) {
+							if(category_type == 0 && !desc_map.contains(trans->description().toLower())) {
+								desc_map[trans->description().toLower()] = trans->description();
+								desc_values[trans->description().toLower()] = 0.0;
+								desc_counts[trans->description().toLower()] = 0.0;
+							} else if(category_type == 1 && !desc_map.contains(trans->payee().toLower())) {
+								desc_map[trans->payee().toLower()] = trans->payee();
+								desc_values[trans->payee().toLower()] = 0.0;
+								desc_counts[trans->payee().toLower()] = 0.0;
+							} else if(category_type == 2) {
+								for(int i2 = 0; i2 < trans->tagsCount(true); i2++) {
+									if(!desc_map.contains(trans->getTag(i2, true).toLower())) {
+										desc_map[trans->getTag(i2, true).toLower()] = trans->getTag(i2, true);
+										desc_values[trans->getTag(i2, true).toLower()] = 0.0;
+										desc_counts[trans->getTag(i2, true).toLower()] = 0.0;
+									}
+								}
+							}
 						}
 					}
 				}
@@ -732,14 +797,22 @@ void CategoriesComparisonChart::updateDisplay() {
 		else if(first_date_reached && trans->date() > to_date) break;
 		if(first_date_reached && (!assets_selected || accountCombo->testTransactionRelation(trans))) {
 			if(current_account && !include_subs) {
-				if(trans->fromAccount() == current_account) {
-					if(type == ACCOUNT_TYPE_EXPENSES) {desc_values[trans->description().toLower()] -= trans->value(!single_assets);}
-					else {desc_values[trans->description().toLower()] += trans->value(!single_assets);}
-					desc_counts[trans->description().toLower()] += trans->quantity();
-				} else if(trans->toAccount() == current_account) {
-					if(type == ACCOUNT_TYPE_EXPENSES) {desc_values[trans->description().toLower()] += trans->value(!single_assets);}
-					else {desc_values[trans->description().toLower()] -= trans->value(!single_assets);}
-					desc_counts[trans->description().toLower()] += trans->quantity();
+				int sgn = 0;
+				if(trans->fromAccount() == current_account) sgn = (type == ACCOUNT_TYPE_EXPENSES ? -1 : 1);
+				else if(trans->toAccount() == current_account) sgn = (type == ACCOUNT_TYPE_EXPENSES ? 1 : -1);
+				if(sgn != 0) {
+					if(category_type == 0) {
+						desc_values[trans->description().toLower()] += trans->value(!single_assets) * sgn;
+						desc_counts[trans->description().toLower()] += trans->quantity();
+					} else if(category_type == 1) {
+						desc_values[trans->payee().toLower()] += trans->value(!single_assets) * sgn;
+						desc_counts[trans->payee().toLower()] += trans->quantity();
+					} else if(category_type == 2) {
+						for(int i = 0; i < trans->tagsCount(true); i++) {
+							desc_values[trans->getTag(i, true).toLower()] += trans->value(!single_assets) * sgn;
+							desc_counts[trans->getTag(i, true).toLower()] += trans->quantity();
+						}
+					}
 				}
 			} else if(type == ACCOUNT_TYPE_ASSETS) {
 				if(trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS && trans->fromAccount() != budget->balancingAccount) {
@@ -801,16 +874,23 @@ void CategoriesComparisonChart::updateDisplay() {
 		if(first_date_reached && trans->date() > to_date) break;
 		if(first_date_reached && (!assets_selected || accountCombo->testTransactionRelation(trans))) {
 			if(current_account && !include_subs) {
-				if(trans->fromAccount() == current_account) {
+				int sgn = 0;
+				if(trans->fromAccount() == current_account) sgn = (type == ACCOUNT_TYPE_EXPENSES ? -1 : 1);
+				else if(trans->toAccount() == current_account) sgn = (type == ACCOUNT_TYPE_EXPENSES ? 1 : -1);
+				if(sgn != 0) {
 					int count = strans->recurrence() ? strans->recurrence()->countOccurrences(first_date, to_date) : 1;
-					if(type == ACCOUNT_TYPE_EXPENSES) {desc_values[trans->description().toLower()] -= trans->value(!single_assets) * count;}
-					else {desc_values[trans->description().toLower()] += trans->value(!single_assets) * count;}
-					desc_counts[trans->description().toLower()] += count *  trans->quantity();
-				} else if(trans->toAccount() == current_account) {
-					int count = strans->recurrence() ? strans->recurrence()->countOccurrences(first_date, to_date) : 1;
-					if(type == ACCOUNT_TYPE_EXPENSES) {desc_values[trans->description().toLower()] += trans->value(!single_assets) * count;}
-					else {desc_values[trans->description().toLower()] -= trans->value(!single_assets) * count;}
-					desc_counts[trans->description().toLower()] += count *  trans->quantity();
+					if(category_type == 0) {
+						desc_values[trans->description().toLower()] += trans->value(!single_assets) * sgn * count;
+						desc_counts[trans->description().toLower()] += count * trans->quantity();
+					} else if(category_type == 1) {
+						desc_values[trans->payee().toLower()] += trans->value(!single_assets) * sgn * count;
+						desc_counts[trans->payee().toLower()] += count * trans->quantity();
+					} else if(category_type == 2) {
+						for(int i = 0; i < trans->tagsCount(true); i++) {
+							desc_values[trans->getTag(i, true).toLower()] += trans->value(!single_assets) * sgn * count;
+							desc_counts[trans->getTag(i, true).toLower()] += count * trans->quantity();
+						}
+					}
 				}
 			} else if(type == ACCOUNT_TYPE_ASSETS) {
 				if(trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS && trans->fromAccount() != budget->balancingAccount) {
@@ -932,8 +1012,10 @@ void CategoriesComparisonChart::updateDisplay() {
 	}
 
 	if(desc_order.count() > 0 && remaining_value != 0.0) {
-		desc_order.push_back(tr("Other descriptions", "Referring to the transaction description property (transaction title/generic article name)"));
-		desc_values[tr("Other descriptions", "Referring to the transaction description property (transaction title/generic article name)")] = remaining_value;
+		if(category_type == 1) desc_order.push_back(type == ACCOUNT_TYPE_INCOMES ? tr("Other payers") : tr("Other payees"));
+		else if(category_type == 2) desc_order.push_back(tr("Other tags"));
+		else desc_order.push_back(tr("Other descriptions", "Referring to the transaction description property (transaction title/generic article name)"));
+		desc_values[desc_order.last()] = remaining_value;
 		desc_map[desc_order.last()] = desc_order.last();
 	}
 

@@ -58,12 +58,13 @@ class CategoriesComparisonChart : public QWidget {
 
 	public:
 
-		CategoriesComparisonChart(Budget *budg, QWidget *parent);
+		CategoriesComparisonChart(Budget *budg, QWidget *parent, bool extra_parameters);
 		~CategoriesComparisonChart();
 
 	protected:
 
 		Budget *budget;
+		bool b_extra;
 		QDate from_date, to_date;
 		CategoryAccount *current_account;
 
@@ -87,6 +88,7 @@ class CategoriesComparisonChart : public QWidget {
 #endif
 		QButtonGroup *typeGroup;
 		QComboBox *sourceCombo;
+		QComboBox *categoryTypeCombo;
 		AccountsCombo *accountCombo;
 #ifndef QT_CHARTS_LIB
 		void resizeEvent(QResizeEvent*);
@@ -109,6 +111,7 @@ class CategoriesComparisonChart : public QWidget {
 		void prevYear();
 		void nextYear();
 		void sourceChanged(int);
+		void categoryTypeChanged(int);
 		void valueTypeToggled(int, bool);
 #ifdef QT_CHARTS_LIB
 		void themeChanged(int);

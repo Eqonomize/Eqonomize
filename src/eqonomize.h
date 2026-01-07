@@ -633,7 +633,7 @@ class CategoriesComparisonChartDialog : public QDialog {
 
 	public:
 
-		CategoriesComparisonChartDialog(Budget *budg, QWidget *parent);
+		CategoriesComparisonChartDialog(bool extra_parameters, Budget *budg, QWidget *parent);
 		CategoriesComparisonChart *chart;
 
 	public slots:

@@ -136,7 +136,9 @@ class Transactions {
 		virtual void clearTags();
 		virtual int tagsCount(bool include_parent = false) const;
 		virtual void readTags(const QString &text);
+		static void stringToTags(const QString&, QStringList &t);
 		virtual QString writeTags(bool include_parent = false) const;
+		static QString tagsToString(const QStringList&);
 		virtual QString payeeText() const = 0;
 		virtual const QString &payee() const = 0;
 		virtual int linksCount(bool include_parent = false) const;

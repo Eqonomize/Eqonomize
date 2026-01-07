@@ -125,7 +125,10 @@ void Transactions::clearTags() {
 	tags.clear();
 }
 void Transactions::readTags(const QString &text) {
-	tags.clear();
+	stringToTags(text, tags);
+}
+void Transactions::stringToTags(const QString &text, QStringList &t) {
+	t.clear();
 #if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
 	QStringView tagstr(text);
 #else
@@ -138,7 +141,7 @@ void Transactions::readTags(const QString &text) {
 		if(tagstr.at(0) == '\"' || tagstr.at(0) == '\'') {
 			i = tagstr.indexOf(tagstr.at(0), 1);
 			if(i < 0) {
-				tags << tagstr.toString();
+				t << tagstr.toString();
 				break;
 			}
 			i++;
@@ -146,7 +149,7 @@ void Transactions::readTags(const QString &text) {
 		i = tagstr.indexOf(',', i);
 		if(i < 0) {
 			if(tagstr.length() >= 2 && ((tagstr.at(0) == '\"' && tagstr.at(tagstr.size() - 1) == '\"') || (tagstr.at(0) == '\'' && tagstr.at(tagstr.size() - 1) == '\''))) tagstr = tagstr.mid(1, tagstr.length() - 2).trimmed();
-			tags << tagstr.toString();
+			t << tagstr.toString();
 			break;
 		}
 #if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
@@ -155,37 +158,40 @@ void Transactions::readTags(const QString &text) {
 		QStringRef tagi = tagstr.left(i).trimmed();
 #endif
 		if(tagi.length() >= 2 && ((tagi.at(0) == '\"' && tagi.at(tagstr.size() - 1) == '\"') || (tagi.at(0) == '\'' && tagi.at(tagstr.size() - 1) == '\''))) tagi = tagi.mid(1, tagi.length() - 2).trimmed();
-		if(!tagi.isEmpty()) tags << tagi.toString();
+		if(!tagi.isEmpty()) t << tagi.toString();
 		tagstr = tagstr.right(tagstr.length() - i - 1).trimmed();
 		if(tagstr.isEmpty()) break;
 	}
-	tags.sort(Qt::CaseInsensitive);
+	t.sort(Qt::CaseInsensitive);
 }
 QString Transactions::writeTags(bool) const {
-	if(tags.count() == 1) {
-		if(tags[0][0] == '"') {
-			return QString("\'") + tags[0] + "\'";
-		} else if(tags[0][0] == '\'') {
-			return QString("\"") + tags[0] + "\"";
-		} else if(tags[0].contains(",")) {
-			if(tags[0].contains("\"")) return QString("\'") + tags[0] + "\'";
-			else return QString("\"") + tags[0] + "\"";
+	return tagsToString(tags);
+}
+QString Transactions::tagsToString(const QStringList &t) {
+	if(t.count() == 1) {
+		if(t[0][0] == '"') {
+			return QString("\'") + t[0] + "\'";
+		} else if(t[0][0] == '\'') {
+			return QString("\"") + t[0] + "\"";
+		} else if(t[0].contains(",")) {
+			if(t[0].contains("\"")) return QString("\'") + t[0] + "\'";
+			else return QString("\"") + t[0] + "\"";
 		} else {
-			return tags[0];
+			return t[0];
 		}
-	} else if(!tags.isEmpty()) {
+	} else if(!t.isEmpty()) {
 		QString tagstr;
-		for(int i = 0; i < tags.count(); i++) {
+		for(int i = 0; i < t.count(); i++) {
 			if(i > 0) tagstr += ",";
-			if(tags[i][0] == '"') {
-				tagstr += "\'"; tagstr += tags[i]; tagstr += "\'";
-			} else if(tags[i][0] == '\'') {
-				tagstr += "\""; tagstr += tags[i]; tagstr += "\"";
-			} else if(tags[i].contains(",")) {
-				if(tags[i].contains("\"")) {tagstr += "\'"; tagstr += tags[i]; tagstr += "\'";}
-				else {tagstr += "\""; tagstr += tags[i]; tagstr += "\"";}
+			if(t[i][0] == '"') {
+				tagstr += "\'"; tagstr += t[i]; tagstr += "\'";
+			} else if(t[i][0] == '\'') {
+				tagstr += "\""; tagstr += t[i]; tagstr += "\"";
+			} else if(t[i].contains(",")) {
+				if(t[i].contains("\"")) {tagstr += "\'"; tagstr += t[i]; tagstr += "\'";}
+				else {tagstr += "\""; tagstr += t[i]; tagstr += "\"";}
 			} else {
-				tagstr += tags[i];
+				tagstr += t[i];
 			}
 		}
 		return tagstr;

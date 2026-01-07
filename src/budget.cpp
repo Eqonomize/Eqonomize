@@ -951,10 +951,10 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 			if(merge) {
 				xml.skipCurrentElement();
 			} else {
-				Expense trans;
-				trans.readTags(xml.readElementText());
-				for(int i = 0; i < trans.tagsCount(false); i++) {
-					if(!tags.contains(trans.getTag(i))) tags << trans.getTag(i);
+				QStringList unused_tags;
+				Transactions::stringToTags(xml.readElementText(), unused_tags);
+				for(int i = 0; i < unused_tags.count(); i++) {
+					if(!tags.contains(unused_tags[i])) tags << unused_tags[i];
 				}
 			}
 		} else if(xml.name() == XML_COMPARE_CONST_CHAR("currency")) {
@@ -2541,7 +2541,7 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions, bool 
 		security->save(&xml);
 		xml.writeEndElement();
 	}
-	QVector<QString> unused_tags = tags;
+	QStringList unused_tags = tags;
 	for(ScheduledTransactionList<ScheduledTransaction*>::const_iterator it = scheduledTransactions.constBegin(); it != scheduledTransactions.constEnd(); ++it) {
 		ScheduledTransaction *strans = *it;
 		xml.writeStartElement("schedule");
@@ -2625,9 +2625,7 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions, bool 
 	}
 	if(!unused_tags.isEmpty()) {
 		xml.writeStartElement("tags");
-		Expense trans;
-		for(int i = 0; i < unused_tags.count(); i++) trans.addTag(unused_tags[i]);
-		xml.writeCharacters(trans.writeTags());
+		xml.writeCharacters(Transactions::tagsToString(unused_tags));
 		xml.writeEndElement();
 	}
 

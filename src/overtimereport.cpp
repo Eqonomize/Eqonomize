@@ -416,7 +416,7 @@ void AccountsMenu::updateAccounts(int type) {
 	selected_accounts.clear();
 	if(type >= 0) {
 		if(b_assets) addAction(tr("All Accounts"), this, SLOT(toggleAll()));
-		else addAction(tr("All Categories Combined"), this, SLOT(toggleAll()));
+		else addAction(tr("All Categories"), this, SLOT(toggleAll()));
 	}
 	if(type == ACCOUNT_TYPE_ASSETS) {
 		if(!budget->assetsAccounts.isEmpty()) addSeparator();
@@ -492,7 +492,7 @@ QString AccountsMenu::selectedAccountsText(int type) {
 	if(n == 0 || (type == 0 && n > 1)) {
 		if(n == 0 || n == account_actions.count()) {
 			if(b_assets) str = tr("All Accounts");
-			else str = tr("All Categories Combined");
+			else str = tr("All Categories");
 		} else {
 			if(b_assets) str = tr("%n accounts", "", n);
 			else str = tr("%n categories", "", n);

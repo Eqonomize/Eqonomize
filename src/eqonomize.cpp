@@ -1778,11 +1778,11 @@ void OverTimeChartDialog::reject() {
 	chart->saveConfig();
 	QDialog::reject();
 }
-CategoriesComparisonChartDialog::CategoriesComparisonChartDialog(Budget *budg, QWidget *parent) : QDialog(parent, Qt::Window | Qt::WindowMinMaxButtonsHint | Qt::WindowCloseButtonHint) {
+CategoriesComparisonChartDialog::CategoriesComparisonChartDialog(bool extra_parameters, Budget *budg, QWidget *parent) : QDialog(parent, Qt::Window | Qt::WindowMinMaxButtonsHint | Qt::WindowCloseButtonHint) {
 	setWindowTitle(tr("Chart"));
 	setModal(false);
 	QVBoxLayout *box1 = new QVBoxLayout(this);
-	chart = new CategoriesComparisonChart(budg, this);
+	chart = new CategoriesComparisonChart(budg, this, extra_parameters);
 	box1->addWidget(chart);
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
 	buttonBox->button(QDialogButtonBox::Close)->setAutoDefault(false);
@@ -7182,7 +7182,7 @@ void Eqonomize::showOverTimeChart() {
 
 void Eqonomize::showCategoriesComparisonChart() {
 	if(!cccDialog) {
-		cccDialog = new CategoriesComparisonChartDialog(budget, NULL);
+		cccDialog = new CategoriesComparisonChartDialog(b_extra, budget, NULL);
 		QSettings settings;
 		QSize dialog_size = settings.value("CategoriesComparisonChart/size", QSize()).toSize();
 		if(!dialog_size.isValid()) {
@@ -7197,7 +7197,7 @@ void Eqonomize::showCategoriesComparisonChart() {
 #else
 			QRect rect = QApplication::desktop()->availableGeometry(this);
 #endif
-			dialog_size = QSize(750, 700).boundedTo(rect.size());
+			dialog_size = QSize(750, 720).boundedTo(rect.size());
 		}
 		cccDialog->resize(dialog_size);
 		connect(this, SIGNAL(accountsModified()), ((CategoriesComparisonChartDialog*) cccDialog)->chart, SLOT(updateAccounts()));
