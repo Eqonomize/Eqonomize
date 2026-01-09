@@ -103,9 +103,9 @@ struct chart_month_info {
 };
 extern QString last_picture_directory;
 
-void calculate_minmax_lines(double &maxvalue, double &minvalue, int &y_lines, int &y_minor, bool minmaxequal = false, bool use_deciminor = true) {
+void calculate_minmax_lines(double &maxvalue, double &minvalue, int &y_lines, int &y_minor, int minmaxequal = -1, bool use_deciminor = true) {
 	if(minvalue > -0.01) minvalue = 0.0;
-	if(-minvalue > maxvalue) maxvalue = -minvalue;
+	if(-minvalue > maxvalue && minmaxequal != 0) maxvalue = -minvalue;
 	int maxvalue_exp = floor(log10(maxvalue));
 	int maxvalue_digit;
 	double orig_maxvalue = maxvalue;
@@ -123,14 +123,14 @@ void calculate_minmax_lines(double &maxvalue, double &minvalue, int &y_lines, in
 		maxvalue_digit = ceil(maxvalue);
 		y_lines = maxvalue_digit;
 		maxvalue = maxvalue_digit * pow(10, maxvalue_exp);
-		if(((!minmaxequal && y_lines <= 5) || y_lines <= 3)  && orig_maxvalue <= (maxvalue / (y_lines * 2)) * ((y_lines * 2) - 1)) {
+		if(((minmaxequal <= 0 && y_lines <= 5) || y_lines <= 3)  && orig_maxvalue <= (maxvalue / (y_lines * 2)) * ((y_lines * 2) - 1)) {
 			maxvalue = (maxvalue / (y_lines * 2)) * ((y_lines * 2) - 1);
 			y_lines = (y_lines * 2) - 1;
 		}
 		if(y_lines <= 2) y_lines = 4;
 	}
 	if(minvalue < 0.0) {
-		if(minmaxequal) {
+		if(minmaxequal > 0) {
 			if(y_lines <= 6) {
 				y_lines *= 2;
 			} else {
@@ -3184,7 +3184,7 @@ void OverTimeChart::updateDisplay() {
 
 	int y_lines = 5, y_minor = 0;
 
-	calculate_minmax_lines(maxvalue, minvalue, y_lines, y_minor, current_source2 == -1 || (current_source2 == 0 && chart_type == 4 && type != 2), type != 2);
+	calculate_minmax_lines(maxvalue, minvalue, y_lines, y_minor, (current_source2 == -1 || (current_source2 == 0 && chart_type == 4 && type != 2)) ? 1 : -1, type != 2);
 
 	switch((current_source2 >= 27 && b_income != b_expense) ? (b_income ? current_source2 - 22 : current_source2 - 21) : current_source2) {
 		case -3: {

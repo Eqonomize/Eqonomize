@@ -1,3 +1,8 @@
+2026-01-09  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix value axis in categories comparison bar chart
+	* Show negative values in pie charts (accounts comparison excluded)
+
 2026-01-07  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Add category division selection (subcategories, descriptions, payees/payers, or tags) to categories comparison chart

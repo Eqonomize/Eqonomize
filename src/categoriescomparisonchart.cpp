@@ -90,7 +90,7 @@
 #include <math.h>
 
 extern QString last_picture_directory;
-extern void calculate_minmax_lines(double &maxvalue, double &minvalue, int &y_lines, int &y_minor, bool minmaxequal = false, bool use_deciminor = true);
+extern void calculate_minmax_lines(double &maxvalue, double &minvalue, int &y_lines, int &y_minor, int minmaxequal = -1, bool use_deciminor = true);
 
 CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *parent, bool extra_parameters) : QWidget(parent), budget(budg), b_extra(extra_parameters) {
 
@@ -773,11 +773,19 @@ void CategoriesComparisonChart::updateDisplay() {
 								desc_values[trans->payee().toLower()] = 0.0;
 								desc_counts[trans->payee().toLower()] = 0.0;
 							} else if(category_type == 2) {
-								for(int i2 = 0; i2 < trans->tagsCount(true); i2++) {
-									if(!desc_map.contains(trans->getTag(i2, true).toLower())) {
-										desc_map[trans->getTag(i2, true).toLower()] = trans->getTag(i2, true);
-										desc_values[trans->getTag(i2, true).toLower()] = 0.0;
-										desc_counts[trans->getTag(i2, true).toLower()] = 0.0;
+								if(trans->tagsCount(true) == 0) {
+									if(!desc_map.contains(QString())) {
+										desc_map[QString()] = QString();
+										desc_values[QString()] = 0.0;
+										desc_counts[QString()] = 0.0;
+									}
+								} else {
+									for(int i2 = 0; i2 < trans->tagsCount(true); i2++) {
+										if(!desc_map.contains(trans->getTag(i2, true).toLower())) {
+											desc_map[trans->getTag(i2, true).toLower()] = trans->getTag(i2, true);
+											desc_values[trans->getTag(i2, true).toLower()] = 0.0;
+											desc_counts[trans->getTag(i2, true).toLower()] = 0.0;
+										}
 									}
 								}
 							}
@@ -808,9 +816,14 @@ void CategoriesComparisonChart::updateDisplay() {
 						desc_values[trans->payee().toLower()] += trans->value(!single_assets) * sgn;
 						desc_counts[trans->payee().toLower()] += trans->quantity();
 					} else if(category_type == 2) {
-						for(int i = 0; i < trans->tagsCount(true); i++) {
-							desc_values[trans->getTag(i, true).toLower()] += trans->value(!single_assets) * sgn;
-							desc_counts[trans->getTag(i, true).toLower()] += trans->quantity();
+						if(trans->tagsCount(true) == 0) {
+							desc_values[QString()] += trans->value(!single_assets) * sgn;
+							desc_counts[QString()] += trans->quantity();
+						} else {
+							for(int i = 0; i < trans->tagsCount(true); i++) {
+								desc_values[trans->getTag(i, true).toLower()] += trans->value(!single_assets) * sgn;
+								desc_counts[trans->getTag(i, true).toLower()] += trans->quantity();
+							}
 						}
 					}
 				}
@@ -886,9 +899,14 @@ void CategoriesComparisonChart::updateDisplay() {
 						desc_values[trans->payee().toLower()] += trans->value(!single_assets) * sgn * count;
 						desc_counts[trans->payee().toLower()] += count * trans->quantity();
 					} else if(category_type == 2) {
-						for(int i = 0; i < trans->tagsCount(true); i++) {
-							desc_values[trans->getTag(i, true).toLower()] += trans->value(!single_assets) * sgn * count;
-							desc_counts[trans->getTag(i, true).toLower()] += count * trans->quantity();
+						if(trans->tagsCount(true) == 0) {
+							desc_values[QString()] += trans->value(!single_assets) * sgn * count;
+							desc_counts[QString()] += count * trans->quantity();
+						} else {
+							for(int i = 0; i < trans->tagsCount(true); i++) {
+								desc_values[trans->getTag(i, true).toLower()] += trans->value(!single_assets) * sgn * count;
+								desc_counts[trans->getTag(i, true).toLower()] += count * trans->quantity();
+							}
 						}
 					}
 				}
@@ -957,8 +975,9 @@ void CategoriesComparisonChart::updateDisplay() {
 #ifdef QT_CHARTS_LIB
 	int chart_type = typeCombo->currentIndex() + 1;
 #else
-	int chart_type = 1;
+	int chart_type = 0;
 #endif
+	if(chart_type == 1 && type == ACCOUNT_TYPE_ASSETS) chart_type = 0;
 
 	Account *account = NULL;
 	QMap<QString, double>::iterator it_desc = desc_values.begin();
@@ -969,8 +988,8 @@ void CategoriesComparisonChart::updateDisplay() {
 	double remaining_value = 0.0;
 	if(current_account && !include_subs) {
 		while(it_desc != it_desc_end) {
-			if(it_desc.value() >= 0.0) value += it_desc.value();
-			if(it_desc.value() >= 0.01 || (chart_type != 1 && it_desc.value() <= -0.01)) {
+			if(chart_type == 1 || it_desc.value() >= 0.0) value += it_desc.value();
+			if(it_desc.value() >= 0.01 || (chart_type > 0 && it_desc.value() <= -0.01)) {
 				bool b = false;
 				if(abs(it_desc.value()) > vmax) vmax = abs(it_desc.value());
 				for(int i = 0; i < desc_order.count(); i++) {
@@ -987,12 +1006,12 @@ void CategoriesComparisonChart::updateDisplay() {
 		}
 	}
 
-	if((chart_type == 1 && desc_order.size() > 9) || (chart_type == 2 && desc_order.size() > 12)) {
-		while((chart_type == 1 && desc_order.size() > 8) || (chart_type == 2 && desc_order.size() > 11)) {
+	if((chart_type <= 1 && desc_order.size() > 9) || (chart_type == 2 && desc_order.size() > 12)) {
+		while((chart_type <= 1 && desc_order.size() > 8) || (chart_type == 2 && desc_order.size() > 11)) {
 			remaining_value += desc_values[desc_order.back()];
 			desc_order.pop_back();
 		}
-	} else if(desc_order.size() > 5 && chart_type == 1) {
+	} else if(desc_order.size() > 5 && chart_type <= 1) {
 		int n = 0;
 		for(int i = desc_order.size() - 1; i > 0; i--) {
 			double v = abs(desc_values[desc_order[i]]);
@@ -1061,7 +1080,7 @@ void CategoriesComparisonChart::updateDisplay() {
 			if(!account) break;
 		}
 		if(values[account] > 0.0) value += values[account];
-		if(values[account] >= 0.01 || (chart_type != 1 && values[account] <= -0.01)) {
+		if(values[account] >= 0.01 || (chart_type > 0 && values[account] <= -0.01)) {
 			bool b = false;
 			if(abs(values[account]) > vmax) vmax = abs(values[account]);
 			for(int i = 0; i < account_order.count(); i++) {
@@ -1103,7 +1122,7 @@ void CategoriesComparisonChart::updateDisplay() {
 		}
 	}
 
-	if(account_order.size() > 5 && chart_type == 1) {
+	if(account_order.size() > 5 && chart_type <= 1) {
 		if(account_order.size() > 9) {
 			values[NULL] = 0.0;
 			while(account_order.size() > 8) {
@@ -1141,7 +1160,7 @@ void CategoriesComparisonChart::updateDisplay() {
 	QAbstractBarSeries *bar_series = NULL;
 	double maxvalue = 0.0, minvalue = 0.0;
 
-	if(chart_type == 1) {
+	if(chart_type <= 1) {
 		pie_series = new QPieSeries();
 	} else if(chart_type == 3) {
 		bar_series = new QBarSeries();
@@ -1151,7 +1170,7 @@ void CategoriesComparisonChart::updateDisplay() {
 
 	QBarSet *bar_set = NULL;
 	QBarCategoryAxis *b_axis = NULL;
-	if(chart_type != 1) {
+	if(chart_type > 1) {
 		bar_set = new QBarSet("");
 		if(theme < 0) bar_set->setBrush(getBarBrush(0, 1));
 		b_axis = new QBarCategoryAxis();
@@ -1170,7 +1189,9 @@ void CategoriesComparisonChart::updateDisplay() {
 		double current_value = 0.0;
 		if(account_order.isEmpty()) {
 			if(desc_order[index].isEmpty()) {
-				legend_string = tr("No description", "Referring to the transaction description property (transaction title/generic article name)");
+				if(category_type == 1) legend_string = (type == ACCOUNT_TYPE_INCOMES ? tr("No payer") : tr("No payee"));
+				else if(category_type == 2) legend_string = tr("No tag");
+				else legend_string = tr("No description", "Referring to the transaction description property (transaction title/generic article name)");
 			} else {
 				legend_string = desc_map[desc_order[index]];
 			}
@@ -1185,7 +1206,7 @@ void CategoriesComparisonChart::updateDisplay() {
 			current_value = values[account];
 		}
 
-		if(chart_type == 1) {
+		if(chart_type <= 1) {
 			int deci = 0;
 			if(valueButton->isChecked()) {
 				legend_value = current_value;
@@ -1240,9 +1261,9 @@ void CategoriesComparisonChart::updateDisplay() {
 		chart->legend()->setLabelColor(Qt::black);
 	}
 
-	chart->setLocalizeNumbers((chart_type == 1 && (budget->decimal_separator != "." || budget->decimal_separator == QLocale().decimalPoint())) || (chart_type != 1 && (budget->monetary_decimal_separator != "." || budget->monetary_decimal_separator == QLocale().decimalPoint() || ((maxvalue - minvalue) >= 50.0 && (budget->monetary_group_separator == QLocale().groupSeparator() || QLocale().groupSeparator() == ' ' || QLocale().groupSeparator() == QChar(0x202F) || QLocale().groupSeparator() == QChar(0x2009))))));
+	chart->setLocalizeNumbers((chart_type <= 1 && (budget->decimal_separator != "." || budget->decimal_separator == QLocale().decimalPoint())) || (chart_type > 1 && (budget->monetary_decimal_separator != "." || budget->monetary_decimal_separator == QLocale().decimalPoint() || ((maxvalue - minvalue) >= 50.0 && (budget->monetary_group_separator == QLocale().groupSeparator() || QLocale().groupSeparator() == ' ' || QLocale().groupSeparator() == QChar(0x202F) || QLocale().groupSeparator() == QChar(0x2009))))));
 
-	if(chart_type == 1) {
+	if(chart_type <= 1) {
 		series = pie_series;
 		pie_series->setPieSize(0.78);
 		pie_series->setVerticalPosition(0.52);
@@ -1256,7 +1277,7 @@ void CategoriesComparisonChart::updateDisplay() {
 		chart->addSeries(series);
 
 		int y_lines = 5, y_minor = 0;
-		calculate_minmax_lines(maxvalue, minvalue, y_lines, y_minor);
+		calculate_minmax_lines(maxvalue, minvalue, y_lines, y_minor, 0);
 		QValueAxis *v_axis = new QValueAxis();
 		//v_axis->setAlignment(Qt::AlignTop | Qt::AlignBottom);
 		v_axis->setRange(minvalue, maxvalue);
@@ -1291,6 +1312,8 @@ void CategoriesComparisonChart::updateDisplay() {
 		}
 		chart->addAxis(axis_x, Qt::AlignBottom);
 		chart->addAxis(axis_y, Qt::AlignLeft);
+
+		bar_series->attachAxis(v_axis);
 
 		connect(bar_series, SIGNAL(hovered(bool, int, QBarSet*)), this, SLOT(onSeriesHovered(bool, int, QBarSet*)));
 
@@ -1329,7 +1352,9 @@ void CategoriesComparisonChart::updateDisplay() {
 		double legend_value = 0.0;
 		if(account_order.isEmpty()) {
 			if(desc_order[index].isEmpty()) {
-				legend_string = tr("No description", "Referring to the transaction description property (transaction title/generic article name)");
+				if(category_type == 1) legend_string = (type == ACCOUNT_TYPE_INCOMES ? tr("No payer") : tr("No payee"));
+				else if(category_type == 2) legend_string = tr("No tag");
+				else legend_string = tr("No description", "Referring to the transaction description property (transaction title/generic article name)");
 			} else {
 				legend_string = desc_map[desc_order[index]];
 			}

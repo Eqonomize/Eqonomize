@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="en">
+<TS version="2.1" language="en_US">
 <context>
     <name>AccountComboBox</name>
     <message>
@@ -42,10 +42,6 @@
         <source>All Accounts</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>All Categories Combined</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message numerus="yes">
         <source>%n accounts</source>
         <translation>
@@ -59,6 +55,10 @@
             <numerusform>%n category</numerusform>
             <numerusform>%n categories</numerusform>
         </translation>
+    </message>
+    <message>
+        <source>All Categories</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -377,6 +377,50 @@
     <message>
         <source>%1
 Value: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Subcategories</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Descriptions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Payees</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Payers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Other payers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Other payees</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Other tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No payer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No payee</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No tag</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3409,6 +3453,10 @@ What do you want to do with them?</source>
         <source>%1 (with budget %2)</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Convert to Transfer…</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>EqonomizeCalendarWidget</name>
@@ -6319,6 +6367,14 @@ Date: %3</source>
     </message>
     <message>
         <source>Edit…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select Account</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cannot transfer money to and from the same account.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
