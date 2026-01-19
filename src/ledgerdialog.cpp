@@ -1779,6 +1779,7 @@ void LedgerDialog::updateTransactions(bool update_reconciliation_date) {
 	labelIncomeColor = QColor();
 	labelTransferColor = QColor();
 	if(b_reconciling) updateReconciliationStats(false, true, true);
+	if(b_ascending) transactionsView->scrollToBottom();
 }
 void LedgerDialog::reject() {
 	saveConfig();

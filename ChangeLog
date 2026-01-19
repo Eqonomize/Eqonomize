@@ -1,6 +1,7 @@
 2026-01-19  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Improve handling of various category combinations in over time report
+	* Scroll to bottom when opening or updating ledger with ascending order enabled
 
 2026-01-18  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
