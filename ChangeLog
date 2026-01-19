@@ -1,6 +1,10 @@
+2026-01-19  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Improve handling of various category combinations in over time report
+
 2026-01-18  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
-	* Allow multiple categories with the same name, if in different subcategories
+	* Allow multiple categories with the same name, if in different parent categories
 
 2026-01-09  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
