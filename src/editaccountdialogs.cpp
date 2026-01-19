@@ -512,7 +512,7 @@ void EditIncomesAccountDialog::accept() {
 		QMessageBox::critical(this, tr("Error"), tr("Empty name."));
 		return;
 	}
-	IncomesAccount *iaccount = budget->findIncomesAccount(sname);
+	IncomesAccount *iaccount = budget->findIncomesAccount(sname, (IncomesAccount*) parentCombo->currentData().value<void*>());
 	if(iaccount && iaccount != current_account) {
 		nameEdit->setFocus();
 		QMessageBox::critical(this, tr("Error"), tr("The entered name is used by another income category."));
@@ -621,7 +621,7 @@ void EditExpensesAccountDialog::accept() {
 		QMessageBox::critical(this, tr("Error"), tr("Empty name."));
 		return;
 	}
-	ExpensesAccount *eaccount = budget->findExpensesAccount(sname);
+	ExpensesAccount *eaccount = budget->findExpensesAccount(sname, (ExpensesAccount*) parentCombo->currentData().value<void*>());
 	if(eaccount && eaccount != current_account) {
 		nameEdit->setFocus();
 		QMessageBox::critical(this, tr("Error"), tr("The entered name is used by another expense category."));
