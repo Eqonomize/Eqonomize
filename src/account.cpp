@@ -421,7 +421,15 @@ bool CategoryAccount::setParentCategory(CategoryAccount *parent_account, bool ad
 	if(parent_account) {
 		if(type() != parent_account->type()) return false;
 		if(!subCategories.isEmpty()) return false;
-		if(add_child && !parent_account->addSubCategory(this, false)) return false;
+		if(add_child) {
+			CategoryAccount *par_bak = o_parent;
+			o_parent = parent_account;
+			if(!parent_account->addSubCategory(this, false)) {
+				o_parent = par_bak;
+				return false;
+			}
+			o_parent = par_bak;
+		}
 		if(o_parent) o_parent->removeSubCategory(this, false);
 	} else if(o_parent) {
 		o_parent->removeSubCategory(this, false);

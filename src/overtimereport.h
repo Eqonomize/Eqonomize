@@ -51,6 +51,7 @@ class AccountsMenu : public QMenu {
 
 		bool accountSelected(Account *account);
 		bool allAccountsSelected();
+		bool allParentAccountsSelected();
 		void setAccountSelected(Account *account, bool selected);
 		int selectedAccountsCount();
 		QString selectedAccountsText(int type);
@@ -78,6 +79,7 @@ class AccountsMenu : public QMenu {
 		void selectAll();
 		void deselectAll();
 		void toggleAll();
+		void toggleAllParents();
 
 	signals:
 
@@ -95,6 +97,7 @@ class AccountsCombo : public QPushButton {
 
 		bool accountSelected(Account *account);
 		bool allAccountsSelected();
+		bool allParentAccountsSelected();
 		void setAccountSelected(Account *account, bool selected);
 		void updateAccounts(int type);
 		QString selectedAccountsText(int type = 1);

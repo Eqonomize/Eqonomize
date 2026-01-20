@@ -1,3 +1,7 @@
+2026-01-20  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix sorting of subcategories (e.g. in categories comparison chart)
+
 2026-01-19  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Improve handling of various category combinations in over time report
