@@ -9557,7 +9557,7 @@ void Eqonomize::accountMoved(QTreeWidgetItem *i, QTreeWidgetItem *target) {
 		if(ca->parentCategory() == target_ca) return;
 		CategoryAccount *find_account = (account->type() == ACCOUNT_TYPE_EXPENSES ? (CategoryAccount*) budget->findExpensesAccount(account->name(), target_ca) : (CategoryAccount*) budget->findIncomesAccount(account->name(), target_ca));
 		if(find_account) {
-			QMessageBox::critical(this, tr("Error"), account->type() == ACCOUNT_TYPE_EXPENSES ? tr("The entered name is used by another expenses category.") : tr("The entered name is used by another income category."));
+			QMessageBox::critical(this, tr("Error"), account->type() == ACCOUNT_TYPE_EXPENSES ? tr("The entered name is used by another expense category.") : tr("The entered name is used by another income category."));
 			return;
 		}
 		QTreeWidgetItem *prev_parent_item = i->parent();

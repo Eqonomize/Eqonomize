@@ -1507,6 +1507,7 @@ void LedgerDialog::updateTransactions(bool update_reconciliation_date) {
 	incomeColor = QColor();
 	int scroll_h = transactionsView->horizontalScrollBar()->value();
 	int scroll_v = transactionsView->verticalScrollBar()->value();
+	if(b_ascending) scroll_v = transactionsView->verticalScrollBar()->maximum() - scroll_v;
 	Transaction *selected_transaction = NULL;
 	SplitTransaction *selected_split = NULL;
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
@@ -1515,7 +1516,6 @@ void LedgerDialog::updateTransactions(bool update_reconciliation_date) {
 		selected_split = i->splitTransaction();
 		if(!selected_split) selected_transaction = i->transaction();
 	}
-	int scrollpos = transactionsView->verticalScrollBar()->value();
 	transactionsView->clear();
 	double balance = account->initialBalance();
 	double total_balance = 0.0;
@@ -1744,7 +1744,13 @@ void LedgerDialog::updateTransactions(bool update_reconciliation_date) {
 		if(!transs || (split && (split->date() < trans->date() || (split->date() == trans->date() && split->timestamp() < trans->timestamp())))) transs = split;
 	}
 
-	if(!update_reconciliation_date) transactionsView->verticalScrollBar()->setValue(scrollpos);
+	if(!update_reconciliation_date) {
+		if(b_ascending && scroll_v == 0) transactionsView->scrollToBottom();
+		else transactionsView->verticalScrollBar()->setValue(b_ascending ? transactionsView->verticalScrollBar()->maximum() - scroll_v : scroll_v);
+		transactionsView->horizontalScrollBar()->setValue(scroll_h);
+	} else if(b_ascending) {
+		transactionsView->scrollToBottom();
+	}
 	if(selected_item) {
 		selected_item->setSelected(true);
 		transactionsView->setCurrentItem(selected_item);
@@ -1760,8 +1766,6 @@ void LedgerDialog::updateTransactions(bool update_reconciliation_date) {
 		stat_total_text = QString("<div align=\"right\"><b>%1</b> %4 &nbsp; <b>%2</b> %5 &nbsp; <b>%3</b> %6</div>").arg(tr("Current balance:", "Account balance")).arg(tr("Average balance:", "Account balance")).arg(tr("Number of transactions:")).arg(account->currency()->formatValue(balance)).arg(account->currency()->formatValue(total_balance)).arg(budget->formatValue(quantity, 0));
 	}
 	statLabel->setText(stat_total_text);
-	transactionsView->horizontalScrollBar()->setValue(scroll_h);
-	transactionsView->verticalScrollBar()->setValue(scroll_v);
 	if(!rec_date.isValid()) {
 		LedgerListViewItem *i = (LedgerListViewItem*) transactionsView->topLevelItem(0);
 		if(i) {
@@ -1779,7 +1783,7 @@ void LedgerDialog::updateTransactions(bool update_reconciliation_date) {
 	labelIncomeColor = QColor();
 	labelTransferColor = QColor();
 	if(b_reconciling) updateReconciliationStats(false, true, true);
-	if(b_ascending) transactionsView->scrollToBottom();
+
 }
 void LedgerDialog::reject() {
 	saveConfig();

@@ -159,12 +159,10 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 	fromEdit = new EqonomizeDateEdit(settingsWidget);
 	fromEdit->setCalendarPopup(true);
 	choicesLayout->addWidget(fromEdit);
-	//choicesLayout->setStretchFactor(fromEdit, 1);
 	choicesLayout->addWidget(new QLabel(tr("To"), settingsWidget));
 	toEdit = new EqonomizeDateEdit(settingsWidget);
 	toEdit->setCalendarPopup(true);
 	choicesLayout->addWidget(toEdit);
-	//choicesLayout->setStretchFactor(toEdit, 1);
 	prevYearButton = new QPushButton(LOAD_ICON("eqz-previous-year"), "", settingsWidget);
 	choicesLayout->addWidget(prevYearButton);
 	prevMonthButton = new QPushButton(LOAD_ICON("eqz-previous-month"), "", settingsWidget);
@@ -296,6 +294,7 @@ void CategoriesComparisonChart::resetOptions() {
 
 void CategoriesComparisonChart::categoryTypeChanged(int index) {
 	int i = sourceCombo->currentIndex() - 5;
+	if(i < 0) return;
 	CategoryAccount *current_account = (i < (int) budget->expensesAccounts.count() ? (CategoryAccount*) budget->expensesAccounts.at(i) : (CategoryAccount*) budget->incomesAccounts.at(i - budget->expensesAccounts.count()));
 	QSettings settings;
 	settings.beginGroup("CategoriesComparisonChart");

@@ -1711,13 +1711,26 @@ void CategoriesComparisonReport::updateDisplay() {
 	if(current_account || i_source == -1 || i_source == -2 || !current_tag.isEmpty()) {
 		if(include_subs) {
 			CategoryAccount *account = NULL;
-			for(AccountList<CategoryAccount*>::const_iterator it = current_account->subCategories.constBegin();;) {
-				if(account == current_account) break;
-				if(it != current_account->subCategories.constEnd()) {
+			bool ca_done = false;
+			if(values[current_account] == 0.0 && counts[current_account] == 0.0) {
+				ca_done = true;
+				if(i_months > 0) {
+					for(int i = i_months - 1; i >= 0; i--) {
+						if(month_values[current_account][i] != 0.0) {ca_done = false; break;}
+					}
+				} else if(b_tags) {
+					for(int i = 0; i < tags.count(); i++) {
+						if(tag_values[account][tags[i]] != 0.0) {ca_done = false; break;}
+					}
+				}
+			}
+			for(AccountList<CategoryAccount*>::const_iterator it = current_account->subCategories.constBegin(); !ca_done || it != current_account->subCategories.constEnd();) {
+				if(!ca_done && (it == current_account->subCategories.constEnd() || QString::localeAwareCompare(current_account->name(), (*it)->name()) < 0)) {
+					account = current_account;
+					ca_done = true;
+				} else {
 					account = *it;
 					++it;
-				} else {
-					account = current_account;
 				}
 				outf << "\t\t\t\t<tr>" << '\n';
 				outf << FIRST_COL << htmlize_string(account->name()) << "</td>";

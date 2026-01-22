@@ -2128,6 +2128,8 @@ void TransactionEditWidget::setTransaction(Transaction *trans) {
 	}
 	if(trans == NULL) {
 		value_set = false; shares_set = false; sharevalue_set = false;
+		description_changed = false;
+		payee_changed = false;
 		if(dateEdit) dateEdit->setDate(QDate::currentDate());
 		if(b_sec) {
 			if(sharesEdit) sharesEdit->setValue(0.0);

@@ -954,6 +954,23 @@ bool name_with_parent_compare(Account *a, Account *b) {
 bool name_compare(Account *a, Account *b) {
 	return QString::localeAwareCompare(a->name(), b->name()) < 0;
 }
+QString unique_account_name(Account *a) {
+	if(a->topAccount() != a) {
+		Budget *b = a->budget();
+		if(a->type() == ACCOUNT_TYPE_EXPENSES) {
+			for(AccountList<ExpensesAccount*>::const_iterator it = b->expensesAccounts.constBegin(); it != b->expensesAccounts.constEnd(); ++it) {
+				ExpensesAccount *account = *it;
+				if(account != a && account->name() == a->name()) return a->nameWithParent();
+			}
+		} else if(a->type() == ACCOUNT_TYPE_INCOMES) {
+			for(AccountList<IncomesAccount*>::const_iterator it = b->incomesAccounts.constBegin(); it != b->incomesAccounts.constEnd(); ++it) {
+				IncomesAccount *account = *it;
+				if(account != a && account->name() == a->name()) return a->nameWithParent();
+			}
+		}
+	}
+	return a->name();
+}
 
 void OverTimeReport::updateDisplay() {
 
@@ -973,11 +990,13 @@ void OverTimeReport::updateDisplay() {
 	bool assets_selected = !accountCombo->allAccountsSelected();
 	bool single_assets = assets_selected && accountCombo->selectedAccounts().count() == 1;
 
+	if(!b_cats && (current_source == 5 || current_source == 6) && categoryCombo->allAccountsSelected()) current_source -= 4;
+
 	QList<Account*> selected_categories;
 	QHash<Account*, int> category_subs;
 	CategoryAccount *cat = NULL;
 	if(current_source == 5 || current_source == 6 || current_source == 9 || current_source == 10) selected_categories = categoryCombo->selectedAccounts();
-		for(int i = 0; i < selected_categories.count(); i++) {
+	for(int i = 0; i < selected_categories.count(); i++) {
 		if(selected_categories[i]->topAccount() == selected_categories[i]) {
 			if(!category_subs.contains(selected_categories[i]->topAccount())) category_subs[selected_categories[i]] = 0;
 		} else if(category_subs.contains(selected_categories[i]->topAccount())) {
@@ -996,15 +1015,15 @@ void OverTimeReport::updateDisplay() {
 
 	QString categories_text;
 	if(cat) {
-		categories_text = cat->name();
+		categories_text = unique_account_name(cat);
 	} else if(!selected_categories.isEmpty() && !categoryCombo->allAccountsSelected()) {
 		int n = 0;
 		for(int i = 0; i < selected_categories.count(); i++) {
 			if(selected_categories[i]->topAccount() != selected_categories[i] && ((CategoryAccount*) selected_categories[i]->topAccount())->subCategories.count() == category_subs[selected_categories[i]->topAccount()] && selected_categories.contains(selected_categories[i]->topAccount())) continue;
-			if(n == 6 && category_subs.size() > 1) {categories_text = ""; break;}
+			if(n == 5 && b_cats) {categories_text = ""; break;}
 			if(i > 0 && (current_source == 5 || current_source == 6)) categories_text += ", ";
 			else if(i > 0) categories_text += " + ";
-			categories_text += selected_categories.at(i)->nameWithParent();
+			categories_text += unique_account_name(selected_categories.at(i));
 			n++;
 		}
 	}
@@ -1468,8 +1487,8 @@ void OverTimeReport::updateDisplay() {
 							for(int i = 0; i < trans->tagsCount(true); i++) {tag_scheduled_value[trans->getTag(i, true)] += v; tag_includes_planned[trans->getTag(i, true)] = true;}
 						}
 						if(b_cats) {
-							if((at == ACCOUNT_TYPE_ASSETS && (trans->fromAccount()->type() == ACCOUNT_TYPE_INCOMES || trans->fromAccount()->type() == ACCOUNT_TYPE_EXPENSES)) || (at != ACCOUNT_TYPE_ASSETS && trans->fromAccount()->type() == at)) {cat_scheduled_value[trans->fromAccount()] += v; cat_includes_planned[trans->fromAccount()] = true;}
-							else if((at == ACCOUNT_TYPE_ASSETS && (trans->toAccount()->type() == ACCOUNT_TYPE_INCOMES || trans->toAccount()->type() == ACCOUNT_TYPE_EXPENSES)) || (at != ACCOUNT_TYPE_ASSETS && trans->toAccount()->type() == at)) {cat_scheduled_value[trans->toAccount()] += v; cat_includes_planned[trans->toAccount()] = true;}
+							if((at == ACCOUNT_TYPE_ASSETS && (trans->fromAccount()->type() == ACCOUNT_TYPE_INCOMES || trans->fromAccount()->type() == ACCOUNT_TYPE_EXPENSES)) || (at != ACCOUNT_TYPE_ASSETS && trans->fromAccount()->type() == at)) {cat_scheduled_value[cat || category_subs[trans->fromAccount()->topAccount()] > 0 ? trans->fromAccount() : trans->fromAccount()->topAccount()] += v; cat_includes_planned[cat || category_subs[trans->fromAccount()->topAccount()] > 0 ? trans->fromAccount() : trans->fromAccount()->topAccount()] = true;}
+							else if((at == ACCOUNT_TYPE_ASSETS && (trans->toAccount()->type() == ACCOUNT_TYPE_INCOMES || trans->toAccount()->type() == ACCOUNT_TYPE_EXPENSES)) || (at != ACCOUNT_TYPE_ASSETS && trans->toAccount()->type() == at)) {cat_scheduled_value[cat || category_subs[trans->toAccount()->topAccount()] > 0 ? trans->toAccount() : trans->toAccount()->topAccount()] += v; cat_includes_planned[cat || category_subs[trans->toAccount()->topAccount()] > 0 ? trans->toAccount() : trans->toAccount()->topAccount()] = true;}
 						}
 					}
 				}
@@ -1622,23 +1641,7 @@ void OverTimeReport::updateDisplay() {
 					cats << *it;
 				}
 			}
-			for(int i = 0; i < cats.count();) {
-				Account *acc = cats[i]->topAccount();
-				if(acc != cats[i] && category_subs[acc] == 0) {
-					if(!cat_includes_planned[acc]) cat_includes_planned[acc] = cat_includes_planned[cats[i]];
-					cat_scheduled_value[acc] += cat_scheduled_value[cats[i]];
-					for(QVector<month_info>::iterator mit = monthly_values.begin(); mit != monthly_values.end(); ++mit) {
-						mit->cats[acc] += mit->cats[cats[i]];
-					}
-					cats.removeAt(i);
-					if(!cats.contains(acc)) cats << acc;
-				} else {
-					i++;
-				}
-			}
 		} else {
-			Account *acc = NULL;
-			bool b_subs = true;
 			if(at != ACCOUNT_TYPE_EXPENSES) {
 				for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
 					bool b = false;
@@ -1652,11 +1655,7 @@ void OverTimeReport::updateDisplay() {
 							}
 						}
 					}
-					if(b) {
-						if(!acc) acc = (*it)->topAccount();
-						else if(acc != (*it)->topAccount()) b_subs = false;
-						cats << *it;
-					}
+					if(b) cats << *it;
 				}
 			}
 			if(at != ACCOUNT_TYPE_INCOMES) {
@@ -1672,30 +1671,10 @@ void OverTimeReport::updateDisplay() {
 							}
 						}
 					}
-					if(b) {
-						if(!acc) acc = (*it)->topAccount();
-						else if(acc != (*it)->topAccount()) b_subs = false;
-						cats << *it;
-					}
+					if(b) cats << *it;
 				}
 			}
-			if(!b_subs) {
-				for(int i = 0; i < cats.count();) {
-					Account *acc = cats[i]->topAccount();
-					if(acc != cats[i]) {
-						if(!cat_includes_planned[acc]) cat_includes_planned[acc] = cat_includes_planned[cats[i]];
-						cat_scheduled_value[acc] += cat_scheduled_value[cats[i]];
-						for(QVector<month_info>::iterator mit = monthly_values.begin(); mit != monthly_values.end(); ++mit) {
-							mit->cats[acc] += mit->cats[cats[i]];
-						}
-						cats.removeAt(i);
-						if(!cats.contains(acc)) cats << acc;
-					} else {
-						i++;
-					}
-				}
-			} else if(cats.isEmpty()) {
-				b_subs = false;
+			if(cats.isEmpty()) {
 				if(at != ACCOUNT_TYPE_EXPENSES) {
 					for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
 						if(*it == (*it)->topAccount()) {
@@ -1820,16 +1799,8 @@ void OverTimeReport::updateDisplay() {
 		}
 	}
 	if(b_cats) {
-		bool with_parent = false;
-		if(category_subs.size() > 1) {
-			for(int i = 0; !with_parent && i < cats.count(); i++) {
-				for(int i2 = i + 1; !with_parent && i2 < cats.count(); i2++) {
-					if(cats[i]->name().compare(cats[i2]->name(), Qt::CaseSensitive) == 0) with_parent = true;
-				}
-			}
-		}
 		for(int i = 0; i < cats.count(); i++) {
-			outf << "\t\t\t\t\t<th align=\"left\">" << htmlize_string(with_parent ? cats[i]->nameWithParent() : cats[i]->name());
+			outf << "\t\t\t\t\t<th align=\"left\">" << htmlize_string(unique_account_name(cats[i]));
 			if(cat_includes_planned[cats[i]]) {outf << "*"; use_footer1 = true;}
 			outf<< "</th>";
 		}
@@ -2056,7 +2027,7 @@ void OverTimeReport::updateDisplay() {
 	if(htmlview->document()->size().width() < htmlview->width()) htmlview->setLineWrapMode(QTextEdit::WidgetWidth);
 }
 void OverTimeReport::updateTransactions() {
-	if(categoryCombo->isVisible()) categoryChanged();
+	if(categoryCombo->isEnabled() && categoryCombo->isVisible()) categoryChanged();
 	else tagChanged();
 }
 void OverTimeReport::updateTags() {
