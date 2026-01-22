@@ -791,6 +791,56 @@ void CategoriesComparisonChart::updateDisplay() {
 						}
 					}
 				}
+				int split_i = 0;
+				for(ScheduledTransactionList<ScheduledTransaction*>::const_iterator it = budget->scheduledTransactions.constBegin(); it != budget->scheduledTransactions.constEnd();) {
+					ScheduledTransaction *strans = *it;
+					while(split_i == 0 && strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT && ((SplitTransaction*) strans->transaction())->count() == 0) {
+						++it;
+						if(it == budget->scheduledTransactions.constEnd()) break;
+						strans = *it;
+					}
+					Transaction *trans;
+					if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
+						trans = ((SplitTransaction*) strans->transaction())->at(split_i);
+						split_i++;
+					} else {
+						trans = (Transaction*) strans->transaction();
+					}
+					if(trans->date() > to_date) break;
+					if(trans->date() >= first_date && (!assets_selected || accountCombo->testTransactionRelation(trans))) {
+						if((trans->fromAccount() == current_account || trans->toAccount() == current_account)) {
+							if(category_type == 0 && !desc_map.contains(trans->description().toLower())) {
+								desc_map[trans->description().toLower()] = trans->description();
+								desc_values[trans->description().toLower()] = 0.0;
+								desc_counts[trans->description().toLower()] = 0.0;
+							} else if(category_type == 1 && !desc_map.contains(trans->payee().toLower())) {
+								desc_map[trans->payee().toLower()] = trans->payee();
+								desc_values[trans->payee().toLower()] = 0.0;
+								desc_counts[trans->payee().toLower()] = 0.0;
+							} else if(category_type == 2) {
+								if(trans->tagsCount(true) == 0) {
+									if(!desc_map.contains(QString())) {
+										desc_map[QString()] = QString();
+										desc_values[QString()] = 0.0;
+										desc_counts[QString()] = 0.0;
+									}
+								} else {
+									for(int i2 = 0; i2 < trans->tagsCount(true); i2++) {
+										if(!desc_map.contains(trans->getTag(i2, true).toLower())) {
+											desc_map[trans->getTag(i2, true).toLower()] = trans->getTag(i2, true);
+											desc_values[trans->getTag(i2, true).toLower()] = 0.0;
+											desc_counts[trans->getTag(i2, true).toLower()] = 0.0;
+										}
+									}
+								}
+							}
+						}
+					}
+					if(strans->transaction()->generaltype() != GENERAL_TRANSACTION_TYPE_SPLIT || split_i >= ((SplitTransaction*) strans->transaction())->count()) {
+						++it;
+						split_i = 0;
+					}
+				}
 			}
 		}
 	}

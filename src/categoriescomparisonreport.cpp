@@ -441,6 +441,36 @@ void CategoriesComparisonReport::sourceChanged(int i) {
 						}
 					}
 				}
+				int split_i = 0;
+				for(ScheduledTransactionList<ScheduledTransaction*>::const_iterator it = budget->scheduledTransactions.constBegin(); it != budget->scheduledTransactions.constEnd();) {
+					ScheduledTransaction *strans = *it;
+					while(split_i == 0 && strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT && ((SplitTransaction*) strans->transaction())->count() == 0) {
+						++it;
+						if(it == budget->scheduledTransactions.constEnd()) break;
+						strans = *it;
+					}
+					Transaction *trans;
+					if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
+						trans = ((SplitTransaction*) strans->transaction())->at(split_i);
+						split_i++;
+					} else {
+						trans = (Transaction*) strans->transaction();
+					}
+					if((!current_account && trans->hasTag(current_tag, true) && ((trans->type() == TRANSACTION_TYPE_EXPENSE || trans->type() == TRANSACTION_TYPE_INCOME))) || (current_account && (trans->fromAccount() == current_account || trans->toAccount() == current_account))) {
+						if(!descriptions.contains(trans->description().toLower())) descriptions[trans->description().toLower()] = trans->description();
+						if(trans->type() == TRANSACTION_TYPE_EXPENSE) {
+							b_expense = true;
+							if(!payees.contains(((Expense*) trans)->payee().toLower())) payees[((Expense*) trans)->payee().toLower()] = ((Expense*) trans)->payee();
+						} else if(trans->type() == TRANSACTION_TYPE_INCOME) {
+							b_income = true;
+							if(!payees.contains(((Income*) trans)->payer().toLower())) payees[((Income*) trans)->payer().toLower()] = ((Income*) trans)->payer();
+						}
+					}
+					if(strans->transaction()->generaltype() != GENERAL_TRANSACTION_TYPE_SPLIT || split_i >= ((SplitTransaction*) strans->transaction())->count()) {
+						++it;
+						split_i = 0;
+					}
+				}
 				if((!current_account && b_expense && !b_income) || (current_account && current_account->type() == ACCOUNT_TYPE_EXPENSES)) payeeCombo->setItemType(2);
 				else if(current_account || (!b_expense && b_income)) payeeCombo->setItemType(3);
 				else payeeCombo->setItemType(4);
@@ -2012,6 +2042,36 @@ void CategoriesComparisonReport::updateTransactions() {
 					b_income = true;
 					if(!payees.contains(((Income*) trans)->payer().toLower())) payees[((Income*) trans)->payer().toLower()] = ((Income*) trans)->payer();
 				}
+			}
+		}
+		int split_i = 0;
+		for(ScheduledTransactionList<ScheduledTransaction*>::const_iterator it = budget->scheduledTransactions.constBegin(); it != budget->scheduledTransactions.constEnd();) {
+			ScheduledTransaction *strans = *it;
+			while(split_i == 0 && strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT && ((SplitTransaction*) strans->transaction())->count() == 0) {
+				++it;
+				if(it == budget->scheduledTransactions.constEnd()) break;
+				strans = *it;
+			}
+			Transaction *trans;
+			if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
+				trans = ((SplitTransaction*) strans->transaction())->at(split_i);
+				split_i++;
+			} else {
+				trans = (Transaction*) strans->transaction();
+			}
+			if((!current_account && trans->hasTag(current_tag, true) && ((trans->type() == TRANSACTION_TYPE_EXPENSE || trans->type() == TRANSACTION_TYPE_INCOME))) || (current_account && (trans->fromAccount() == current_account || trans->toAccount() == current_account))) {
+				if(!descriptions.contains(trans->description().toLower())) descriptions[trans->description().toLower()] = trans->description();
+				if(trans->type() == TRANSACTION_TYPE_EXPENSE) {
+					b_expense = true;
+					if(!payees.contains(((Expense*) trans)->payee().toLower())) payees[((Expense*) trans)->payee().toLower()] = ((Expense*) trans)->payee();
+				} else if(trans->type() == TRANSACTION_TYPE_INCOME) {
+					b_income = true;
+					if(!payees.contains(((Income*) trans)->payer().toLower())) payees[((Income*) trans)->payer().toLower()] = ((Income*) trans)->payer();
+				}
+			}
+			if(strans->transaction()->generaltype() != GENERAL_TRANSACTION_TYPE_SPLIT || split_i >= ((SplitTransaction*) strans->transaction())->count()) {
+				++it;
+				split_i = 0;
 			}
 		}
 		if((!current_account && b_expense && !b_income) || (current_account && current_account->type() == ACCOUNT_TYPE_EXPENSES)) payeeCombo->setItemType(2);

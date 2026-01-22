@@ -1,3 +1,7 @@
+2026-01-22  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix reports and charts with descriptions and payees only used in scheduled transactions
+
 2026-01-20  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix sorting of subcategories (e.g. in categories comparison chart)

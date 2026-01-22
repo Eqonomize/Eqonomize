@@ -663,6 +663,41 @@ void OverTimeChart::categoryChanged(int index) {
 				}
 			}
 		}
+		int split_i = 0;
+		for(ScheduledTransactionList<ScheduledTransaction*>::const_iterator it = budget->scheduledTransactions.constBegin(); it != budget->scheduledTransactions.constEnd();) {
+			ScheduledTransaction *strans = *it;
+			while(split_i == 0 && strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT && ((SplitTransaction*) strans->transaction())->count() == 0) {
+				++it;
+				if(it == budget->scheduledTransactions.constEnd()) break;
+				strans = *it;
+			}
+			Transaction *trans;
+			if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
+				trans = ((SplitTransaction*) strans->transaction())->at(split_i);
+				split_i++;
+			} else {
+				trans = (Transaction*) strans->transaction();
+			}
+			if((b_tags && trans->hasTag(current_tag, true)) || (!b_tags && (trans->fromAccount() == current_account || trans->toAccount() == current_account || trans->fromAccount()->topAccount() == current_account || trans->toAccount()->topAccount() == current_account))) {
+				if(trans->description().isEmpty()) has_empty_description = true;
+				else if(!descriptions.contains(trans->description().toLower())) descriptions[trans->description().toLower()] = trans->description();
+				if(b_extra) {
+					if(trans->type() == TRANSACTION_TYPE_EXPENSE) {
+						had_expense = true;
+						if(((Expense*) trans)->payee().isEmpty()) has_empty_payee = true;
+						else if(!payees.contains(((Expense*) trans)->payee().toLower())) payees[((Expense*) trans)->payee().toLower()] = ((Expense*) trans)->payee();
+					} else if(trans->type() == TRANSACTION_TYPE_INCOME) {
+						had_income = true;
+						if(((Income*) trans)->payer().isEmpty()) has_empty_payee = true;
+						else if(!payees.contains(((Income*) trans)->payer().toLower())) payees[((Income*) trans)->payer().toLower()] = ((Income*) trans)->payer();
+					}
+				}
+			}
+			if(strans->transaction()->generaltype() != GENERAL_TRANSACTION_TYPE_SPLIT || split_i >= ((SplitTransaction*) strans->transaction())->count()) {
+				++it;
+				split_i = 0;
+			}
+		}
 		QMap<QString, QString>::iterator it_e = descriptions.end();
 		for(QMap<QString, QString>::iterator it = descriptions.begin(); it != it_e; ++it) {
 			descriptionCombo->addItem(it.value());

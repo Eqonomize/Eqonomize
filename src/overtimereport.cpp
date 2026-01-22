@@ -800,6 +800,29 @@ void OverTimeReport::categoryChanged() {
 					if(!descriptions.contains(trans->description().toLower())) descriptions[trans->description().toLower()] = trans->description();
 				}
 			}
+			int split_i = 0;
+			for(ScheduledTransactionList<ScheduledTransaction*>::const_iterator it = budget->scheduledTransactions.constBegin(); it != budget->scheduledTransactions.constEnd();) {
+				ScheduledTransaction *strans = *it;
+				while(split_i == 0 && strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT && ((SplitTransaction*) strans->transaction())->count() == 0) {
+					++it;
+					if(it == budget->scheduledTransactions.constEnd()) break;
+					strans = *it;
+				}
+				Transaction *trans;
+				if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
+					trans = ((SplitTransaction*) strans->transaction())->at(split_i);
+					split_i++;
+				} else {
+					trans = (Transaction*) strans->transaction();
+				}
+				if(categoryCombo->accountSelected(trans->fromAccount()) || categoryCombo->accountSelected(trans->toAccount()) || categoryCombo->accountSelected(trans->fromAccount()->topAccount()) || categoryCombo->accountSelected(trans->toAccount()->topAccount())) {
+					if(!descriptions.contains(trans->description().toLower())) descriptions[trans->description().toLower()] = trans->description();
+				}
+				if(strans->transaction()->generaltype() != GENERAL_TRANSACTION_TYPE_SPLIT || split_i >= ((SplitTransaction*) strans->transaction())->count()) {
+					++it;
+					split_i = 0;
+				}
+			}
 			QStringList items;
 			QMap<QString, QString>::iterator it_e = descriptions.end();
 			for(QMap<QString, QString>::iterator it = descriptions.begin(); it != it_e; ++it) {
@@ -825,6 +848,29 @@ void OverTimeReport::tagChanged() {
 			Transaction *trans = *it;
 			if((trans->type() == TRANSACTION_TYPE_EXPENSE || trans->type() == TRANSACTION_TYPE_INCOME) && tagCombo->testTransaction(trans)) {
 				if(!descriptions.contains(trans->description().toLower())) descriptions[trans->description().toLower()] = trans->description();
+			}
+		}
+		int split_i = 0;
+		for(ScheduledTransactionList<ScheduledTransaction*>::const_iterator it = budget->scheduledTransactions.constBegin(); it != budget->scheduledTransactions.constEnd();) {
+			ScheduledTransaction *strans = *it;
+			while(split_i == 0 && strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT && ((SplitTransaction*) strans->transaction())->count() == 0) {
+				++it;
+				if(it == budget->scheduledTransactions.constEnd()) break;
+				strans = *it;
+			}
+			Transaction *trans;
+			if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
+				trans = ((SplitTransaction*) strans->transaction())->at(split_i);
+				split_i++;
+			} else {
+				trans = (Transaction*) strans->transaction();
+			}
+			if((trans->type() == TRANSACTION_TYPE_EXPENSE || trans->type() == TRANSACTION_TYPE_INCOME) && tagCombo->testTransaction(trans)) {
+				if(!descriptions.contains(trans->description().toLower())) descriptions[trans->description().toLower()] = trans->description();
+			}
+			if(strans->transaction()->generaltype() != GENERAL_TRANSACTION_TYPE_SPLIT || split_i >= ((SplitTransaction*) strans->transaction())->count()) {
+				++it;
+				split_i = 0;
 			}
 		}
 		QStringList items;
