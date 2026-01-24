@@ -1,3 +1,7 @@
+2026-01-24  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Add option, in context menu of ledger, to show transfer in ledger of other account
+
 2026-01-22  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix reports and charts with descriptions and payees only used in scheduled transactions

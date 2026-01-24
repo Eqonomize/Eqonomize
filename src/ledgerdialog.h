@@ -73,6 +73,7 @@ class LedgerDialog : public QDialog {
 		QLabel *statLabel;
 		QAction *ActionNewDebtInterest, *ActionNewDebtPayment;
 		QAction *ActionMarkReconciled, *ActionEdit, *ActionClone, *ActionSplit, *ActionJoin, *ActionDelete, *ActionOpenFile, *ActionEditTimestamp;
+		QAction *ActionShowInOtherAccount;
 		QMenu *headerMenu, *listMenu;
 		QLineEdit *searchEdit;
 		QPushButton *searchPreviousButton, *searchNextButton;
@@ -141,6 +142,7 @@ class LedgerDialog : public QDialog {
 		void searchChanged(const QString&);
 		void ascendingToggled(bool);
 		void onFilterSelected(QString);
+		void showInOtherAccount();
 
 };
 

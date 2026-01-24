@@ -376,6 +376,8 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Budget *budg, Eqonomize *parent, 
 	NEW_ACTION(ActionDelete, tr("Remove Transaction(s)"), "edit-delete", this, SLOT(remove()));
 	NEW_ACTION(ActionMarkReconciled, tr("Mark as reconciled"), "edit-delete", this, SLOT(reconcileTransactions()));
 	NEW_ACTION(ActionEditTimestamp, mainWin->ActionEditTimestamp->text(), "eqz-schedule", this, SLOT(editTimestamp()));
+	//: show in ledger of other account of transfer
+	NEW_ACTION(ActionShowInOtherAccount, tr("Show in %1").arg("…"), "eqz-ledger", this, SLOT(showInOtherAccount()));
 
 	new QShortcut(QKeySequence::Find, searchEdit, SLOT(setFocus()));
 
@@ -443,6 +445,33 @@ void LedgerDialog::keyPressEvent(QKeyEvent *e) {
 #endif
 		QApplication::sendEvent(transactionsView, key_event);
 		delete key_event;
+	}
+}
+void LedgerDialog::showInOtherAccount() {
+	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
+	if(selection.count() == 1) {
+		LedgerListViewItem *i = (LedgerListViewItem*) selection.first();
+		if(i->transaction() && i->transaction()->type() == TRANSACTION_TYPE_TRANSFER) {
+			Transfer *trans = (Transfer*) i->transaction();
+			if(trans->from() == account) account = trans->to();
+			else account = trans->from();
+			int index = accountCombo->findData(QVariant::fromValue((void*) account));
+			if(index >= 0) {
+				accountCombo->setCurrentIndex(index);
+				accountChanged();
+				QTreeWidgetItemIterator it(transactionsView, QTreeWidgetItemIterator::All);
+				while(*it) {
+					LedgerListViewItem *i = (LedgerListViewItem*) *it;
+					if(i->transaction() == trans) {
+						i->setSelected(true);
+						transactionsView->setCurrentItem(i);
+						transactionsView->scrollToItem(i);
+						break;
+					}
+					++it;
+				}
+			}
+		}
 	}
 }
 void LedgerDialog::updateReconciliationStats(bool b_toggled, bool scroll_to, bool update_markers) {
@@ -556,11 +585,20 @@ void LedgerDialog::popupListMenu(const QPoint &p) {
 		listMenu->addAction(ActionEditTimestamp);
 		listMenu->addSeparator();
 		listMenu->addAction(ActionOpenFile);
+		listMenu->addAction(ActionShowInOtherAccount);
 		listMenu->addSeparator();
 		listMenu->addAction(ActionDelete);
 	}
 	ActionMarkReconciled->setVisible(reconcileButton->isChecked());
 	ActionMarkReconciled->setEnabled(b);
+	LedgerListViewItem *i = selection.count() == 1 ? (LedgerListViewItem*) selection.first() : NULL;
+	if(i && i->transaction() && i->transaction()->type() == TRANSACTION_TYPE_TRANSFER) {
+		ActionShowInOtherAccount->setEnabled(true);
+		ActionShowInOtherAccount->setText(tr("Show in %1").arg(i->transaction()->fromAccount() == account ? i->transaction()->toAccount()->name() : i->transaction()->fromAccount()->name()));
+	} else {
+		ActionShowInOtherAccount->setEnabled(false);
+		ActionShowInOtherAccount->setText(tr("Show in %1").arg("…"));
+	}
 	listMenu->popup(transactionsView->viewport()->mapToGlobal(p));
 }
 void LedgerDialog::toggleReconciliation(bool b) {
