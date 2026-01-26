@@ -37,6 +37,26 @@
  </provides>
  <translation type="qt">eqonomize</translation>
  <releases>
+  <release version="1.5.12" date="2026-01-26">
+   <description>
+    <p>Changes:</p>
+    <ul>
+     <li>Add category division selection (subcategories, descriptions, payees/payers, or tags) in categories comparison chart</li>
+     <li>Save tags not used by any transaction</li>
+     <li>Add option to convert one or multiple expenses or incomes to transfers</li>
+     <li>Allow multiple categories with the same name (in different parent categories)</li>
+     <li>Show negative values in pie chart (accounts comparison excluded)</li>
+     <li>Scroll to bottom when opening or updating ledger with ascending order enabled</li>
+     <li>Add option to show transfer in ledger of other account</li>
+     <li>Fix value axis in bar chart</li>
+     <li>Fix/improve handling of various category combinations displayed separately in over time report</li>
+     <li>Fix properties of existing transaction updated with default value when amount is zero</li>
+     <li>Fix sorting of subcategories in categories comparison report</li>
+     <li>Fix reports and charts with descriptions and payees only used in scheduled transactions</li>
+     <li>Fix new tag dialog on Wayland</li>
+    </ul>
+   </description>
+  </release>
   <release version="1.5.11" date="2025-11-04">
    <description>
     <p>Changes:</p>

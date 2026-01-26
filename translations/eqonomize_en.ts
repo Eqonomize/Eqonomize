@@ -60,6 +60,10 @@
         <source>All Categories</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>All Subcategories</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Balancing</name>
@@ -3457,6 +3461,14 @@ What do you want to do with them?</source>
         <source>Convert to Transfer…</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>The entered name is used by another income category.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The entered name is used by another expense category.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>EqonomizeCalendarWidget</name>
@@ -4473,6 +4485,11 @@ What do you want to do with them?</source>
     <message>
         <source>Current balance:</source>
         <comment>Account balance</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show in %1</source>
+        <extracomment>show in ledger of other account of transfer</extracomment>
         <translation type="unfinished"></translation>
     </message>
 </context>

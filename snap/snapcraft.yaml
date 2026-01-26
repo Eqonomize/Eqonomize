@@ -1,6 +1,6 @@
 name: eqonomize-hk
 title: Eqonomize!
-version: '1.5.11'
+version: '1.5.12'
 license: GPL-2.0+
 summary: Efficient and easy accounting for small households 
 description: |
@@ -31,9 +31,9 @@ apps:
 
 parts:
   eqonomize:
-    source: https://github.com/Eqonomize/eqonomize/releases/download/v1.5.11/eqonomize-1.5.11.tar.gz
+    source: https://github.com/Eqonomize/eqonomize/releases/download/v1.5.12/eqonomize-1.5.12.tar.gz
     source-type: tar
-    source-checksum: sha512/b5b4a3737be2d6962d374fac596aeabd2053aed1f2f884588e54dfea4a450941d8777e423a05d7ced46e0e21dd469c1b9ca2a03dd066114fa75de78c6f53e0c8
+    source-checksum: sha512/3d250244eae7068ac61d56168230f9acee1777a6bac36f3a73e58c7833ee1a05c415069ae85079ac1d88661d8d171a7962b3a992ffb036a6842c3550f06ece66
     plugin: qmake
     qmake-parameters:
       - COMPILE_RESOURCES="yes"

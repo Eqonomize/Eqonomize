@@ -3036,8 +3036,8 @@ i18n: file ./eqonomizeui.rc line 56
 <context>
     <name>AccountsMenu</name>
     <message>
-        <location filename="../src/overtimereport.cpp" line="418"/>
-        <location filename="../src/overtimereport.cpp" line="494"/>
+        <location filename="../src/overtimereport.cpp" line="422"/>
+        <location filename="../src/overtimereport.cpp" line="512"/>
         <source>All Accounts</source>
         <translation>Tous les comptes</translation>
     </message>
@@ -3046,13 +3046,19 @@ i18n: file ./eqonomizeui.rc line 56
         <translation type="vanished">Toutes les catégories combinées</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="419"/>
-        <location filename="../src/overtimereport.cpp" line="495"/>
+        <location filename="../src/overtimereport.cpp" line="424"/>
+        <location filename="../src/overtimereport.cpp" line="510"/>
         <source>All Categories</source>
         <translation type="unfinished">Toutes les catégories</translation>
     </message>
+    <message>
+        <location filename="../src/overtimereport.cpp" line="425"/>
+        <location filename="../src/overtimereport.cpp" line="513"/>
+        <source>All Subcategories</source>
+        <translation type="unfinished">Toutes les sous-catégories</translation>
+    </message>
     <message numerus="yes">
-        <location filename="../src/overtimereport.cpp" line="497"/>
+        <location filename="../src/overtimereport.cpp" line="515"/>
         <source>%n accounts</source>
         <translation>
             <numerusform>%n compte</numerusform>
@@ -3060,7 +3066,7 @@ i18n: file ./eqonomizeui.rc line 56
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/overtimereport.cpp" line="498"/>
+        <location filename="../src/overtimereport.cpp" line="516"/>
         <source>%n categories</source>
         <translation>
             <numerusform>%n catégorie</numerusform>
@@ -3371,12 +3377,12 @@ i18n: file ./eqonomizeui.rc line 56
         <translation>De</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="163"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="162"/>
         <source>To</source>
         <translation>A</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="179"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="177"/>
         <source>Source:</source>
         <translation>Source:</translation>
     </message>
@@ -3414,89 +3420,89 @@ i18n: file ./eqonomizeui.rc line 56
         <translation>Par défaut</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="182"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1471"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="180"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1522"/>
         <source>All Expenses, without subcategories</source>
         <translation>Toutes les dépenses, sans sous-catégories</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="183"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1472"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="181"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1523"/>
         <source>All Expenses, with subcategories</source>
         <translation>Toutes les dépenses, avec les sous-catégories</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="184"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1473"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="182"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1524"/>
         <source>All Incomes, without subcategories</source>
         <translation>Tous les revenus, sans sous-catégories</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="185"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1474"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="183"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1525"/>
         <source>All Incomes, with subcategories</source>
         <translation>Tous les revenus, avec les sous-catégories</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="186"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1475"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="184"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1526"/>
         <source>All Accounts</source>
         <translation>Tous les comptes</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="189"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="742"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1479"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="187"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="741"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1530"/>
         <source>Expenses: %1</source>
         <translation>Dépenses: %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="193"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="743"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1485"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="191"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="742"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1536"/>
         <source>Incomes: %1</source>
         <translation>Revenus: %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="198"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="320"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="196"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="319"/>
         <source>Subcategories</source>
         <translation type="unfinished">Sous-catégories</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="199"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="321"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="197"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="320"/>
         <source>Descriptions</source>
         <translation type="unfinished">Descriptions</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="201"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="323"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="199"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="322"/>
         <source>Tags</source>
         <translation type="unfinished">Étiquettes</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="200"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="322"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="198"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="321"/>
         <source>Payees</source>
         <translation type="unfinished">Bénéficiaires</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="322"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="321"/>
         <source>Payers</source>
         <translation type="unfinished">Débiteurs</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="347"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="378"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="520"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="552"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="346"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="377"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="519"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="551"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="347"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="378"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="346"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="377"/>
         <source>Invalid date.</source>
         <translation>Date invalide.</translation>
     </message>
@@ -3509,110 +3515,110 @@ i18n: file ./eqonomizeui.rc line 56
         <translation type="vanished">La date est postérieure à la date visée.</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="520"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="519"/>
         <source>Couldn&apos;t open file for writing.</source>
         <translation>Impossible d&apos; ouvrir le fichier en écriture.</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="552"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="551"/>
         <source>Error while writing file; file was not saved.</source>
         <translation>Erreur lors de l&apos; écriture du fichier ; fichier non sauvegardé.</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="674"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="673"/>
         <source>Expenses</source>
         <translation>Dépenses</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="698"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="697"/>
         <source>Expenses, %1</source>
         <translation>Dépenses, %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="707"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="706"/>
         <source>Incomes, %1</source>
         <translation>Revenus, %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="708"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="707"/>
         <source>Incomes</source>
         <translation>Revenus</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="718"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="717"/>
         <source>Accounts</source>
         <translation>Comptes</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="739"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="738"/>
         <source>Expenses, %2: %1</source>
         <translation>Dépenses, %2: %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="740"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="739"/>
         <source>Incomes, %2: %1</source>
         <translation>Revenus, %2: %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1034"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1083"/>
         <source>Other payers</source>
         <translation type="unfinished">Autres débiteurs</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1034"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1083"/>
         <source>Other payees</source>
         <translation type="unfinished">Autres bénéficiaires</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1035"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1084"/>
         <source>Other tags</source>
         <translation type="unfinished">Autres étiquettes</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1036"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1085"/>
         <source>Other descriptions</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation>Autres descriptions</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1192"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1353"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1241"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1404"/>
         <source>No payer</source>
         <translation type="unfinished">Pas de débiteur</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1192"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1353"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1241"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1404"/>
         <source>No payee</source>
         <translation type="unfinished">Pas de bénéficiaire</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1193"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1354"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1242"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1405"/>
         <source>No tag</source>
         <translation type="unfinished">Pas d&apos;étiquette</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1194"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1355"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1243"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1406"/>
         <source>No description</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation>Pas de description</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1202"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1363"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1251"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1414"/>
         <source>Other accounts</source>
         <translation>Autres comptes</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1203"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1364"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1252"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1415"/>
         <source>Other categories</source>
         <translation>Autres catégories</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1670"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1721"/>
         <source>%1
 Value: %2</source>
         <translation>%1
@@ -3624,17 +3630,17 @@ Valeur : %2</translation>
         <translation type="vanished">Pas de nom</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1289"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1338"/>
         <source>Value</source>
         <translation>Valeur</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1290"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1339"/>
         <source>Income</source>
         <translation>Revenu</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1291"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1340"/>
         <source>Cost</source>
         <translation>Coût</translation>
     </message>
@@ -3682,13 +3688,13 @@ Valeur : %2</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="101"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2032"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2105"/>
         <source>All Categories, excluding subcategories</source>
         <translation>Toutes les catégories, à l&apos;exclusion sous-catégories</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="102"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2033"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2106"/>
         <source>All Categories, including subcategories</source>
         <translation>Toutes les catégories, y compris les sous-catégories</translation>
     </message>
@@ -3707,19 +3713,19 @@ Valeur : %2</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="112"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1549"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1552"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1565"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2043"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1579"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1582"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1595"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2116"/>
         <source>Expenses: %1</source>
         <translation>Dépenses: %1</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="116"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1555"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1558"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1566"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2048"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1585"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1588"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1596"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2121"/>
         <source>Incomes: %1</source>
         <translation>Revenus: %1</translation>
     </message>
@@ -3759,8 +3765,8 @@ Valeur : %2</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="206"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1635"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1640"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1665"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1670"/>
         <source>Value</source>
         <translation>Valeur</translation>
     </message>
@@ -3781,7 +3787,7 @@ Valeur : %2</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="218"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1645"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1675"/>
         <source>Quantity</source>
         <translation>Quantité</translation>
     </message>
@@ -3828,13 +3834,13 @@ Valeur : %2</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="105"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2036"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2109"/>
         <source>All Payees and Payers</source>
         <translation>Tous les bénéficiaires et débiteurs</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="119"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2052"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2125"/>
         <source>Tag: %1</source>
         <translation>Étiquette: %1</translation>
     </message>
@@ -3866,11 +3872,11 @@ Valeur : %2</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="193"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1540"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1541"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1565"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1566"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1567"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1570"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1571"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1595"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1596"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1597"/>
         <source>Tags</source>
         <translation>Étiquettes</translation>
     </message>
@@ -3890,32 +3896,32 @@ Valeur : %2</translation>
         <translation type="obsolete">Tous les bénéficiaires/débiteurs</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1756"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1799"/>
         <source>No description</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation>Pas de description</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1753"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1796"/>
         <source>No payee</source>
         <translation>Pas de bénéficiaire</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1754"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1797"/>
         <source>No payer</source>
         <translation>Pas de débiteur</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="482"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="513"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="601"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="611"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="512"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="543"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="631"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="641"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="482"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="513"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="512"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="543"/>
         <source>Invalid date.</source>
         <translation>Date invalide.</translation>
     </message>
@@ -3928,77 +3934,77 @@ Valeur : %2</translation>
         <translation type="vanished">La date est postérieure à la date visée.</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="601"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="631"/>
         <source>Couldn&apos;t open file for writing.</source>
         <translation>Impossible d&apos; ouvrir le fichier en écriture.</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="611"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="641"/>
         <source>Error while writing file; file was not saved.</source>
         <translation>Erreur lors de l&apos; écriture du fichier ; fichier non sauvegardé.</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1524"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1527"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1540"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1554"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1557"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1570"/>
         <source>Expenses, %2: %1</source>
         <translation>Dépenses, %2: %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1525"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1526"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1555"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1556"/>
         <source>Expenses, %3: %2, %1</source>
         <translation>Dépenses, %3: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1530"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1533"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1541"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1560"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1563"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1571"/>
         <source>Incomes, %2: %1</source>
         <translation>Revenus, %2: %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1531"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1532"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1561"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1562"/>
         <source>Incomes, %3: %2, %1</source>
         <translation>Revenus, %3: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1536"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1537"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1566"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1567"/>
         <source>%3: %2, %1</source>
         <translation>%3: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1538"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1568"/>
         <source>%2: %1</source>
         <translation>%2: %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1542"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1572"/>
         <source>Tags, %1</source>
         <translation>Étiquettes, %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1544"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1574"/>
         <source>Incomes &amp; Expenses, %1</source>
         <translation>Revenus &amp; Dépenses, %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1550"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1551"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1580"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1581"/>
         <source>Expenses: %2, %1</source>
         <translation>Dépenses: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1556"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1557"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1586"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1587"/>
         <source>Incomes: %2, %1</source>
         <translation>Revenus: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1561"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1562"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1591"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1592"/>
         <source>%2, %1</source>
         <translation>%2, %1</translation>
     </message>
@@ -4007,133 +4013,133 @@ Valeur : %2</translation>
         <translation type="obsolete">%1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1569"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1599"/>
         <source>Incomes &amp; Expenses</source>
         <translation>Revenus &amp; Dépenses</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1599"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1629"/>
         <source>%1 (%2&amp;ndash;%3)</source>
         <comment>html format; %1: title; %2: from date; %3: to date</comment>
         <translation>%1 (%2&amp;ndash;%3)</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1600"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1630"/>
         <source>%1 (to %2)</source>
         <comment>html format; %1: title; %2: to date</comment>
         <translation>%1 (to %2)</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1619"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1625"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1639"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1649"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1655"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1669"/>
         <source>Category</source>
         <translation>Catégorie</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1620"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1631"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1650"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1661"/>
         <source>Payee</source>
         <translation>Bénéficiaire</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1621"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1627"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1634"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1651"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1657"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1664"/>
         <source>Description</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation>Description</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1622"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1652"/>
         <source>Cost</source>
         <translation>Coût</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1626"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1632"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1656"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1662"/>
         <source>Payer</source>
         <translation type="unfinished">Débiteur</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1628"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1658"/>
         <source>Income</source>
         <translation>Revenu</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1633"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1637"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1663"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1667"/>
         <source>Payee/Payer</source>
         <translation type="unfinished">Bénéficiaire/débiteur</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1618"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1624"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1638"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1648"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1654"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1668"/>
         <source>Tag</source>
         <translation>Étiquette</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1642"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1672"/>
         <source>Daily Average</source>
         <translation>Moyenne journalière</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1643"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1673"/>
         <source>Monthly Average</source>
         <translation>Moyenne mensuelle</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1644"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1674"/>
         <source>Yearly Average</source>
         <translation>Moyenne annuelle</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1647"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1677"/>
         <source>Average Cost</source>
         <translation>Coût moyen</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1649"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1679"/>
         <source>Average Income</source>
         <translation>Revenu moyen</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1651"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1681"/>
         <source>Average Value</source>
         <translation>Valeur moyenne</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1755"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1798"/>
         <source>No payee/payer</source>
         <translation type="unfinished">Pas de bénéficiaire/débiteur</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1659"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1787"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1860"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1930"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1689"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1830"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1903"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1973"/>
         <source>Total</source>
         <translation>Total</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="103"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2034"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2107"/>
         <source>All Tags</source>
         <translation>Toutes les étiquettes</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1860"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1903"/>
         <source>Total incomes</source>
         <translation>Revenus totaux</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1930"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1973"/>
         <source>Total expenses</source>
         <translation>Dépenses totales</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1953"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1996"/>
         <source>Total (Profits)</source>
         <translation>Total (Profits)</translation>
     </message>
@@ -6372,7 +6378,7 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
         <location filename="../src/eqonomize.cpp" line="5737"/>
         <location filename="../src/eqonomize.cpp" line="7685"/>
         <location filename="../src/eqonomize.cpp" line="8075"/>
-        <location filename="../src/eqonomize.cpp" line="9802"/>
+        <location filename="../src/eqonomize.cpp" line="9807"/>
         <source>Tags</source>
         <translation>Étiquettes</translation>
     </message>
@@ -6969,23 +6975,28 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9821"/>
+        <location filename="../src/eqonomize.cpp" line="9560"/>
+        <source>The entered name is used by another expense category.</source>
+        <translation type="unfinished">Le nom saisi est utilisé par une autre catégorie de dépenses.</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="9826"/>
         <source>New Tag</source>
         <translation>Nouvelle Étiquette</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9821"/>
-        <location filename="../src/eqonomize.cpp" line="9884"/>
+        <location filename="../src/eqonomize.cpp" line="9826"/>
+        <location filename="../src/eqonomize.cpp" line="9889"/>
         <source>Tag name:</source>
         <translation>Nom de l&apos;étiquette:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9854"/>
+        <location filename="../src/eqonomize.cpp" line="9859"/>
         <source>Remove tag?</source>
         <translation>Enlever l&apos;étiquette?</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/eqonomize.cpp" line="9854"/>
+        <location filename="../src/eqonomize.cpp" line="9859"/>
         <source>Do you wish to remove the tag &quot;%1&quot; from %n transaction(s)?</source>
         <translation>
             <numerusform>Souhaitez-vous supprimer l&apos;étiquette &quot;%1&quot; de %n transaction ?</numerusform>
@@ -6993,7 +7004,7 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
         </translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9884"/>
+        <location filename="../src/eqonomize.cpp" line="9889"/>
         <source>Rename Tag</source>
         <translation>Renommer l&apos;Étiquette</translation>
     </message>
@@ -7170,8 +7181,8 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="8029"/>
-        <location filename="../src/eqonomize.cpp" line="9778"/>
-        <location filename="../src/eqonomize.cpp" line="11442"/>
+        <location filename="../src/eqonomize.cpp" line="9783"/>
+        <location filename="../src/eqonomize.cpp" line="11447"/>
         <source>Close Account</source>
         <comment>Mark account as closed</comment>
         <translation>Fermer le compte</translation>
@@ -7222,8 +7233,8 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
         <translation>Ne l&apos;utilisez que lorsque vous ne pouvez pas trouver la cause du solde incorrect du compte enregistré.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9775"/>
-        <location filename="../src/eqonomize.cpp" line="11438"/>
+        <location filename="../src/eqonomize.cpp" line="9780"/>
+        <location filename="../src/eqonomize.cpp" line="11443"/>
         <source>Reopen Account</source>
         <comment>Mark account as not closed</comment>
         <translation>Réouvrir le compte</translation>
@@ -7382,6 +7393,7 @@ Voulez-vous charger la dernière version sauvegardée automatiquement du fichier
         <location filename="../src/eqonomize.cpp" line="7899"/>
         <location filename="../src/eqonomize.cpp" line="7906"/>
         <location filename="../src/eqonomize.cpp" line="8460"/>
+        <location filename="../src/eqonomize.cpp" line="9560"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
@@ -8356,85 +8368,90 @@ Voulez-vous charger la dernière version sauvegardée automatiquement du fichier
         <translation>Éditer les catégories de dépenses</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9591"/>
+        <location filename="../src/eqonomize.cpp" line="9560"/>
+        <source>The entered name is used by another income category.</source>
+        <translation type="unfinished">Le nom saisi est utilisé par une autre catégorie de revenus.</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="9596"/>
         <source>Remove subcategories?</source>
         <translation>Enlever les sous-catégories?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9591"/>
+        <location filename="../src/eqonomize.cpp" line="9596"/>
         <source>Do you wish to remove the category including all subcategories?</source>
         <translation>Souhaitez-vous supprimer la catégorie, y compris toutes les sous-catégories ?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9640"/>
+        <location filename="../src/eqonomize.cpp" line="9645"/>
         <source>Move transactions?</source>
         <translation>Bouger les transactions?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9648"/>
+        <location filename="../src/eqonomize.cpp" line="9653"/>
         <source>Move to:</source>
         <translation>Bouger vers:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9650"/>
+        <location filename="../src/eqonomize.cpp" line="9655"/>
         <source>Remove irreversibly from all accounts
 (do not do this if account has been closed!)</source>
         <translation>Suppression irréversible de tous les comptes
 (ne faites pas cela si le compte a été fermé !)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9657"/>
+        <location filename="../src/eqonomize.cpp" line="9662"/>
         <source>The category contains some expenses.
 What do you want to do with them?</source>
         <translation>La catégorie contient quelques dépenses.
 Que voulez-vous faire d&apos;elles?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9668"/>
+        <location filename="../src/eqonomize.cpp" line="9673"/>
         <source>The category contains some incomes.
 What do you want to do with them?</source>
         <translation>La catégorie contient quelques revenus.
 Que voulez-vous faire d&apos;eux?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9679"/>
+        <location filename="../src/eqonomize.cpp" line="9684"/>
         <source>The account contains some transactions.
 What do you want to do with them?</source>
         <translation>Ce compte contient plusieurs transactions.
 Que voulez vous en faire ?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9709"/>
-        <location filename="../src/eqonomize.cpp" line="9710"/>
+        <location filename="../src/eqonomize.cpp" line="9714"/>
+        <location filename="../src/eqonomize.cpp" line="9715"/>
         <source>Remove Category?</source>
         <translation>Enlever la catégorie?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9709"/>
+        <location filename="../src/eqonomize.cpp" line="9714"/>
         <source>The category contains some expenses that will be removed. Do you still want to remove the category?</source>
         <translation>La catégorie contient quelques dépenses qui seront enlevées. Voulez-vous toujours enlever cette catégorie?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9710"/>
+        <location filename="../src/eqonomize.cpp" line="9715"/>
         <source>The category contains some incomes that will be removed. Do you still want to remove the category?</source>
         <translation>La catégorie contient quelques revenus qui seront supprimés. Voulez-vous toujours enlever cette catégorie?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9711"/>
+        <location filename="../src/eqonomize.cpp" line="9716"/>
         <source>Remove Account?</source>
         <translation>Enlever le compte?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9711"/>
+        <location filename="../src/eqonomize.cpp" line="9716"/>
         <source>The account contains some transactions that will be removed. Do you still want to remove the account?</source>
         <translation>Ce compte contient plusieurs transactions qui seront enlevées. Voulez vous toujours enlever ce compte ?</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="8607"/>
-        <location filename="../src/eqonomize.cpp" line="10938"/>
-        <location filename="../src/eqonomize.cpp" line="10963"/>
-        <location filename="../src/eqonomize.cpp" line="11293"/>
-        <location filename="../src/eqonomize.cpp" line="11294"/>
+        <location filename="../src/eqonomize.cpp" line="10943"/>
+        <location filename="../src/eqonomize.cpp" line="10968"/>
+        <location filename="../src/eqonomize.cpp" line="11298"/>
+        <location filename="../src/eqonomize.cpp" line="11299"/>
         <source>%2 of %1</source>
         <comment>%1: budget; %2: remaining budget</comment>
         <translation>%2 de %1</translation>
@@ -8500,14 +8517,14 @@ Que voulez vous en faire ?</translation>
         <translation type="obsolete">Éditer les quotations…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11399"/>
-        <location filename="../src/eqonomize.cpp" line="11423"/>
+        <location filename="../src/eqonomize.cpp" line="11404"/>
+        <location filename="../src/eqonomize.cpp" line="11428"/>
         <source>%1 (with no budget)</source>
         <translation>%1 (sans budget)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11400"/>
-        <location filename="../src/eqonomize.cpp" line="11424"/>
+        <location filename="../src/eqonomize.cpp" line="11405"/>
+        <location filename="../src/eqonomize.cpp" line="11429"/>
         <source>%1 (with budget %2)</source>
         <translation>%1 (avec le budget %2)</translation>
     </message>
@@ -8531,67 +8548,67 @@ Que voulez vous en faire ?</translation>
 <context>
     <name>EqonomizeTranslator</name>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11784"/>
+        <location filename="../src/eqonomize.cpp" line="11789"/>
         <source>OK</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11786"/>
+        <location filename="../src/eqonomize.cpp" line="11791"/>
         <source>Cancel</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11788"/>
+        <location filename="../src/eqonomize.cpp" line="11793"/>
         <source>Close</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11790"/>
+        <location filename="../src/eqonomize.cpp" line="11795"/>
         <source>&amp;Yes</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11792"/>
+        <location filename="../src/eqonomize.cpp" line="11797"/>
         <source>&amp;No</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11794"/>
+        <location filename="../src/eqonomize.cpp" line="11799"/>
         <source>&amp;Open</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11796"/>
+        <location filename="../src/eqonomize.cpp" line="11801"/>
         <source>&amp;Save</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11798"/>
+        <location filename="../src/eqonomize.cpp" line="11803"/>
         <source>&amp;Select All</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11800"/>
+        <location filename="../src/eqonomize.cpp" line="11805"/>
         <source>Look in:</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11802"/>
+        <location filename="../src/eqonomize.cpp" line="11807"/>
         <source>File &amp;name:</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11804"/>
+        <location filename="../src/eqonomize.cpp" line="11809"/>
         <source>Files of type:</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
@@ -9783,17 +9800,17 @@ Que voulez vous en faire ?</translation>
         <translation>Marquer comme réconcilié</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="527"/>
-        <location filename="../src/ledgerdialog.cpp" line="528"/>
-        <location filename="../src/ledgerdialog.cpp" line="529"/>
+        <location filename="../src/ledgerdialog.cpp" line="556"/>
+        <location filename="../src/ledgerdialog.cpp" line="557"/>
+        <location filename="../src/ledgerdialog.cpp" line="558"/>
         <source>Reconciled: %1 (%2)</source>
         <comment>Accounting context</comment>
         <translation>Réconcilié: %1 (%2)</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="530"/>
-        <location filename="../src/ledgerdialog.cpp" line="531"/>
-        <location filename="../src/ledgerdialog.cpp" line="532"/>
+        <location filename="../src/ledgerdialog.cpp" line="559"/>
+        <location filename="../src/ledgerdialog.cpp" line="560"/>
+        <location filename="../src/ledgerdialog.cpp" line="561"/>
         <source>Book value: %1 (%2)</source>
         <comment>Accounting context</comment>
         <translation>Valeur comptable: %1 (%2)</translation>
@@ -9804,114 +9821,114 @@ Que voulez vous en faire ?</translation>
         <translation type="obsolete">Marquer comme réconcilié</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="588"/>
-        <location filename="../src/ledgerdialog.cpp" line="595"/>
-        <location filename="../src/ledgerdialog.cpp" line="603"/>
-        <location filename="../src/ledgerdialog.cpp" line="610"/>
-        <location filename="../src/ledgerdialog.cpp" line="904"/>
-        <location filename="../src/ledgerdialog.cpp" line="932"/>
-        <location filename="../src/ledgerdialog.cpp" line="939"/>
-        <location filename="../src/ledgerdialog.cpp" line="1053"/>
-        <location filename="../src/ledgerdialog.cpp" line="1099"/>
-        <location filename="../src/ledgerdialog.cpp" line="1458"/>
-        <location filename="../src/ledgerdialog.cpp" line="1464"/>
-        <location filename="../src/ledgerdialog.cpp" line="1470"/>
+        <location filename="../src/ledgerdialog.cpp" line="626"/>
+        <location filename="../src/ledgerdialog.cpp" line="633"/>
+        <location filename="../src/ledgerdialog.cpp" line="641"/>
+        <location filename="../src/ledgerdialog.cpp" line="648"/>
+        <location filename="../src/ledgerdialog.cpp" line="942"/>
+        <location filename="../src/ledgerdialog.cpp" line="970"/>
+        <location filename="../src/ledgerdialog.cpp" line="977"/>
+        <location filename="../src/ledgerdialog.cpp" line="1091"/>
+        <location filename="../src/ledgerdialog.cpp" line="1137"/>
+        <location filename="../src/ledgerdialog.cpp" line="1496"/>
+        <location filename="../src/ledgerdialog.cpp" line="1502"/>
+        <location filename="../src/ledgerdialog.cpp" line="1508"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="588"/>
-        <location filename="../src/ledgerdialog.cpp" line="603"/>
+        <location filename="../src/ledgerdialog.cpp" line="626"/>
+        <location filename="../src/ledgerdialog.cpp" line="641"/>
         <source>Invalid date.</source>
         <translation>Date invalide.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="595"/>
+        <location filename="../src/ledgerdialog.cpp" line="633"/>
         <source>Opening date is after closing date.</source>
         <translation>La date d&apos;ouverture est après la date de fermeture.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="610"/>
+        <location filename="../src/ledgerdialog.cpp" line="648"/>
         <source>Closing date is before opening date.</source>
         <translation>La date de fermeture est après la date d&apos;ouverture.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="904"/>
-        <location filename="../src/ledgerdialog.cpp" line="1053"/>
+        <location filename="../src/ledgerdialog.cpp" line="942"/>
+        <location filename="../src/ledgerdialog.cpp" line="1091"/>
         <source>Empty transaction list.</source>
         <translation>Liste des transactions vide.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="932"/>
+        <location filename="../src/ledgerdialog.cpp" line="970"/>
         <source>Couldn&apos;t open file for writing.</source>
         <translation>Impossible d&apos; ouvrir le fichier en écriture.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="939"/>
+        <location filename="../src/ledgerdialog.cpp" line="977"/>
         <source>Error while writing file; file was not saved.</source>
         <translation>Erreur lors de l&apos; écriture du fichier ; fichier non sauvegardé.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="962"/>
+        <location filename="../src/ledgerdialog.cpp" line="1000"/>
         <source>Ledger</source>
         <translation>Registre</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="968"/>
+        <location filename="../src/ledgerdialog.cpp" line="1006"/>
         <source>Transactions for %1</source>
         <translation>Transactions pour %1</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1072"/>
+        <location filename="../src/ledgerdialog.cpp" line="1110"/>
         <source>Select Time Period</source>
         <translation>Sélectionner la période de temps</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1076"/>
+        <location filename="../src/ledgerdialog.cpp" line="1114"/>
         <source>From:</source>
         <translation>De :</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1081"/>
+        <location filename="../src/ledgerdialog.cpp" line="1119"/>
         <source>To:</source>
         <translation>À&#xa0;:</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1099"/>
+        <location filename="../src/ledgerdialog.cpp" line="1137"/>
         <source>To date is before from date.</source>
         <translation>La date de fin est antérieure à la date de début.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1273"/>
-        <location filename="../src/ledgerdialog.cpp" line="1274"/>
+        <location filename="../src/ledgerdialog.cpp" line="1311"/>
+        <location filename="../src/ledgerdialog.cpp" line="1312"/>
         <source>Balance change:</source>
         <comment>Account balance</comment>
         <translation>Modification du solde :</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1303"/>
+        <location filename="../src/ledgerdialog.cpp" line="1341"/>
         <source>Delete transactions?</source>
         <translation>Supprimer les transactions ?</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1303"/>
+        <location filename="../src/ledgerdialog.cpp" line="1341"/>
         <source>Are you sure you want to delete all (%1) selected transactions?</source>
         <translation>Êtes-vous certain de vouloir supprimer toutes (%1) les transactions sélectionnées?</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1711"/>
+        <location filename="../src/ledgerdialog.cpp" line="1749"/>
         <source>Account Balance Adjustment</source>
         <translation>Ajustement du solde du compte</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1760"/>
+        <location filename="../src/ledgerdialog.cpp" line="1804"/>
         <source>Current balance:</source>
         <comment>Account balance</comment>
         <translation>Solde actuel :</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1273"/>
-        <location filename="../src/ledgerdialog.cpp" line="1760"/>
+        <location filename="../src/ledgerdialog.cpp" line="1311"/>
+        <location filename="../src/ledgerdialog.cpp" line="1804"/>
         <source>Average balance:</source>
         <comment>Account balance</comment>
         <translation>Solde moyen :</translation>
@@ -9936,24 +9953,24 @@ Que voulez vous en faire ?</translation>
         <translation type="vanished">Impossible de changer le nom des dividendes et transactions de titre.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1758"/>
+        <location filename="../src/ledgerdialog.cpp" line="1802"/>
         <source>Current debt:</source>
         <translation>Dette actuelle :</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1758"/>
+        <location filename="../src/ledgerdialog.cpp" line="1802"/>
         <source>Total debt reduction:</source>
         <translation>Réduction de la dette totale :</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1758"/>
+        <location filename="../src/ledgerdialog.cpp" line="1802"/>
         <source>Total interest and fees:</source>
         <translation>Total des intérêts et frais :</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1273"/>
-        <location filename="../src/ledgerdialog.cpp" line="1274"/>
-        <location filename="../src/ledgerdialog.cpp" line="1760"/>
+        <location filename="../src/ledgerdialog.cpp" line="1311"/>
+        <location filename="../src/ledgerdialog.cpp" line="1312"/>
+        <location filename="../src/ledgerdialog.cpp" line="1804"/>
         <source>Number of transactions:</source>
         <translation>Nombre de transactions :</translation>
     </message>
@@ -9974,52 +9991,60 @@ Que voulez vous en faire ?</translation>
         <translation type="obsolete">Équilibre initial</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1558"/>
+        <location filename="../src/ledgerdialog.cpp" line="1596"/>
         <source>Split Transaction</source>
         <translation>Transaction séparée</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="813"/>
-        <location filename="../src/ledgerdialog.cpp" line="1585"/>
-        <location filename="../src/ledgerdialog.cpp" line="1614"/>
-        <location filename="../src/ledgerdialog.cpp" line="1643"/>
-        <location filename="../src/ledgerdialog.cpp" line="1671"/>
+        <location filename="../src/ledgerdialog.cpp" line="851"/>
+        <location filename="../src/ledgerdialog.cpp" line="1623"/>
+        <location filename="../src/ledgerdialog.cpp" line="1652"/>
+        <location filename="../src/ledgerdialog.cpp" line="1681"/>
+        <location filename="../src/ledgerdialog.cpp" line="1709"/>
         <source>Debt Payment</source>
         <translation>Payement de dette</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="786"/>
+        <location filename="../src/ledgerdialog.cpp" line="380"/>
+        <location filename="../src/ledgerdialog.cpp" line="597"/>
+        <location filename="../src/ledgerdialog.cpp" line="600"/>
+        <source>Show in %1</source>
+        <extracomment>show in ledger of other account of transfer</extracomment>
+        <translation type="unfinished">Afficher dans %1</translation>
+    </message>
+    <message>
+        <location filename="../src/ledgerdialog.cpp" line="824"/>
         <source>Ascending order</source>
         <translation>Ordre croissant</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1585"/>
+        <location filename="../src/ledgerdialog.cpp" line="1623"/>
         <source>Reduction</source>
         <translation>Réduction</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1614"/>
+        <location filename="../src/ledgerdialog.cpp" line="1652"/>
         <source>Fee</source>
         <translation>Frais</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1643"/>
+        <location filename="../src/ledgerdialog.cpp" line="1681"/>
         <source>Interest</source>
         <translation>Intérêts</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1705"/>
+        <location filename="../src/ledgerdialog.cpp" line="1743"/>
         <source>Income</source>
         <translation>Revenu</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1706"/>
+        <location filename="../src/ledgerdialog.cpp" line="1744"/>
         <source>Repayment</source>
         <translation>Remboursement</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="313"/>
-        <location filename="../src/ledgerdialog.cpp" line="1708"/>
+        <location filename="../src/ledgerdialog.cpp" line="1746"/>
         <source>Expense</source>
         <translation>Dépense</translation>
     </message>
@@ -10047,31 +10072,31 @@ Que voulez vous en faire ?</translation>
         <translation type="obsolete">Solde</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1458"/>
+        <location filename="../src/ledgerdialog.cpp" line="1496"/>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation>Impossible de fixer la valeur des transactions de titre en utilisant la fenêtre de modification multiple des transactions.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1464"/>
+        <location filename="../src/ledgerdialog.cpp" line="1502"/>
         <source>Cannot change description of dividends and security transactions.</source>
         <comment>Referring to the transaction description property (transaction title/generic article name); Financial security (e.g. stock, mutual fund)</comment>
         <translation>Impossible de changer la description des dividendes et transactions de titre.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1470"/>
+        <location filename="../src/ledgerdialog.cpp" line="1508"/>
         <source>Cannot change payer of dividends and security transactions.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation>Impossible de changer le débiteur des dividendes et transactions de titres.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1531"/>
+        <location filename="../src/ledgerdialog.cpp" line="1569"/>
         <source>Opening balance</source>
         <comment>Account balance</comment>
         <translation>Solde d&apos;ouverture</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1709"/>
+        <location filename="../src/ledgerdialog.cpp" line="1747"/>
         <source>Refund</source>
         <translation>Rembourser</translation>
     </message>
@@ -10080,7 +10105,7 @@ Que voulez vous en faire ?</translation>
         <translation type="vanished">solde</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1714"/>
+        <location filename="../src/ledgerdialog.cpp" line="1752"/>
         <source>Transfer</source>
         <translation>Transfère</translation>
     </message>
@@ -10178,7 +10203,7 @@ Que voulez vous en faire ?</translation>
 <context>
     <name>MultipleTransactionsEditDialog</name>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2344"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2346"/>
         <source>Modify Transactions</source>
         <translation>Modifier les transactions</translation>
     </message>
@@ -10195,43 +10220,43 @@ Que voulez vous en faire ?</translation>
         <translation type="vanished">Nom générique:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2357"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2359"/>
         <source>Description:</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
         <translation>Description :</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2367"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2369"/>
         <source>Amount:</source>
         <translation>Quantité:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2368"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2370"/>
         <source>Income:</source>
         <translation>Revenu:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2369"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2371"/>
         <source>Cost:</source>
         <translation>Coût:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2377"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2379"/>
         <source>Date:</source>
         <translation>Date:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2388"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2390"/>
         <source>Category:</source>
         <translation>Catégorie:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2401"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2403"/>
         <source>Payer:</source>
         <translation>Débiteur:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2402"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2404"/>
         <source>Payee:</source>
         <translation>Bénéficiaire:</translation>
     </message>
@@ -10252,24 +10277,24 @@ Que voulez vous en faire ?</translation>
         <translation type="obsolete">Nouvelle catégorie de dépense…</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2567"/>
-        <location filename="../src/transactioneditwidget.cpp" line="2575"/>
-        <location filename="../src/transactioneditwidget.cpp" line="2586"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2569"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2577"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2588"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2567"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2569"/>
         <source>No income category available.</source>
         <translation>Pas de catégorie de revenu disponible.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2575"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2577"/>
         <source>No expense category available.</source>
         <translation>Pas de catégorie de dépense disponible.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2586"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2588"/>
         <source>Invalid date.</source>
         <translation>Date invalide.</translation>
     </message>
@@ -10298,36 +10323,36 @@ Que voulez vous en faire ?</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="223"/>
-        <location filename="../src/overtimechart.cpp" line="3211"/>
-        <location filename="../src/overtimechart.cpp" line="3467"/>
-        <location filename="../src/overtimechart.cpp" line="3751"/>
+        <location filename="../src/overtimechart.cpp" line="3246"/>
+        <location filename="../src/overtimechart.cpp" line="3502"/>
+        <location filename="../src/overtimechart.cpp" line="3786"/>
         <source>Profits</source>
         <translation>Profits</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="224"/>
-        <location filename="../src/overtimechart.cpp" line="3228"/>
-        <location filename="../src/overtimechart.cpp" line="3472"/>
-        <location filename="../src/overtimechart.cpp" line="3476"/>
-        <location filename="../src/overtimechart.cpp" line="3756"/>
-        <location filename="../src/overtimechart.cpp" line="3760"/>
+        <location filename="../src/overtimechart.cpp" line="3263"/>
+        <location filename="../src/overtimechart.cpp" line="3507"/>
+        <location filename="../src/overtimechart.cpp" line="3511"/>
+        <location filename="../src/overtimechart.cpp" line="3791"/>
+        <location filename="../src/overtimechart.cpp" line="3795"/>
         <source>Expenses</source>
         <translation>Dépenses</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="225"/>
-        <location filename="../src/overtimechart.cpp" line="3222"/>
-        <location filename="../src/overtimechart.cpp" line="3471"/>
-        <location filename="../src/overtimechart.cpp" line="3475"/>
-        <location filename="../src/overtimechart.cpp" line="3755"/>
-        <location filename="../src/overtimechart.cpp" line="3759"/>
+        <location filename="../src/overtimechart.cpp" line="3257"/>
+        <location filename="../src/overtimechart.cpp" line="3506"/>
+        <location filename="../src/overtimechart.cpp" line="3510"/>
+        <location filename="../src/overtimechart.cpp" line="3790"/>
+        <location filename="../src/overtimechart.cpp" line="3794"/>
         <source>Incomes</source>
         <translation>Revenus</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="232"/>
-        <location filename="../src/overtimechart.cpp" line="720"/>
-        <location filename="../src/overtimechart.cpp" line="4309"/>
+        <location filename="../src/overtimechart.cpp" line="755"/>
+        <location filename="../src/overtimechart.cpp" line="4344"/>
         <source>All Categories Combined</source>
         <translation>Toutes les catégories combinées</translation>
     </message>
@@ -10378,37 +10403,37 @@ Que voulez vous en faire ?</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="628"/>
-        <location filename="../src/overtimechart.cpp" line="4172"/>
+        <location filename="../src/overtimechart.cpp" line="4207"/>
         <source>All Descriptions Split</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation>Toutes les descriptions séparées</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="670"/>
-        <location filename="../src/overtimechart.cpp" line="3499"/>
-        <location filename="../src/overtimechart.cpp" line="3506"/>
-        <location filename="../src/overtimechart.cpp" line="3545"/>
-        <location filename="../src/overtimechart.cpp" line="3547"/>
-        <location filename="../src/overtimechart.cpp" line="3554"/>
-        <location filename="../src/overtimechart.cpp" line="3556"/>
-        <location filename="../src/overtimechart.cpp" line="3563"/>
-        <location filename="../src/overtimechart.cpp" line="3565"/>
-        <location filename="../src/overtimechart.cpp" line="3783"/>
-        <location filename="../src/overtimechart.cpp" line="3790"/>
-        <location filename="../src/overtimechart.cpp" line="3829"/>
-        <location filename="../src/overtimechart.cpp" line="3831"/>
-        <location filename="../src/overtimechart.cpp" line="3838"/>
-        <location filename="../src/overtimechart.cpp" line="3840"/>
-        <location filename="../src/overtimechart.cpp" line="3847"/>
-        <location filename="../src/overtimechart.cpp" line="3849"/>
-        <location filename="../src/overtimechart.cpp" line="4139"/>
-        <location filename="../src/overtimechart.cpp" line="4213"/>
+        <location filename="../src/overtimechart.cpp" line="705"/>
+        <location filename="../src/overtimechart.cpp" line="3534"/>
+        <location filename="../src/overtimechart.cpp" line="3541"/>
+        <location filename="../src/overtimechart.cpp" line="3580"/>
+        <location filename="../src/overtimechart.cpp" line="3582"/>
+        <location filename="../src/overtimechart.cpp" line="3589"/>
+        <location filename="../src/overtimechart.cpp" line="3591"/>
+        <location filename="../src/overtimechart.cpp" line="3598"/>
+        <location filename="../src/overtimechart.cpp" line="3600"/>
+        <location filename="../src/overtimechart.cpp" line="3818"/>
+        <location filename="../src/overtimechart.cpp" line="3825"/>
+        <location filename="../src/overtimechart.cpp" line="3864"/>
+        <location filename="../src/overtimechart.cpp" line="3866"/>
+        <location filename="../src/overtimechart.cpp" line="3873"/>
+        <location filename="../src/overtimechart.cpp" line="3875"/>
+        <location filename="../src/overtimechart.cpp" line="3882"/>
+        <location filename="../src/overtimechart.cpp" line="3884"/>
+        <location filename="../src/overtimechart.cpp" line="4174"/>
+        <location filename="../src/overtimechart.cpp" line="4248"/>
         <source>No description</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation>Pas de description</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2812"/>
+        <location filename="../src/overtimechart.cpp" line="2847"/>
         <source>Other descriptions</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation>Autres descriptions</translation>
@@ -10418,8 +10443,8 @@ Que voulez vous en faire ?</translation>
         <translation type="obsolete">Profits, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3461"/>
-        <location filename="../src/overtimechart.cpp" line="3745"/>
+        <location filename="../src/overtimechart.cpp" line="3496"/>
+        <location filename="../src/overtimechart.cpp" line="3780"/>
         <source>Assets</source>
         <translation>Actifs</translation>
     </message>
@@ -10435,21 +10460,21 @@ Que voulez vous en faire ?</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="227"/>
-        <location filename="../src/overtimechart.cpp" line="3192"/>
-        <location filename="../src/overtimechart.cpp" line="3193"/>
-        <location filename="../src/overtimechart.cpp" line="3195"/>
-        <location filename="../src/overtimechart.cpp" line="3196"/>
-        <location filename="../src/overtimechart.cpp" line="3199"/>
+        <location filename="../src/overtimechart.cpp" line="3227"/>
+        <location filename="../src/overtimechart.cpp" line="3228"/>
+        <location filename="../src/overtimechart.cpp" line="3230"/>
+        <location filename="../src/overtimechart.cpp" line="3231"/>
+        <location filename="../src/overtimechart.cpp" line="3234"/>
         <source>Tags</source>
         <translation>Étiquettes</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="237"/>
         <location filename="../src/overtimechart.cpp" line="566"/>
-        <location filename="../src/overtimechart.cpp" line="709"/>
-        <location filename="../src/overtimechart.cpp" line="4171"/>
-        <location filename="../src/overtimechart.cpp" line="4282"/>
-        <location filename="../src/overtimechart.cpp" line="4331"/>
+        <location filename="../src/overtimechart.cpp" line="744"/>
+        <location filename="../src/overtimechart.cpp" line="4206"/>
+        <location filename="../src/overtimechart.cpp" line="4317"/>
+        <location filename="../src/overtimechart.cpp" line="4366"/>
         <source>All Descriptions Combined</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation>Toutes les descriptions combinées</translation>
@@ -10457,23 +10482,23 @@ Que voulez vous en faire ?</translation>
     <message>
         <location filename="../src/overtimechart.cpp" line="244"/>
         <location filename="../src/overtimechart.cpp" line="580"/>
-        <location filename="../src/overtimechart.cpp" line="675"/>
-        <location filename="../src/overtimechart.cpp" line="715"/>
-        <location filename="../src/overtimechart.cpp" line="4200"/>
-        <location filename="../src/overtimechart.cpp" line="4286"/>
-        <location filename="../src/overtimechart.cpp" line="4337"/>
+        <location filename="../src/overtimechart.cpp" line="710"/>
+        <location filename="../src/overtimechart.cpp" line="750"/>
+        <location filename="../src/overtimechart.cpp" line="4235"/>
+        <location filename="../src/overtimechart.cpp" line="4321"/>
+        <location filename="../src/overtimechart.cpp" line="4372"/>
         <source>All Payees/Payers Combined</source>
         <translation>Tous les bénéficiaires/débiteurs combinés</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="250"/>
-        <location filename="../src/overtimechart.cpp" line="4363"/>
+        <location filename="../src/overtimechart.cpp" line="4398"/>
         <source>All Accounts Combined</source>
         <translation>Tous les comptes combinés</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="251"/>
-        <location filename="../src/overtimechart.cpp" line="4364"/>
+        <location filename="../src/overtimechart.cpp" line="4399"/>
         <source>All Accounts Split</source>
         <translation>Tous les comptes séparés</translation>
     </message>
@@ -10504,32 +10529,32 @@ Que voulez vous en faire ?</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="291"/>
-        <location filename="../src/overtimechart.cpp" line="3072"/>
-        <location filename="../src/overtimechart.cpp" line="3096"/>
+        <location filename="../src/overtimechart.cpp" line="3107"/>
+        <location filename="../src/overtimechart.cpp" line="3131"/>
         <source>Quantity</source>
         <translation>Quantité</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="295"/>
-        <location filename="../src/overtimechart.cpp" line="3100"/>
+        <location filename="../src/overtimechart.cpp" line="3135"/>
         <source>Average value</source>
         <translation>Valeur moyenne</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="578"/>
-        <location filename="../src/overtimechart.cpp" line="673"/>
-        <location filename="../src/overtimechart.cpp" line="713"/>
-        <location filename="../src/overtimechart.cpp" line="4198"/>
-        <location filename="../src/overtimechart.cpp" line="4336"/>
+        <location filename="../src/overtimechart.cpp" line="708"/>
+        <location filename="../src/overtimechart.cpp" line="748"/>
+        <location filename="../src/overtimechart.cpp" line="4233"/>
+        <location filename="../src/overtimechart.cpp" line="4371"/>
         <source>All Payers Combined</source>
         <translation>Tous les débiteurs combinés</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="579"/>
-        <location filename="../src/overtimechart.cpp" line="674"/>
-        <location filename="../src/overtimechart.cpp" line="714"/>
-        <location filename="../src/overtimechart.cpp" line="4199"/>
-        <location filename="../src/overtimechart.cpp" line="4335"/>
+        <location filename="../src/overtimechart.cpp" line="709"/>
+        <location filename="../src/overtimechart.cpp" line="749"/>
+        <location filename="../src/overtimechart.cpp" line="4234"/>
+        <location filename="../src/overtimechart.cpp" line="4370"/>
         <source>All Payees Combined</source>
         <translation>Tous les bénéficiaires combinés</translation>
     </message>
@@ -10549,86 +10574,86 @@ Que voulez vous en faire ?</translation>
         <translation type="vanished">Pas de nom</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3073"/>
+        <location filename="../src/overtimechart.cpp" line="3108"/>
         <source>Value</source>
         <translation>Valeur</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3123"/>
-        <location filename="../src/overtimechart.cpp" line="3897"/>
+        <location filename="../src/overtimechart.cpp" line="3158"/>
+        <location filename="../src/overtimechart.cpp" line="3932"/>
         <source>Includes budgeted transactions</source>
         <translation>Inclut les transactions budgétées</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3209"/>
+        <location filename="../src/overtimechart.cpp" line="3244"/>
         <source>Incomes − Expenses, %1</source>
         <translation>Revenus − dépenses, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3210"/>
-        <location filename="../src/overtimechart.cpp" line="3466"/>
-        <location filename="../src/overtimechart.cpp" line="3750"/>
+        <location filename="../src/overtimechart.cpp" line="3245"/>
+        <location filename="../src/overtimechart.cpp" line="3501"/>
+        <location filename="../src/overtimechart.cpp" line="3785"/>
         <source>Incomes − Expenses</source>
         <translation>Revenus − dépenses</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3216"/>
+        <location filename="../src/overtimechart.cpp" line="3251"/>
         <source>Incomes &amp; Expenses</source>
         <translation>Revenus &amp; Dépenses</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3193"/>
-        <location filename="../src/overtimechart.cpp" line="3236"/>
+        <location filename="../src/overtimechart.cpp" line="3228"/>
+        <location filename="../src/overtimechart.cpp" line="3271"/>
         <source>Incomes: %1</source>
         <translation>Revenus: %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3196"/>
-        <location filename="../src/overtimechart.cpp" line="3244"/>
+        <location filename="../src/overtimechart.cpp" line="3231"/>
+        <location filename="../src/overtimechart.cpp" line="3279"/>
         <source>Expenses: %1</source>
         <translation>Dépenses: %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3250"/>
+        <location filename="../src/overtimechart.cpp" line="3285"/>
         <source>%2: %1</source>
         <translation>%2: %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3257"/>
-        <location filename="../src/overtimechart.cpp" line="3291"/>
+        <location filename="../src/overtimechart.cpp" line="3292"/>
+        <location filename="../src/overtimechart.cpp" line="3326"/>
         <source>Incomes: %2, %1</source>
         <translation>Revenus: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3263"/>
         <location filename="../src/overtimechart.cpp" line="3298"/>
+        <location filename="../src/overtimechart.cpp" line="3333"/>
         <source>Expenses: %2, %1</source>
         <translation>Dépenses: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3268"/>
         <location filename="../src/overtimechart.cpp" line="3303"/>
+        <location filename="../src/overtimechart.cpp" line="3338"/>
         <source>%3: %2, %1</source>
         <translation>%3: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3269"/>
         <location filename="../src/overtimechart.cpp" line="3304"/>
+        <location filename="../src/overtimechart.cpp" line="3339"/>
         <source>%2, %1</source>
         <translation>%2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3274"/>
+        <location filename="../src/overtimechart.cpp" line="3309"/>
         <source>Incomes: %3, %2, %1</source>
         <translation>Revenus: %3, %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3279"/>
+        <location filename="../src/overtimechart.cpp" line="3314"/>
         <source>Expenses: %3, %2, %1</source>
         <translation>Dépenses: %3, %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3283"/>
+        <location filename="../src/overtimechart.cpp" line="3318"/>
         <source>%4: %3, %2, %1</source>
         <translation>%4: %3, %2, %1</translation>
     </message>
@@ -10637,21 +10662,21 @@ Que voulez vous en faire ?</translation>
         <translation type="obsolete">pas de bénéficiaire/créditeur</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3284"/>
+        <location filename="../src/overtimechart.cpp" line="3319"/>
         <source>%3, %2, %1</source>
         <translation>%3, %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3572"/>
-        <location filename="../src/overtimechart.cpp" line="3856"/>
+        <location filename="../src/overtimechart.cpp" line="3607"/>
+        <location filename="../src/overtimechart.cpp" line="3891"/>
         <source>Other accounts</source>
         <translation>Autres comptes</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="4532"/>
-        <location filename="../src/overtimechart.cpp" line="4541"/>
-        <location filename="../src/overtimechart.cpp" line="4587"/>
-        <location filename="../src/overtimechart.cpp" line="4588"/>
+        <location filename="../src/overtimechart.cpp" line="4567"/>
+        <location filename="../src/overtimechart.cpp" line="4576"/>
+        <location filename="../src/overtimechart.cpp" line="4622"/>
+        <location filename="../src/overtimechart.cpp" line="4623"/>
         <source>%1
 Value: %2
 Date: %3</source>
@@ -10660,8 +10685,8 @@ Valeur : %2
 Date : %3</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="4541"/>
-        <location filename="../src/overtimechart.cpp" line="4588"/>
+        <location filename="../src/overtimechart.cpp" line="4576"/>
+        <location filename="../src/overtimechart.cpp" line="4623"/>
         <source>MMMM yyyy</source>
         <comment>Month and year</comment>
         <translation>MMMM AAAA</translation>
@@ -10671,14 +10696,14 @@ Date : %3</translation>
         <translation type="vanished">Toutes les descriptions séparées</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="673"/>
-        <location filename="../src/overtimechart.cpp" line="4198"/>
+        <location filename="../src/overtimechart.cpp" line="708"/>
+        <location filename="../src/overtimechart.cpp" line="4233"/>
         <source>All Payers Split</source>
         <translation>Tous les débiteurs séparés</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="674"/>
-        <location filename="../src/overtimechart.cpp" line="4199"/>
+        <location filename="../src/overtimechart.cpp" line="709"/>
+        <location filename="../src/overtimechart.cpp" line="4234"/>
         <source>All Payees Split</source>
         <translation>Tous les bénéficiaires séparés</translation>
     </message>
@@ -10687,89 +10712,89 @@ Date : %3</translation>
         <translation type="vanished">Pas de description</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="681"/>
-        <location filename="../src/overtimechart.cpp" line="3273"/>
-        <location filename="../src/overtimechart.cpp" line="3274"/>
-        <location filename="../src/overtimechart.cpp" line="3290"/>
-        <location filename="../src/overtimechart.cpp" line="3291"/>
-        <location filename="../src/overtimechart.cpp" line="3482"/>
-        <location filename="../src/overtimechart.cpp" line="3512"/>
-        <location filename="../src/overtimechart.cpp" line="3529"/>
-        <location filename="../src/overtimechart.cpp" line="3554"/>
-        <location filename="../src/overtimechart.cpp" line="3555"/>
-        <location filename="../src/overtimechart.cpp" line="3766"/>
-        <location filename="../src/overtimechart.cpp" line="3796"/>
-        <location filename="../src/overtimechart.cpp" line="3818"/>
-        <location filename="../src/overtimechart.cpp" line="3838"/>
-        <location filename="../src/overtimechart.cpp" line="3839"/>
-        <location filename="../src/overtimechart.cpp" line="4143"/>
-        <location filename="../src/overtimechart.cpp" line="4229"/>
+        <location filename="../src/overtimechart.cpp" line="716"/>
+        <location filename="../src/overtimechart.cpp" line="3308"/>
+        <location filename="../src/overtimechart.cpp" line="3309"/>
+        <location filename="../src/overtimechart.cpp" line="3325"/>
+        <location filename="../src/overtimechart.cpp" line="3326"/>
+        <location filename="../src/overtimechart.cpp" line="3517"/>
+        <location filename="../src/overtimechart.cpp" line="3547"/>
+        <location filename="../src/overtimechart.cpp" line="3564"/>
+        <location filename="../src/overtimechart.cpp" line="3589"/>
+        <location filename="../src/overtimechart.cpp" line="3590"/>
+        <location filename="../src/overtimechart.cpp" line="3801"/>
+        <location filename="../src/overtimechart.cpp" line="3831"/>
+        <location filename="../src/overtimechart.cpp" line="3853"/>
+        <location filename="../src/overtimechart.cpp" line="3873"/>
+        <location filename="../src/overtimechart.cpp" line="3874"/>
+        <location filename="../src/overtimechart.cpp" line="4178"/>
+        <location filename="../src/overtimechart.cpp" line="4264"/>
         <source>No payer</source>
         <translation>Pas de débiteur</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="682"/>
-        <location filename="../src/overtimechart.cpp" line="3278"/>
-        <location filename="../src/overtimechart.cpp" line="3279"/>
-        <location filename="../src/overtimechart.cpp" line="3297"/>
-        <location filename="../src/overtimechart.cpp" line="3298"/>
-        <location filename="../src/overtimechart.cpp" line="3486"/>
-        <location filename="../src/overtimechart.cpp" line="3524"/>
-        <location filename="../src/overtimechart.cpp" line="3539"/>
-        <location filename="../src/overtimechart.cpp" line="3563"/>
-        <location filename="../src/overtimechart.cpp" line="3564"/>
-        <location filename="../src/overtimechart.cpp" line="3770"/>
-        <location filename="../src/overtimechart.cpp" line="3808"/>
-        <location filename="../src/overtimechart.cpp" line="3823"/>
-        <location filename="../src/overtimechart.cpp" line="3847"/>
-        <location filename="../src/overtimechart.cpp" line="3848"/>
-        <location filename="../src/overtimechart.cpp" line="4141"/>
-        <location filename="../src/overtimechart.cpp" line="4230"/>
+        <location filename="../src/overtimechart.cpp" line="717"/>
+        <location filename="../src/overtimechart.cpp" line="3313"/>
+        <location filename="../src/overtimechart.cpp" line="3314"/>
+        <location filename="../src/overtimechart.cpp" line="3332"/>
+        <location filename="../src/overtimechart.cpp" line="3333"/>
+        <location filename="../src/overtimechart.cpp" line="3521"/>
+        <location filename="../src/overtimechart.cpp" line="3559"/>
+        <location filename="../src/overtimechart.cpp" line="3574"/>
+        <location filename="../src/overtimechart.cpp" line="3598"/>
+        <location filename="../src/overtimechart.cpp" line="3599"/>
+        <location filename="../src/overtimechart.cpp" line="3805"/>
+        <location filename="../src/overtimechart.cpp" line="3843"/>
+        <location filename="../src/overtimechart.cpp" line="3858"/>
+        <location filename="../src/overtimechart.cpp" line="3882"/>
+        <location filename="../src/overtimechart.cpp" line="3883"/>
+        <location filename="../src/overtimechart.cpp" line="4176"/>
+        <location filename="../src/overtimechart.cpp" line="4265"/>
         <source>No payee</source>
         <translation>Pas de bénéficiaire</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="722"/>
-        <location filename="../src/overtimechart.cpp" line="734"/>
-        <location filename="../src/overtimechart.cpp" line="4310"/>
+        <location filename="../src/overtimechart.cpp" line="757"/>
+        <location filename="../src/overtimechart.cpp" line="769"/>
+        <location filename="../src/overtimechart.cpp" line="4345"/>
         <source>All Categories Split</source>
         <translation>Toutes les catégories séparées</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="811"/>
-        <location filename="../src/overtimechart.cpp" line="841"/>
-        <location filename="../src/overtimechart.cpp" line="871"/>
-        <location filename="../src/overtimechart.cpp" line="908"/>
-        <location filename="../src/overtimechart.cpp" line="1022"/>
-        <location filename="../src/overtimechart.cpp" line="1055"/>
+        <location filename="../src/overtimechart.cpp" line="846"/>
+        <location filename="../src/overtimechart.cpp" line="876"/>
+        <location filename="../src/overtimechart.cpp" line="906"/>
+        <location filename="../src/overtimechart.cpp" line="943"/>
+        <location filename="../src/overtimechart.cpp" line="1057"/>
+        <location filename="../src/overtimechart.cpp" line="1090"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="811"/>
-        <location filename="../src/overtimechart.cpp" line="841"/>
-        <location filename="../src/overtimechart.cpp" line="871"/>
-        <location filename="../src/overtimechart.cpp" line="908"/>
+        <location filename="../src/overtimechart.cpp" line="846"/>
+        <location filename="../src/overtimechart.cpp" line="876"/>
+        <location filename="../src/overtimechart.cpp" line="906"/>
+        <location filename="../src/overtimechart.cpp" line="943"/>
         <source>Invalid date.</source>
         <translation>Date invalide.</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="1022"/>
+        <location filename="../src/overtimechart.cpp" line="1057"/>
         <source>Couldn&apos;t open file for writing.</source>
         <translation>Impossible d&apos; ouvrir le fichier en écriture.</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="1055"/>
+        <location filename="../src/overtimechart.cpp" line="1090"/>
         <source>Error while writing file; file was not saved.</source>
         <translation>Erreur lors de l&apos; écriture du fichier ; fichier non sauvegardé.</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2806"/>
+        <location filename="../src/overtimechart.cpp" line="2841"/>
         <source>Other payees</source>
         <translation>Autres bénéficiaires</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2808"/>
+        <location filename="../src/overtimechart.cpp" line="2843"/>
         <source>Other payers</source>
         <translation type="unfinished">Autres débiteurs</translation>
     </message>
@@ -10790,15 +10815,15 @@ Date : %3</translation>
         <translation type="vanished">Coût (%1)</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3950"/>
+        <location filename="../src/overtimechart.cpp" line="3985"/>
         <source>Time</source>
         <translation>Temps</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3482"/>
-        <location filename="../src/overtimechart.cpp" line="3486"/>
-        <location filename="../src/overtimechart.cpp" line="3766"/>
-        <location filename="../src/overtimechart.cpp" line="3770"/>
+        <location filename="../src/overtimechart.cpp" line="3517"/>
+        <location filename="../src/overtimechart.cpp" line="3521"/>
+        <location filename="../src/overtimechart.cpp" line="3801"/>
+        <location filename="../src/overtimechart.cpp" line="3805"/>
         <source>%1/%2</source>
         <comment>%1: Category; %2: Payee/Payer</comment>
         <translation></translation>
@@ -10813,124 +10838,124 @@ Date : %3</translation>
         <translation>Total annuel</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="675"/>
-        <location filename="../src/overtimechart.cpp" line="4200"/>
+        <location filename="../src/overtimechart.cpp" line="710"/>
+        <location filename="../src/overtimechart.cpp" line="4235"/>
         <source>All Payees/Payers Split</source>
         <translation>Tous les bénéficiaires/débiteurs séparés</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="683"/>
-        <location filename="../src/overtimechart.cpp" line="3283"/>
-        <location filename="../src/overtimechart.cpp" line="3284"/>
-        <location filename="../src/overtimechart.cpp" line="3303"/>
-        <location filename="../src/overtimechart.cpp" line="3304"/>
-        <location filename="../src/overtimechart.cpp" line="3518"/>
-        <location filename="../src/overtimechart.cpp" line="3534"/>
-        <location filename="../src/overtimechart.cpp" line="3545"/>
-        <location filename="../src/overtimechart.cpp" line="3546"/>
-        <location filename="../src/overtimechart.cpp" line="3802"/>
-        <location filename="../src/overtimechart.cpp" line="3813"/>
-        <location filename="../src/overtimechart.cpp" line="3829"/>
-        <location filename="../src/overtimechart.cpp" line="3830"/>
-        <location filename="../src/overtimechart.cpp" line="4231"/>
+        <location filename="../src/overtimechart.cpp" line="718"/>
+        <location filename="../src/overtimechart.cpp" line="3318"/>
+        <location filename="../src/overtimechart.cpp" line="3319"/>
+        <location filename="../src/overtimechart.cpp" line="3338"/>
+        <location filename="../src/overtimechart.cpp" line="3339"/>
+        <location filename="../src/overtimechart.cpp" line="3553"/>
+        <location filename="../src/overtimechart.cpp" line="3569"/>
+        <location filename="../src/overtimechart.cpp" line="3580"/>
+        <location filename="../src/overtimechart.cpp" line="3581"/>
+        <location filename="../src/overtimechart.cpp" line="3837"/>
+        <location filename="../src/overtimechart.cpp" line="3848"/>
+        <location filename="../src/overtimechart.cpp" line="3864"/>
+        <location filename="../src/overtimechart.cpp" line="3865"/>
+        <location filename="../src/overtimechart.cpp" line="4266"/>
         <source>No payee/payer</source>
         <translation type="unfinished">Pas de bénéficiaire/débiteur</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="746"/>
-        <location filename="../src/overtimechart.cpp" line="4273"/>
+        <location filename="../src/overtimechart.cpp" line="781"/>
+        <location filename="../src/overtimechart.cpp" line="4308"/>
         <source>All Tags Split</source>
         <translation>Toutes les étiquettes séparés</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2804"/>
+        <location filename="../src/overtimechart.cpp" line="2839"/>
         <source>Other tags</source>
         <translation>Autres étiquettes</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2810"/>
+        <location filename="../src/overtimechart.cpp" line="2845"/>
         <source>Other payees/payers</source>
         <translation>Autres bénéficiaires/débiteurs</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3089"/>
+        <location filename="../src/overtimechart.cpp" line="3124"/>
         <source>Daily average value</source>
         <translation>Valeur moyenne journalière</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3090"/>
+        <location filename="../src/overtimechart.cpp" line="3125"/>
         <source>Daily average profit</source>
         <translation>Profit moyen journalier</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3091"/>
+        <location filename="../src/overtimechart.cpp" line="3126"/>
         <source>Daily average income</source>
         <translation>Revenu moyen journalier</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3092"/>
+        <location filename="../src/overtimechart.cpp" line="3127"/>
         <source>Daily average cost</source>
         <translation>Coût moyen journalier</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3101"/>
+        <location filename="../src/overtimechart.cpp" line="3136"/>
         <source>Average income</source>
         <translation>Revenu moyen</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3102"/>
+        <location filename="../src/overtimechart.cpp" line="3137"/>
         <source>Average cost</source>
         <translation>Coût moyen</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3106"/>
+        <location filename="../src/overtimechart.cpp" line="3141"/>
         <source>Annual value</source>
         <translation>Valeur annuelle</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3107"/>
+        <location filename="../src/overtimechart.cpp" line="3142"/>
         <source>Annual profit</source>
         <translation>Profit annuel</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3108"/>
+        <location filename="../src/overtimechart.cpp" line="3143"/>
         <source>Annual income</source>
         <translation>Revenu annuel</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3109"/>
+        <location filename="../src/overtimechart.cpp" line="3144"/>
         <source>Annual cost</source>
         <translation>Coût annuel</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3113"/>
+        <location filename="../src/overtimechart.cpp" line="3148"/>
         <source>Monthly value</source>
         <translation>Valeur mensuelle</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3114"/>
+        <location filename="../src/overtimechart.cpp" line="3149"/>
         <source>Monthly profit</source>
         <translation>Profit mensuel</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3115"/>
+        <location filename="../src/overtimechart.cpp" line="3150"/>
         <source>Monthly income</source>
         <translation>Revenu mensuel</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3116"/>
+        <location filename="../src/overtimechart.cpp" line="3151"/>
         <source>Monthly cost</source>
         <translation>Coût mensuel</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3122"/>
-        <location filename="../src/overtimechart.cpp" line="3896"/>
+        <location filename="../src/overtimechart.cpp" line="3157"/>
+        <location filename="../src/overtimechart.cpp" line="3931"/>
         <source>Includes scheduled and budgeted transactions</source>
         <translation>Inclut les transactions planifiées et budgétées</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3124"/>
-        <location filename="../src/overtimechart.cpp" line="3898"/>
+        <location filename="../src/overtimechart.cpp" line="3159"/>
+        <location filename="../src/overtimechart.cpp" line="3933"/>
         <source>Includes scheduled transactions</source>
         <translation>Inclut les transactions planifiées</translation>
     </message>
@@ -10939,17 +10964,17 @@ Date : %3</translation>
         <translation type="obsolete">Revenus, %2: 1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3198"/>
+        <location filename="../src/overtimechart.cpp" line="3233"/>
         <source>Tags, %1</source>
         <translation>Étiquettes, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3204"/>
+        <location filename="../src/overtimechart.cpp" line="3239"/>
         <source>Value: %1</source>
         <translation>Valeur : %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3205"/>
+        <location filename="../src/overtimechart.cpp" line="3240"/>
         <source>Assets &amp; Liabilities</source>
         <translation>Actifs &amp; Dettes</translation>
     </message>
@@ -10958,63 +10983,63 @@ Date : %3</translation>
         <translation type="obsolete">Change: %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3212"/>
+        <location filename="../src/overtimechart.cpp" line="3247"/>
         <source>Excluding any profits or losses in trading of security shares</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation>À l&apos;exclusion des profits ou des pertes liés à la négociation d&apos;actions de sécurité.</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3215"/>
+        <location filename="../src/overtimechart.cpp" line="3250"/>
         <source>Incomes &amp; Expenses, %1</source>
         <translation>Revenus &amp; Dépenses, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3221"/>
+        <location filename="../src/overtimechart.cpp" line="3256"/>
         <source>Incomes, %1</source>
         <translation>Revenus, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3227"/>
+        <location filename="../src/overtimechart.cpp" line="3262"/>
         <source>Expenses, %1</source>
         <translation>Dépenses, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3192"/>
-        <location filename="../src/overtimechart.cpp" line="3235"/>
+        <location filename="../src/overtimechart.cpp" line="3227"/>
+        <location filename="../src/overtimechart.cpp" line="3270"/>
         <source>Incomes, %2: %1</source>
         <translation>Revenus, %2 : %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3195"/>
-        <location filename="../src/overtimechart.cpp" line="3243"/>
+        <location filename="../src/overtimechart.cpp" line="3230"/>
+        <location filename="../src/overtimechart.cpp" line="3278"/>
         <source>Expenses, %2: %1</source>
         <translation>Dépenses, %2 : %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3256"/>
-        <location filename="../src/overtimechart.cpp" line="3290"/>
+        <location filename="../src/overtimechart.cpp" line="3291"/>
+        <location filename="../src/overtimechart.cpp" line="3325"/>
         <source>Incomes, %3: %2, %1</source>
         <translation>Revenus, %3 : %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3262"/>
         <location filename="../src/overtimechart.cpp" line="3297"/>
+        <location filename="../src/overtimechart.cpp" line="3332"/>
         <source>Expenses, %3: %2, %1</source>
         <translation>Dépenses, %3 : %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3273"/>
+        <location filename="../src/overtimechart.cpp" line="3308"/>
         <source>Incomes, %4: %3, %2, %1</source>
         <translation>Revenus, %4 : %3, %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3278"/>
+        <location filename="../src/overtimechart.cpp" line="3313"/>
         <source>Expenses, %4: %3, %2, %1</source>
         <translation>Dépenses, %4 : %3, %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3462"/>
-        <location filename="../src/overtimechart.cpp" line="3746"/>
+        <location filename="../src/overtimechart.cpp" line="3497"/>
+        <location filename="../src/overtimechart.cpp" line="3781"/>
         <source>Liabilities</source>
         <translation>Dettes</translation>
     </message>
@@ -11023,12 +11048,12 @@ Date : %3</translation>
         <translation type="vanished">aucun débiteur</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3549"/>
-        <location filename="../src/overtimechart.cpp" line="3558"/>
-        <location filename="../src/overtimechart.cpp" line="3567"/>
-        <location filename="../src/overtimechart.cpp" line="3833"/>
-        <location filename="../src/overtimechart.cpp" line="3842"/>
-        <location filename="../src/overtimechart.cpp" line="3851"/>
+        <location filename="../src/overtimechart.cpp" line="3584"/>
+        <location filename="../src/overtimechart.cpp" line="3593"/>
+        <location filename="../src/overtimechart.cpp" line="3602"/>
+        <location filename="../src/overtimechart.cpp" line="3868"/>
+        <location filename="../src/overtimechart.cpp" line="3877"/>
+        <location filename="../src/overtimechart.cpp" line="3886"/>
         <source>%1/%2</source>
         <comment>%1: Description; %2: Payee/Payer</comment>
         <translation></translation>
@@ -11075,55 +11100,57 @@ Date : %3</translation>
 <context>
     <name>OverTimeReport</name>
     <message>
-        <location filename="../src/overtimereport.cpp" line="575"/>
+        <location filename="../src/overtimereport.cpp" line="609"/>
         <source>Save As…</source>
         <translation>Enregistrer sous…</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="577"/>
+        <location filename="../src/overtimereport.cpp" line="611"/>
         <source>Print…</source>
         <translation>Imprimer…</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="591"/>
+        <location filename="../src/overtimereport.cpp" line="625"/>
         <source>Source:</source>
         <translation>Source:</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="596"/>
-        <location filename="../src/overtimereport.cpp" line="939"/>
+        <location filename="../src/overtimereport.cpp" line="630"/>
+        <location filename="../src/overtimereport.cpp" line="1095"/>
         <source>Profits</source>
         <translation>Profits</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="597"/>
-        <location filename="../src/overtimereport.cpp" line="941"/>
-        <location filename="../src/overtimereport.cpp" line="966"/>
-        <location filename="../src/overtimereport.cpp" line="988"/>
-        <location filename="../src/overtimereport.cpp" line="1008"/>
-        <location filename="../src/overtimereport.cpp" line="1638"/>
+        <location filename="../src/overtimereport.cpp" line="631"/>
+        <location filename="../src/overtimereport.cpp" line="1097"/>
+        <location filename="../src/overtimereport.cpp" line="1122"/>
+        <location filename="../src/overtimereport.cpp" line="1146"/>
+        <location filename="../src/overtimereport.cpp" line="1152"/>
+        <location filename="../src/overtimereport.cpp" line="1170"/>
+        <location filename="../src/overtimereport.cpp" line="1745"/>
         <source>Expenses</source>
         <translation>Dépenses</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="598"/>
-        <location filename="../src/overtimereport.cpp" line="940"/>
-        <location filename="../src/overtimereport.cpp" line="957"/>
-        <location filename="../src/overtimereport.cpp" line="978"/>
-        <location filename="../src/overtimereport.cpp" line="998"/>
-        <location filename="../src/overtimereport.cpp" line="1674"/>
+        <location filename="../src/overtimereport.cpp" line="632"/>
+        <location filename="../src/overtimereport.cpp" line="1096"/>
+        <location filename="../src/overtimereport.cpp" line="1113"/>
+        <location filename="../src/overtimereport.cpp" line="1132"/>
+        <location filename="../src/overtimereport.cpp" line="1138"/>
+        <location filename="../src/overtimereport.cpp" line="1161"/>
+        <location filename="../src/overtimereport.cpp" line="1781"/>
         <source>Incomes</source>
         <translation>Revenus</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="599"/>
-        <location filename="../src/overtimereport.cpp" line="1019"/>
+        <location filename="../src/overtimereport.cpp" line="633"/>
+        <location filename="../src/overtimereport.cpp" line="1181"/>
         <source>Assets &amp; Liabilities</source>
         <translation>Actifs &amp; dettes</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="600"/>
-        <location filename="../src/overtimereport.cpp" line="629"/>
+        <location filename="../src/overtimereport.cpp" line="634"/>
+        <location filename="../src/overtimereport.cpp" line="663"/>
         <source>Tags</source>
         <translation>Étiquettes</translation>
     </message>
@@ -11136,51 +11163,51 @@ Date : %3</translation>
         <translation type="vanished">Toutes les descriptions combinées</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="622"/>
+        <location filename="../src/overtimereport.cpp" line="656"/>
         <source>Columns:</source>
         <translation>Colonnes:</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="626"/>
+        <location filename="../src/overtimereport.cpp" line="660"/>
         <source>Categories</source>
         <translation>Catégories</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="632"/>
+        <location filename="../src/overtimereport.cpp" line="666"/>
         <source>Total:</source>
         <translation>Total:</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="641"/>
-        <location filename="../src/overtimereport.cpp" line="1017"/>
-        <location filename="../src/overtimereport.cpp" line="1041"/>
-        <location filename="../src/overtimereport.cpp" line="1051"/>
+        <location filename="../src/overtimereport.cpp" line="675"/>
+        <location filename="../src/overtimereport.cpp" line="1179"/>
+        <location filename="../src/overtimereport.cpp" line="1203"/>
+        <location filename="../src/overtimereport.cpp" line="1213"/>
         <source>Value</source>
         <translation>Valeur</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="644"/>
+        <location filename="../src/overtimereport.cpp" line="678"/>
         <source>Daily</source>
         <translation>Journalier</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="647"/>
+        <location filename="../src/overtimereport.cpp" line="681"/>
         <source>Monthly</source>
         <translation>Mensuel</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="650"/>
+        <location filename="../src/overtimereport.cpp" line="684"/>
         <source>Yearly</source>
         <translation>Annuel</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="653"/>
-        <location filename="../src/overtimereport.cpp" line="1714"/>
+        <location filename="../src/overtimereport.cpp" line="687"/>
+        <location filename="../src/overtimereport.cpp" line="1821"/>
         <source>Quantity</source>
         <translation>Quantité</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="656"/>
+        <location filename="../src/overtimereport.cpp" line="690"/>
         <source>Average value</source>
         <translation>Valeur moyenne</translation>
     </message>
@@ -11213,18 +11240,18 @@ Date : %3</translation>
         <translation type="vanished">Pas de description</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="878"/>
-        <location filename="../src/overtimereport.cpp" line="888"/>
+        <location filename="../src/overtimereport.cpp" line="972"/>
+        <location filename="../src/overtimereport.cpp" line="982"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="878"/>
+        <location filename="../src/overtimereport.cpp" line="972"/>
         <source>Couldn&apos;t open file for writing.</source>
         <translation>Impossible d&apos; ouvrir le fichier en écriture.</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="888"/>
+        <location filename="../src/overtimereport.cpp" line="982"/>
         <source>Error while writing file; file was not saved.</source>
         <translation>Erreur lors de l&apos; écriture du fichier ; fichier non sauvegardé.</translation>
     </message>
@@ -11233,81 +11260,83 @@ Date : %3</translation>
         <translation type="vanished">Profit moyen</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="956"/>
+        <location filename="../src/overtimereport.cpp" line="1112"/>
+        <location filename="../src/overtimereport.cpp" line="1131"/>
         <source>Incomes, %1</source>
         <translation>Revenus, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="958"/>
-        <location filename="../src/overtimereport.cpp" line="977"/>
-        <location filename="../src/overtimereport.cpp" line="997"/>
-        <location filename="../src/overtimereport.cpp" line="1673"/>
+        <location filename="../src/overtimereport.cpp" line="1114"/>
+        <location filename="../src/overtimereport.cpp" line="1137"/>
+        <location filename="../src/overtimereport.cpp" line="1160"/>
+        <location filename="../src/overtimereport.cpp" line="1780"/>
         <source>Average Income</source>
         <translation>Revenu moyen</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="965"/>
+        <location filename="../src/overtimereport.cpp" line="1121"/>
+        <location filename="../src/overtimereport.cpp" line="1145"/>
         <source>Expenses, %1</source>
         <translation>Dépenses, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="967"/>
-        <location filename="../src/overtimereport.cpp" line="987"/>
-        <location filename="../src/overtimereport.cpp" line="1007"/>
-        <location filename="../src/overtimereport.cpp" line="1637"/>
+        <location filename="../src/overtimereport.cpp" line="1123"/>
+        <location filename="../src/overtimereport.cpp" line="1151"/>
+        <location filename="../src/overtimereport.cpp" line="1169"/>
+        <location filename="../src/overtimereport.cpp" line="1744"/>
         <source>Average Cost</source>
         <translation>Coût moyen</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="975"/>
-        <location filename="../src/overtimereport.cpp" line="1676"/>
+        <location filename="../src/overtimereport.cpp" line="1134"/>
+        <location filename="../src/overtimereport.cpp" line="1783"/>
         <source>Incomes, %2: %1</source>
         <translation>Revenus, %2 : %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="976"/>
-        <location filename="../src/overtimereport.cpp" line="1677"/>
+        <location filename="../src/overtimereport.cpp" line="1135"/>
+        <location filename="../src/overtimereport.cpp" line="1784"/>
         <source>Incomes: %1</source>
         <translation>Revenus: %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="985"/>
-        <location filename="../src/overtimereport.cpp" line="1666"/>
+        <location filename="../src/overtimereport.cpp" line="1148"/>
+        <location filename="../src/overtimereport.cpp" line="1773"/>
         <source>Expenses, %2: %1</source>
         <translation>Dépenses, %2 : %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="986"/>
-        <location filename="../src/overtimereport.cpp" line="1667"/>
+        <location filename="../src/overtimereport.cpp" line="1149"/>
+        <location filename="../src/overtimereport.cpp" line="1774"/>
         <source>Expenses: %1</source>
         <translation>Dépenses: %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="995"/>
-        <location filename="../src/overtimereport.cpp" line="1679"/>
+        <location filename="../src/overtimereport.cpp" line="1158"/>
+        <location filename="../src/overtimereport.cpp" line="1786"/>
         <source>Incomes, %3: %2, %1</source>
         <translation>Revenus, %3 : %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="996"/>
-        <location filename="../src/overtimereport.cpp" line="1680"/>
+        <location filename="../src/overtimereport.cpp" line="1159"/>
+        <location filename="../src/overtimereport.cpp" line="1787"/>
         <source>Incomes: %2, %1</source>
         <translation>Revenus: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="1005"/>
-        <location filename="../src/overtimereport.cpp" line="1669"/>
+        <location filename="../src/overtimereport.cpp" line="1167"/>
+        <location filename="../src/overtimereport.cpp" line="1776"/>
         <source>Expenses, %3: %2, %1</source>
         <translation>Dépenses, %3 : %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="1006"/>
-        <location filename="../src/overtimereport.cpp" line="1670"/>
+        <location filename="../src/overtimereport.cpp" line="1168"/>
+        <location filename="../src/overtimereport.cpp" line="1777"/>
         <source>Expenses: %2, %1</source>
         <translation>Dépenses: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="932"/>
+        <location filename="../src/overtimereport.cpp" line="1088"/>
         <source>Change: %1</source>
         <extracomment>Noun, how much the account balance has changed</extracomment>
         <translation>Change : %1</translation>
@@ -11317,28 +11346,28 @@ Date : %3</translation>
         <translation type="obsolete">Change moyen</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="936"/>
+        <location filename="../src/overtimereport.cpp" line="1092"/>
         <source>Change</source>
         <extracomment>Noun, how much the account balance has changed</extracomment>
         <translation>Change</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="1015"/>
+        <location filename="../src/overtimereport.cpp" line="1177"/>
         <source>Value: %1</source>
         <translation>Valeur : %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="1702"/>
+        <location filename="../src/overtimereport.cpp" line="1809"/>
         <source>Year</source>
         <translation>Année</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="1703"/>
+        <location filename="../src/overtimereport.cpp" line="1810"/>
         <source>Month</source>
         <translation>Mois</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="1021"/>
+        <location filename="../src/overtimereport.cpp" line="1183"/>
         <source>Assets</source>
         <translation>Actifs</translation>
     </message>
@@ -11351,12 +11380,12 @@ Date : %3</translation>
         <translation type="obsolete">Retrait</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="1022"/>
+        <location filename="../src/overtimereport.cpp" line="1184"/>
         <source>Liabilities</source>
         <translation>Dettes</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="1038"/>
+        <location filename="../src/overtimereport.cpp" line="1200"/>
         <source>%2: %1</source>
         <translation>%2: %1</translation>
     </message>
@@ -11365,68 +11394,68 @@ Date : %3</translation>
         <translation type="obsolete">%1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="1040"/>
-        <location filename="../src/overtimereport.cpp" line="1050"/>
+        <location filename="../src/overtimereport.cpp" line="1202"/>
+        <location filename="../src/overtimereport.cpp" line="1212"/>
         <source>Average Value</source>
         <translation>Valeur moyenne</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="1048"/>
+        <location filename="../src/overtimereport.cpp" line="1210"/>
         <source>%3: %2, %1</source>
         <translation>%3: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="1049"/>
+        <location filename="../src/overtimereport.cpp" line="1211"/>
         <source>%2, %1</source>
         <translation>%2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="1710"/>
+        <location filename="../src/overtimereport.cpp" line="1817"/>
         <source>Daily Average</source>
         <translation>Moyenne journalière</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="1711"/>
+        <location filename="../src/overtimereport.cpp" line="1818"/>
         <source>Monthly Average</source>
         <translation>Moyenne mensuelle</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="1712"/>
+        <location filename="../src/overtimereport.cpp" line="1819"/>
         <source>Yearly Average</source>
         <translation>Moyenne annuelle</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="1788"/>
-        <location filename="../src/overtimereport.cpp" line="1898"/>
+        <location filename="../src/overtimereport.cpp" line="1895"/>
+        <location filename="../src/overtimereport.cpp" line="2005"/>
         <source>Subtotal</source>
         <translation>Sous-total</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="1023"/>
-        <location filename="../src/overtimereport.cpp" line="1747"/>
-        <location filename="../src/overtimereport.cpp" line="1926"/>
+        <location filename="../src/overtimereport.cpp" line="1185"/>
+        <location filename="../src/overtimereport.cpp" line="1854"/>
+        <location filename="../src/overtimereport.cpp" line="2033"/>
         <source>Total</source>
         <translation>Total</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="933"/>
+        <location filename="../src/overtimereport.cpp" line="1089"/>
         <source>Deposit</source>
         <comment>Money put into account</comment>
         <translation>Dépôt</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="934"/>
+        <location filename="../src/overtimereport.cpp" line="1090"/>
         <source>Withdrawal</source>
         <comment>Money taken out from account</comment>
         <translation>Retrait</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="1955"/>
+        <location filename="../src/overtimereport.cpp" line="2062"/>
         <source>Includes scheduled transactions</source>
         <translation>Inclut les transactions planifiées</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="1959"/>
+        <location filename="../src/overtimereport.cpp" line="2066"/>
         <source>Adjusted for the average month / year (%1 / %2 days)</source>
         <translation>Ajusté pour le mois/annér moyen (%1 / %2 jours)</translation>
     </message>
@@ -12286,39 +12315,39 @@ Date : %3</translation>
 <context>
     <name>TransactionEditDialog</name>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2309"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2311"/>
         <source>Edit Expense</source>
         <translation>Éditer la dépense</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2311"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2313"/>
         <source>Edit Dividend</source>
         <translation>Éditer le dividende</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2312"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2314"/>
         <source>Edit Income</source>
         <translation>Éditer le revenu</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2315"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2317"/>
         <source>Edit Transfer</source>
         <translation>Éditer le transfert</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2316"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2318"/>
         <source>Edit Securities Purchase</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation>Éditer les titres achetés</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2317"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2319"/>
         <source>Edit Securities Sale</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation>Éditer les titres vendus</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2318"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2320"/>
         <source>Edit Reinvested Dividend</source>
         <translation>Editer le dividende réinvesti</translation>
     </message>
