@@ -40,9 +40,10 @@ parts:
       - INSTALL_THEME_ICONS="no"
       - PREFIX=/usr
     build-environment:
-      - LD_LIBRARY_PATH: $LD_LIBRARY_PATH:/snap/kde-qt6-core24-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR
+      - LD_LIBRARY_PATH: $LD_LIBRARY_PATH:/snap/kde-qt6-core24-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:/snap/kde-qt6-core24-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libproxy:/snap/kf6-core24-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:/snap/kf6-core24/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:/snap/core24/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR
       - PKG_CONFIG_PATH: $CRAFT_STAGE/usr/lib/pkgconfig:/snap/kde-qt6-core24-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pkgconfig
       - PATH: /snap/kde-qt6-core24-sdk/current/usr/bin/qt6:$PATH
+      - CXXFLAGS: "$CXXFLAGS -fsigned-char"
     build-snaps:
       - core24
       - kf6-core24
