@@ -975,26 +975,26 @@ double readCSVValue(const QString &str, int value_format, bool *ok) {
 //p3 YMD
 //p4 YDM
 void testCSVDate(const QString &str, bool &p1, bool &p2, bool &p3, bool &p4, bool &ly, char &separator, int &lz) {
-	if(separator < 0) {
+	if(separator < 1) {
 		for(int i = 0; i < (int) str.length(); i++) {
 			if(str[i] < '0' || str[i] > '9') {
 				separator = str[i].toLatin1();
 				break;
 			}
 		}
-		if(separator < 0) separator = 0;
-		p1 = (separator != 0 || str.length() == 6);
-		p2 = (separator != 0 || str.length() == 6);
+		if(separator < 1) separator = 1;
+		p1 = (separator != 1 || str.length() == 6);
+		p2 = (separator != 1 || str.length() == 6);
 		p3 = true;
-		p4 = (separator != 0 || str.length() == 6);
-		ly = (separator == 0 && str.length() >= 8);
+		p4 = (separator != 1 || str.length() == 6);
+		ly = (separator == 1 && str.length() >= 8);
 	}
 	if(p1 + p2 + p3 + p4 <= 1) {
 		lz = 1;
 		return;
 	}
 	QStringList strlist;
-	if(separator == 0) {
+	if(separator == 1) {
 		strlist << str.left(2);
 		strlist << str.mid(2, 2);
 		strlist << str.right(2);
@@ -1099,17 +1099,17 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 		ci->ly = true;
 		ci->lz = -1;
 		ci->value_format = 0;
-		ci->separator = -1;
+		ci->separator = 0;
 	} else {
 		if(ci->p1) {
 			date_format += ci->lz == 0 ? "M" : "MM";
-			if(ci->separator > 0) date_format += ci->separator;
+			if(ci->separator > 1) date_format += ci->separator;
 			date_format += ci->lz == 0 ? "d" : "dd";
-			if(ci->separator > 0) date_format += ci->separator;
+			if(ci->separator > 1) date_format += ci->separator;
 			if(ci->ly) {
 				date_format += "yyyy";
 			} else {
-				if(ci->separator > 0) {
+				if(ci->separator > 1) {
 					alt_date_format = date_format;
 					alt_date_format += '\'';
 					alt_date_format += "yy";
@@ -1118,13 +1118,13 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 			}
 		} else if(ci->p2) {
 			date_format += ci->lz == 0 ? "d" : "dd";
-			if(ci->separator > 0) date_format += ci->separator;
+			if(ci->separator > 1) date_format += ci->separator;
 			date_format += ci->lz == 0 ? "M" : "MM";
-			if(ci->separator > 0) date_format += ci->separator;
+			if(ci->separator > 1) date_format += ci->separator;
 			if(ci->ly) {
 				date_format += "yyyy";
 			} else {
-				if(ci->separator > 0) {
+				if(ci->separator > 1) {
 					alt_date_format = date_format;
 					alt_date_format += '\'';
 					alt_date_format += "yy";
@@ -1134,16 +1134,16 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 		} else if(ci->p3) {
 			if(ci->ly) date_format += "yyyy";
 			else date_format += "yy";
-			if(ci->separator > 0) date_format += ci->separator;
+			if(ci->separator > 1) date_format += ci->separator;
 			date_format += ci->lz == 0 ? "M" : "MM";
-			if(ci->separator > 0) date_format += ci->separator;
+			if(ci->separator > 1) date_format += ci->separator;
 			date_format += ci->lz == 0 ? "d" : "dd";
 		} else if(ci->p4) {
 			if(ci->ly) date_format += "yyyy";
 			else date_format += "yy";
-			if(ci->separator > 0) date_format += ci->separator;
+			if(ci->separator > 1) date_format += ci->separator;
 			date_format += ci->lz == 0 ? "d" : "dd";
-			if(ci->separator > 0) date_format += ci->separator;
+			if(ci->separator > 1) date_format += ci->separator;
 			date_format += ci->lz == 0 ? "M" : "MM";
 		}
 	}
@@ -1812,18 +1812,18 @@ void ImportCSVDialog::accept() {
 			dateFormatCombo->setEditable(false);
 			if(ci.p1) {
 				QString date_format = ci.lz == 0 ? "M" : "MM";;
-				if(ci.separator > 0) date_format += ci.separator;
+				if(ci.separator > 1) date_format += ci.separator;
 				date_format += ci.lz == 0 ? "D" : "DD";
-				if(ci.separator > 0) date_format += ci.separator;
+				if(ci.separator > 1) date_format += ci.separator;
 				date_format += "YY";
 				if(ci.ly) date_format += "YY";
 				dateFormatCombo->addItem(date_format);
 			}
 			if(ci.p2) {
 				QString date_format = ci.lz == 0 ? "D" : "DD";
-				if(ci.separator > 0) date_format += ci.separator;
+				if(ci.separator > 1) date_format += ci.separator;
 				date_format += ci.lz == 0 ? "M" : "MM";
-				if(ci.separator > 0) date_format += ci.separator;
+				if(ci.separator > 1) date_format += ci.separator;
 				date_format += "YY";
 				if(ci.ly) date_format += "YY";
 				dateFormatCombo->addItem(date_format);
@@ -1831,18 +1831,18 @@ void ImportCSVDialog::accept() {
 			if(ci.p3) {
 				QString date_format = "YY";
 				if(ci.ly) date_format += "YY";
-				if(ci.separator > 0) date_format += ci.separator;
+				if(ci.separator > 1) date_format += ci.separator;
 				date_format += ci.lz == 0 ? "M" : "MM";
-				if(ci.separator > 0) date_format += ci.separator;
+				if(ci.separator > 1) date_format += ci.separator;
 				date_format += ci.lz == 0 ? "D" : "DD";
 				dateFormatCombo->addItem(date_format);
 			}
 			if(ci.p4) {
 				QString date_format = "YY";
 				if(ci.ly) date_format += "YY";
-				if(ci.separator > 0) date_format += ci.separator;
+				if(ci.separator > 1) date_format += ci.separator;
 				date_format += ci.lz == 0 ? "D" : "DD";
-				if(ci.separator > 0) date_format += ci.separator;
+				if(ci.separator > 1) date_format += ci.separator;
 				date_format += ci.lz == 0 ? "M" : "MM";
 				dateFormatCombo->addItem(date_format);
 			}

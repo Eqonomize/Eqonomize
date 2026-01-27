@@ -1212,17 +1212,17 @@ bool EditQuotationsDialog::import(QString url, bool test, q_csv_info *ci) {
 		ci->ly = true;
 		ci->lz = -1;
 		ci->value_format = 0;
-		ci->separator = -1;
+		ci->separator = 0;
 	} else {
 		if(ci->p1) {
 			date_format += ci->lz == 0 ? "M" : "MM";
-			if(ci->separator > 0) date_format += ci->separator;
+			if(ci->separator > 1) date_format += ci->separator;
 			date_format += ci->lz == 0 ? "d" : "dd";
-			if(ci->separator > 0) date_format += ci->separator;
+			if(ci->separator > 1) date_format += ci->separator;
 			if(ci->ly) {
 				date_format += "yyyy";
 			} else {
-				if(ci->separator > 0) {
+				if(ci->separator > 1) {
 					alt_date_format = date_format;
 					alt_date_format += '\'';
 					alt_date_format += "yy";
@@ -1231,13 +1231,13 @@ bool EditQuotationsDialog::import(QString url, bool test, q_csv_info *ci) {
 			}
 		} else if(ci->p2) {
 			date_format += ci->lz == 0 ? "d" : "dd";
-			if(ci->separator > 0) date_format += ci->separator;
+			if(ci->separator > 1) date_format += ci->separator;
 			date_format += ci->lz == 0 ? "M" : "MM";
-			if(ci->separator > 0) date_format += ci->separator;
+			if(ci->separator > 1) date_format += ci->separator;
 			if(ci->ly) {
 				date_format += "yyyy";
 			} else {
-				if(ci->separator > 0) {
+				if(ci->separator > 1) {
 					alt_date_format = date_format;
 					alt_date_format += '\'';
 					alt_date_format += "yy";
@@ -1247,16 +1247,16 @@ bool EditQuotationsDialog::import(QString url, bool test, q_csv_info *ci) {
 		} else if(ci->p3) {
 			if(ci->ly) date_format += "yyyy";
 			else date_format += "yy";
-			if(ci->separator > 0) date_format += ci->separator;
+			if(ci->separator > 1) date_format += ci->separator;
 			date_format += ci->lz == 0 ? "M" : "MM";
-			if(ci->separator > 0) date_format += ci->separator;
+			if(ci->separator > 1) date_format += ci->separator;
 			date_format += ci->lz == 0 ? "d" : "dd";
 		} else if(ci->p4) {
 			if(ci->ly) date_format += "yyyy";
 			else date_format += "yy";
-			if(ci->separator > 0) date_format += ci->separator;
+			if(ci->separator > 1) date_format += ci->separator;
 			date_format += ci->lz == 0 ? "d" : "dd";
-			if(ci->separator > 0) date_format += ci->separator;
+			if(ci->separator > 1) date_format += ci->separator;
 			date_format += ci->lz == 0 ? "M" : "MM";
 		}
 	}
@@ -1486,18 +1486,18 @@ void EditQuotationsDialog::importQuotations() {
 			dateFormatCombo->setEditable(false);
 			if(ci.p1) {
 				QString date_format = ci.lz == 0 ? "M" : "MM";;
-				if(ci.separator > 0) date_format += ci.separator;
+				if(ci.separator > 1) date_format += ci.separator;
 				date_format += ci.lz == 0 ? "D" : "DD";
-				if(ci.separator > 0) date_format += ci.separator;
+				if(ci.separator > 1) date_format += ci.separator;
 				date_format += "YY";
 				if(ci.ly) date_format += "YY";
 				dateFormatCombo->addItem(date_format);
 			}
 			if(ci.p2) {
 				QString date_format = ci.lz == 0 ? "D" : "DD";
-				if(ci.separator > 0) date_format += ci.separator;
+				if(ci.separator > 1) date_format += ci.separator;
 				date_format += ci.lz == 0 ? "M" : "MM";
-				if(ci.separator > 0) date_format += ci.separator;
+				if(ci.separator > 1) date_format += ci.separator;
 				date_format += "YY";
 				if(ci.ly) date_format += "YY";
 				dateFormatCombo->addItem(date_format);
@@ -1505,18 +1505,18 @@ void EditQuotationsDialog::importQuotations() {
 			if(ci.p3) {
 				QString date_format = "YY";
 				if(ci.ly) date_format += "YY";
-				if(ci.separator > 0) date_format += ci.separator;
+				if(ci.separator > 1) date_format += ci.separator;
 				date_format += ci.lz == 0 ? "M" : "MM";
-				if(ci.separator > 0) date_format += ci.separator;
+				if(ci.separator > 1) date_format += ci.separator;
 				date_format += ci.lz == 0 ? "D" : "DD";
 				dateFormatCombo->addItem(date_format);
 			}
 			if(ci.p4) {
 				QString date_format = "YY";
 				if(ci.ly) date_format += "YY";
-				if(ci.separator > 0) date_format += ci.separator;
+				if(ci.separator > 1) date_format += ci.separator;
 				date_format += ci.lz == 0 ? "D" : "DD";
-				if(ci.separator > 0) date_format += ci.separator;
+				if(ci.separator > 1) date_format += ci.separator;
 				date_format += ci.lz == 0 ? "M" : "MM";
 				dateFormatCombo->addItem(date_format);
 			}

@@ -332,18 +332,18 @@ void ImportQIFDialog::nextClicked() {
 				dateFormatCombo->clear();
 				if(qi.p1) {
 					QString date_format = qi.lz == 0 ? "M" : "MM";
-					if(qi.separator > 0) date_format += qi.separator;
+					if(qi.separator > 1) date_format += qi.separator;
 					date_format += qi.lz == 0 ? "D" : "DD";
-					if(qi.separator > 0) date_format += qi.separator;
+					if(qi.separator > 1) date_format += qi.separator;
 					date_format += "YY";
 					if(qi.ly) date_format += "YY";
 					dateFormatCombo->addItem(date_format);
 				}
 				if(qi.p2) {
 					QString date_format = qi.lz == 0 ? "D" : "DD";
-					if(qi.separator > 0) date_format += qi.separator;
+					if(qi.separator > 1) date_format += qi.separator;
 					date_format += qi.lz == 0 ? "M" : "MM";
-					if(qi.separator > 0) date_format += qi.separator;
+					if(qi.separator > 1) date_format += qi.separator;
 					date_format += "YY";
 					if(qi.ly) date_format += "YY";
 					dateFormatCombo->addItem(date_format);
@@ -351,18 +351,18 @@ void ImportQIFDialog::nextClicked() {
 				if(qi.p3) {
 					QString date_format = "YY";
 					if(qi.ly) date_format += "YY";
-					if(qi.separator > 0) date_format += qi.separator;
+					if(qi.separator > 1) date_format += qi.separator;
 					date_format += qi.lz == 0 ? "M" : "MM";
-					if(qi.separator > 0) date_format += qi.separator;
+					if(qi.separator > 1) date_format += qi.separator;
 					date_format += qi.lz == 0 ? "D" : "DD";
 					dateFormatCombo->addItem(date_format);
 				}
 				if(qi.p4) {
 					QString date_format = "YY";
 					if(qi.ly) date_format += "YY";
-					if(qi.separator > 0) date_format += qi.separator;
+					if(qi.separator > 1) date_format += qi.separator;
 					date_format += qi.lz == 0 ? "D" : "DD";
-					if(qi.separator > 0) date_format += qi.separator;
+					if(qi.separator > 1) date_format += qi.separator;
 					date_format += qi.lz == 0 ? "M" : "MM";
 					dateFormatCombo->addItem(date_format);
 				}
@@ -620,26 +620,26 @@ double readQIFValue(const QString &str, int value_format) {
 //p3 YMD
 //p4 YDM
 void testQIFDate(const QString &str, bool &p1, bool &p2, bool &p3, bool &p4, bool &ly, char &separator, int & lz) {
-	if(separator < 0) {
+	if(separator < 1) {
 		for(int i = 0; i < (int) str.length(); i++) {
 			if(str[i] < '0' || str[i] > '9') {
 				separator = str[i].toLatin1();
 				break;
 			}
 		}
-		if(separator < 0) separator = 0;
-		p1 = (separator != 0 || str.length() == 6);
-		p2 = (separator != 0 || str.length() == 6);
+		if(separator < 1) separator = 1;
+		p1 = (separator != 1 || str.length() == 6);
+		p2 = (separator != 1 || str.length() == 6);
 		p3 = true;
-		p4 = (separator != 0 || str.length() == 6);
-		ly = (separator == 0 && str.length() >= 8);
+		p4 = (separator != 1 || str.length() == 6);
+		ly = (separator == 1 && str.length() >= 8);
 	}
 	if(p1 + p2 + p3 + p4 <= 1) {
 		lz = 1;
 		return;
 	}
 	QStringList strlist;
-	if(separator == 0) {
+	if(separator == 1) {
 		strlist << str.left(2);
 		strlist << str.mid(2, 2);
 		strlist << str.right(2);
@@ -746,7 +746,7 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget, bo
 		qi.shares_format = 0;
 		qi.price_format = 0;
 		qi.percentage_format = 0;
-		qi.separator = -1;
+		qi.separator = 0;
 		qi.opening_balance_str = "opening balance";
 		qi.p1 = true;
 		qi.p2 = true;
@@ -765,13 +765,13 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget, bo
 		qi.opening_balance_str = qi.opening_balance_str.toLower();
 		if(qi.p1) {
 			date_format += qi.lz == 0 ? "M" : "MM";
-			if(qi.separator > 0) date_format += qi.separator;
+			if(qi.separator > 1) date_format += qi.separator;
 			date_format += qi.lz == 0 ? "d" : "dd";
-			if(qi.separator > 0) date_format += qi.separator;
+			if(qi.separator > 1) date_format += qi.separator;
 			if(qi.ly) {
 				date_format += "yyyy";
 			} else {
-				if(qi.separator > 0) {
+				if(qi.separator > 1) {
 					alt_date_format = date_format;
 					alt_date_format += '\'';
 					alt_date_format += "yy";
@@ -780,13 +780,13 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget, bo
 			}
 		} else if(qi.p2) {
 			date_format += qi.lz == 0 ? "d" : "dd";
-			if(qi.separator > 0) date_format += qi.separator;
+			if(qi.separator > 1) date_format += qi.separator;
 			date_format += qi.lz == 0 ? "M" : "MM";
-			if(qi.separator > 0) date_format += qi.separator;
+			if(qi.separator > 1) date_format += qi.separator;
 			if(qi.ly) {
 				date_format += "yyyy";
 			} else {
-				if(qi.separator > 0) {
+				if(qi.separator > 1) {
 					alt_date_format = date_format;
 					alt_date_format += '\'';
 					alt_date_format += "yy";
@@ -796,16 +796,16 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget, bo
 		} else if(qi.p3) {
 			if(qi.ly) date_format += "yyyy";
 			else date_format += "yy";
-			if(qi.separator > 0) date_format += qi.separator;
+			if(qi.separator > 1) date_format += qi.separator;
 			date_format += qi.lz == 0 ? "M" : "MM";
-			if(qi.separator > 0) date_format += qi.separator;
+			if(qi.separator > 1) date_format += qi.separator;
 			date_format += qi.lz == 0 ? "d" : "dd";
 		} else if(qi.p4) {
 			if(qi.ly) date_format += "yyyy";
 			else date_format += "yy";
-			if(qi.separator > 0) date_format += qi.separator;
+			if(qi.separator > 1) date_format += qi.separator;
 			date_format += qi.lz == 0 ? "d" : "dd";
-			if(qi.separator > 0) date_format += qi.separator;
+			if(qi.separator > 1) date_format += qi.separator;
 			date_format += qi.lz == 0 ? "M" : "MM";
 		}
 	}
