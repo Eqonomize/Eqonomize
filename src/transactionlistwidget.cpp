@@ -887,9 +887,9 @@ void TransactionListWidget::editTransaction() {
 			if(i->scheduledTransaction()) dialog->setTransaction(i->transaction(), i->date());
 			else dialog->setTransaction(i->transaction());
 		}
-		bool equal_date = true, equal_description = true, equal_value = true, equal_category = (transtype != TRANSACTION_TYPE_TRANSFER), equal_payee = (dialog->payeeButton != NULL), equal_currency = true;
+		bool equal_date = true, equal_description = true, equal_value = true, equal_category = (transtype != TRANSACTION_TYPE_TRANSFER), equal_account = (transtype != TRANSACTION_TYPE_TRANSFER), equal_payee = (dialog->payeeButton != NULL), equal_currency = true;
 		Transaction *comptrans = NULL;
-		Account *compcat = NULL;
+		Account *compcat = NULL, *compacc = NULL;
 		Currency *compcur = NULL;
 		QDate compdate;
 		QString compdesc;
@@ -914,6 +914,7 @@ void TransactionListWidget::editTransaction() {
 						if(equal_currency && (i_trans->fromCurrency() != compcur || i_trans->toCurrency() != compcur)) equal_currency = false;
 					}
 					compcat = i->splitTransaction()->category();
+					equal_account = false;
 					compdesc = i->splitTransaction()->description();
 				} else {
 					comptrans = i->transaction();
@@ -921,6 +922,7 @@ void TransactionListWidget::editTransaction() {
 					if(i->transaction()->parentSplit()) {
 						if(i->transaction()->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_LOAN) {
 							equal_category = false;
+							equal_account = false;
 							equal_description = false;
 							equal_payee = false;
 							equal_date = false;
@@ -941,6 +943,7 @@ void TransactionListWidget::editTransaction() {
 									} else {
 										equal_payee = false;
 										equal_date = false;
+										equal_account = false;
 										incomplete_split = true;
 										break;
 									}
@@ -956,11 +959,15 @@ void TransactionListWidget::editTransaction() {
 						if(compcat->type() == ACCOUNT_TYPE_ASSETS) {
 							equal_category = false;
 						}
+						compacc = NULL;
+						equal_account = false;
 					}
 					if(i->transaction()->type() == TRANSACTION_TYPE_INCOME) {
 						compcat = ((Income*) i->transaction())->category();
+						compacc = ((Income*) i->transaction())->to();
 					} else if(i->transaction()->type() == TRANSACTION_TYPE_EXPENSE) {
 						compcat = ((Expense*) i->transaction())->category();
+						compacc = ((Expense*) i->transaction())->from();
 					}
 					compcur = i->transaction()->fromCurrency();
 					if(i->transaction()->toCurrency() != compcur) equal_currency = false;
@@ -983,6 +990,7 @@ void TransactionListWidget::editTransaction() {
 					}
 					if(equal_value && i->splitTransaction()->value() != compvalue) equal_value = false;
 					if(equal_category && i->splitTransaction()->category() != compcat) equal_category = false;
+					equal_account = false;
 					if(equal_description && compdesc != i->splitTransaction()->description()) equal_description = false;
 				} else {
 					if(equal_date && compdate != i->date()) {
@@ -991,18 +999,19 @@ void TransactionListWidget::editTransaction() {
 					if(equal_payee && (trans->type() != comptrans->type() || (comptrans->type() == TRANSACTION_TYPE_EXPENSE && ((Expense*) comptrans)->payee() != ((Expense*) trans)->payee()) || (comptrans->type() == TRANSACTION_TYPE_INCOME && ((Income*) comptrans)->payer() != ((Income*) trans)->payer()))) {
 						equal_payee = false;
 					}
-					if(i->transaction()->parentSplit()) {
-						if(i->transaction()->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_LOAN) {
+					if(trans->parentSplit()) {
+						if(trans->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_LOAN) {
 							equal_payee = false;
 							equal_date = false;
 							equal_payee = false;
 							equal_date = false;
-						} else if(i->transaction()->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS) {
-							MultiItemTransaction *split = (MultiItemTransaction*) i->transaction()->parentSplit();
+							equal_account = false;
+						} else if(trans->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS) {
+							MultiItemTransaction *split = (MultiItemTransaction*) trans->parentSplit();
 							if(!splits.contains(split)) {
 								for(int index2 = 0; index2 < split->count(); index2++) {
 									Transaction *split_trans = split->at(index2);
-									if(split_trans != i->transaction()) {
+									if(split_trans != trans) {
 										bool b_match = false;
 										for(int index3 = index + 1; index3 < selection.size(); index3++) {
 											 if(((TransactionListViewItem*) selection.at(index3))->transaction() == split_trans) {
@@ -1014,6 +1023,7 @@ void TransactionListWidget::editTransaction() {
 											if(!i->scheduledTransaction()) splits << split;
 										} else {
 											equal_date = false;
+											equal_account = false;
 											incomplete_split = true;
 											break;
 										}
@@ -1040,10 +1050,23 @@ void TransactionListWidget::editTransaction() {
 							}
 						}
 					}
+					if(equal_account) {
+						if(trans->type() == TRANSACTION_TYPE_INCOME) {
+							if(compacc != ((Income*) trans)->to()) {
+								equal_account = false;
+							}
+						} else if(trans->type() == TRANSACTION_TYPE_EXPENSE) {
+							if(compacc != ((Expense*) trans)->from()) {
+								equal_account = false;
+							}
+						} else if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL) {
+							equal_account = false;
+						}
+					}
 					if(equal_description && (trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL || compdesc != trans->description())) {
 						equal_description = false;
 					}
-					if(equal_currency && (i->transaction()->toCurrency() != compcur || i->transaction()->fromCurrency() != compcur)) equal_currency = false;
+					if(equal_currency && (trans->toCurrency() != compcur || trans->fromCurrency() != compcur)) equal_currency = false;
 				}
 			}
 		}
@@ -1053,6 +1076,7 @@ void TransactionListWidget::editTransaction() {
 		if(!equal_currency) dialog->valueButton->setEnabled(false);
 		if(equal_date) dialog->dateButton->setChecked(true);
 		if(equal_category && dialog->categoryButton) dialog->categoryButton->setChecked(true);
+		if(equal_account && dialog->accountButton) dialog->accountButton->setChecked(true);
 		if(dialog->exec() == QDialog::Accepted) {
 			foreach(Account* acc, budget->newAccounts) emit accountAdded(acc);
 			if(!budget->newAccounts.isEmpty()) updateAccounts();
@@ -1102,14 +1126,14 @@ void TransactionListWidget::editTransaction() {
 					if(i->transaction()->parentSplit()) {
 						if(i->transaction()->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_LOAN) {
 							if(!warned5) {
-								if(dialog->dateButton->isChecked() || dialog->descriptionButton->isChecked() || dialog->categoryButton->isChecked() || (dialog->payeeButton && dialog->payeeButton->isChecked())) {
-									QMessageBox::critical(this, tr("Error"), tr("Cannot change date, description, expense category or payee of transactions that are part of a debt payment using the dialog for modifying multiple transactions.", "Referring to the transaction description property (transaction title/generic article name)"));
+								if(dialog->dateButton->isChecked() || dialog->descriptionButton->isChecked() || dialog->categoryButton->isChecked() || (dialog->payeeButton && dialog->payeeButton->isChecked()) || (dialog->accountButton && dialog->accountButton->isChecked())) {
+									QMessageBox::critical(this, tr("Error"), tr("Cannot change date, description, expense category, account, or payee of transactions that are part of a debt payment using the dialog for modifying multiple transactions.", "Referring to the transaction description property (transaction title/generic article name)"));
 									warned5 = true;
 								}
 							}
 						} else if(incomplete_split && !warned4) {
-							if(dialog->dateButton->isChecked()) {
-								QMessageBox::critical(this, tr("Error"), tr("Cannot change date of transactions that are part of a split transaction, unless all individual transactions are selected."));
+							if(dialog->dateButton->isChecked() || (dialog->accountButton && dialog->accountButton->isChecked())) {
+								QMessageBox::critical(this, tr("Error"), tr("Cannot change date or account of transactions that are part of a split transaction, unless all individual transactions are selected."));
 								warned4 = true;
 							}
 						}

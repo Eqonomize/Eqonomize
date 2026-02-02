@@ -2348,10 +2348,6 @@ MultipleTransactionsEditDialog::MultipleTransactionsEditDialog(bool extra_parame
 
 	added_account = NULL;
 
-	/*int rows = 4;
-	if(b_extra && (transtype == TRANSACTION_TYPE_EXPENSE || transtype == TRANSACTION_TYPE_INCOME)) rows= 5;
-	else if(transtype == TRANSACTION_TYPE_TRANSFER) rows = 3;
-	else rows = 2;*/
 	QVBoxLayout *box1 = new QVBoxLayout(this);
 	QGridLayout *editLayout = new QGridLayout();
 	box1->addLayout(editLayout);
@@ -2386,15 +2382,24 @@ MultipleTransactionsEditDialog::MultipleTransactionsEditDialog(bool extra_parame
 
 	categoryButton = NULL;
 	categoryCombo = NULL;
+	accountButton = NULL;
+	accountCombo = NULL;
 	if(transtype == TRANSACTION_TYPE_EXPENSE || transtype == TRANSACTION_TYPE_INCOME) {
 		categoryButton = new QCheckBox(tr("Category:"), this);
 		categoryButton->setChecked(false);
 		editLayout->addWidget(categoryButton, 3, 0);
 		categoryCombo = new AccountComboBox(transtype == TRANSACTION_TYPE_EXPENSE ? ACCOUNT_TYPE_EXPENSES : ACCOUNT_TYPE_INCOMES, budget, b_create_accounts, false, false, true, true, this);
 		categoryCombo->setEnabled(false);
-		updateAccounts();
 		editLayout->addWidget(categoryCombo, 3, 1);
 		connect(categoryButton, SIGNAL(toggled(bool)), categoryCombo, SLOT(setEnabled(bool)));
+		accountButton = new QCheckBox(tr("Account:"), this);
+		accountButton->setChecked(false);
+		editLayout->addWidget(accountButton, 4, 0);
+		accountCombo = new AccountComboBox(ACCOUNT_TYPE_ASSETS, budget, b_create_accounts, false, false, true, true, this);
+		accountCombo->setEnabled(false);
+		updateAccounts();
+		editLayout->addWidget(accountCombo, 4, 1);
+		connect(accountButton, SIGNAL(toggled(bool)), accountCombo, SLOT(setEnabled(bool)));
 	}
 
 	payeeButton = NULL;
@@ -2403,10 +2408,10 @@ MultipleTransactionsEditDialog::MultipleTransactionsEditDialog(bool extra_parame
 		if(transtype == TRANSACTION_TYPE_INCOME) payeeButton = new QCheckBox(tr("Payer:"), this);
 		else payeeButton = new QCheckBox(tr("Payee:"), this);
 		payeeButton->setChecked(false);
-		editLayout->addWidget(payeeButton, 4, 0);
+		editLayout->addWidget(payeeButton, 5, 0);
 		payeeEdit = new QLineEdit(this);
 		payeeEdit->setEnabled(false);
-		editLayout->addWidget(payeeEdit, 4, 1);
+		editLayout->addWidget(payeeEdit, 5, 1);
 		connect(payeeButton, SIGNAL(toggled(bool)), payeeEdit, SLOT(setEnabled(bool)));
 	}
 
@@ -2418,14 +2423,12 @@ MultipleTransactionsEditDialog::MultipleTransactionsEditDialog(bool extra_parame
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
 	box1->addWidget(buttonBox);
 
-	if(categoryCombo) connect(categoryCombo, SIGNAL(newAccountRequested()), this, SLOT(newCategory()));
+	if(categoryCombo) connect(categoryCombo, SIGNAL(newAccountRequested()), categoryCombo, SLOT(createAccountSlot()));
+	if(accountCombo) connect(accountCombo, SIGNAL(newAccountRequested()), accountCombo, SLOT(createAccountSlot()));
 	connect(descriptionButton, SIGNAL(toggled(bool)), descriptionEdit, SLOT(setEnabled(bool)));
 	if(valueButton) connect(valueButton, SIGNAL(toggled(bool)), valueEdit, SLOT(setEnabled(bool)));
 	connect(dateButton, SIGNAL(toggled(bool)), dateEdit, SLOT(setEnabled(bool)));
 
-}
-void MultipleTransactionsEditDialog::newCategory() {
-	categoryCombo->createAccount();
 }
 void MultipleTransactionsEditDialog::setTransaction(Transaction *trans) {
 	if(trans) {
@@ -2437,9 +2440,11 @@ void MultipleTransactionsEditDialog::setTransaction(Transaction *trans) {
 		}
 		if(transtype == TRANSACTION_TYPE_EXPENSE) {
 			categoryCombo->setCurrentAccount(((Expense*) trans)->category());
+			accountCombo->setCurrentAccount(((Expense*) trans)->from());
 			if(payeeEdit) payeeEdit->setText(((Expense*) trans)->payee());
 		} else if(transtype == TRANSACTION_TYPE_INCOME) {
 			categoryCombo->setCurrentAccount(((Income*) trans)->category());
+			accountCombo->setCurrentAccount(((Income*) trans)->to());
 			if(payeeEdit) payeeEdit->setText(((Income*) trans)->payer());
 		}
 	} else {
@@ -2457,20 +2462,22 @@ void MultipleTransactionsEditDialog::setTransaction(Transaction *trans, const QD
 	dateEdit->setDate(date);
 }
 void MultipleTransactionsEditDialog::updateAccounts() {
-	if(!categoryCombo) return;
-	categoryCombo->updateAccounts();
+	if(categoryCombo) categoryCombo->updateAccounts();
+	if(accountCombo) accountCombo->updateAccounts();
 }
 bool MultipleTransactionsEditDialog::modifyTransaction(Transaction *trans, bool change_parent) {
 	if(!validValues()) return false;
-	bool b_descr = true, b_value = true, b_payee = true, b_category = true, b_date = true;
+	bool b_descr = true, b_value = true, b_payee = true, b_category = true, b_date = true, b_account = true;;
 	if(trans->parentSplit()) {
 		switch(trans->parentSplit()->type()) {
 			case SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS: {
 				b_date = false;
+				b_account = false;
 				if(change_parent) {
 					MultiItemTransaction *split = (MultiItemTransaction*) trans->parentSplit();
 					if(dateButton->isChecked()) split->setDate(dateEdit->date());
 					if(payeeEdit && payeeButton->isChecked()) split->setPayee(payeeEdit->text());
+					if(accountButton && accountButton->isChecked()) split->setAccount((AssetsAccount*) accountCombo->currentAccount());
 				}
 				break;
 			}
@@ -2488,12 +2495,14 @@ bool MultipleTransactionsEditDialog::modifyTransaction(Transaction *trans, bool 
 			case SPLIT_TRANSACTION_TYPE_LOAN: {
 				b_payee = false;
 				b_category = false;
+				b_account = false;
 				b_date = false;
 				b_descr = false;
 				if(change_parent) {
 					DebtPayment *split = (DebtPayment*) trans->parentSplit();
 					if(dateButton->isChecked()) split->setDate(dateEdit->date());
 					if(categoryButton && categoryButton->isChecked()) split->setExpenseCategory((ExpensesAccount*) categoryCombo->currentAccount());
+					if(accountButton && accountButton->isChecked()) split->setAccount((AssetsAccount*) accountCombo->currentAccount());
 				}
 				break;
 			}
@@ -2502,6 +2511,7 @@ bool MultipleTransactionsEditDialog::modifyTransaction(Transaction *trans, bool 
 	switch(trans->type()) {
 		case TRANSACTION_TYPE_EXPENSE: {
 			if(b_category && categoryButton && transtype == trans->type() && categoryButton->isChecked()) ((Expense*) trans)->setCategory((ExpensesAccount*) categoryCombo->currentAccount());
+			if(b_account && accountButton && transtype == trans->type() && accountButton->isChecked()) ((Expense*) trans)->setFrom((AssetsAccount*) accountCombo->currentAccount());
 			if(b_payee && payeeEdit && payeeButton->isChecked()) ((Expense*) trans)->setPayee(payeeEdit->text());
 			break;
 		}
@@ -2509,6 +2519,7 @@ bool MultipleTransactionsEditDialog::modifyTransaction(Transaction *trans, bool 
 			if(((Income*) trans)->security()) b_descr = false;
 			else if(b_payee && payeeEdit && payeeButton->isChecked()) ((Income*) trans)->setPayer(payeeEdit->text());
 			if(b_category && categoryButton && transtype == trans->type() && categoryButton->isChecked()) ((Income*) trans)->setCategory((IncomesAccount*) categoryCombo->currentAccount());
+			if(b_account && accountButton && transtype == trans->type() && accountButton->isChecked()) ((Income*) trans)->setTo((AssetsAccount*) accountCombo->currentAccount());
 			break;
 		}
 		case TRANSACTION_TYPE_TRANSFER: {
@@ -2535,11 +2546,12 @@ bool MultipleTransactionsEditDialog::modifyTransaction(Transaction *trans, bool 
 }
 bool MultipleTransactionsEditDialog::modifySplitTransaction(SplitTransaction *trans) {
 	if(!validValues()) return false;
-	if(!dateButton->isChecked() && (!payeeEdit || !payeeButton->isChecked())) return false;
+	if(!dateButton->isChecked() && (!payeeEdit || !payeeButton->isChecked()) && (!accountButton || !accountButton->isChecked())) return false;
 	switch(trans->type()) {
 		case SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS: {
 			MultiItemTransaction *split = (MultiItemTransaction*) trans;
 			if(dateButton->isChecked()) split->setDate(dateEdit->date());
+			if(accountButton && accountButton->isChecked()) split->setAccount((AssetsAccount*) accountCombo->currentAccount());
 			if(payeeEdit && payeeButton->isChecked()) split->setPayee(payeeEdit->text());
 			trans->setModified();
 			return true;
@@ -2549,8 +2561,9 @@ bool MultipleTransactionsEditDialog::modifySplitTransaction(SplitTransaction *tr
 		}
 		case SPLIT_TRANSACTION_TYPE_LOAN: {
 			DebtPayment *split = (DebtPayment*) trans;
-			if(dateButton->isChecked()) {
-				split->setDate(dateEdit->date());
+			if(dateButton->isChecked() || (accountButton && accountButton->isChecked())) {
+				if(accountButton && accountButton->isChecked()) split->setAccount((AssetsAccount*) accountCombo->currentAccount());
+				if(dateButton->isChecked()) split->setDate(dateEdit->date());
 				trans->setModified();
 				return true;
 			}
@@ -2564,17 +2577,23 @@ bool MultipleTransactionsEditDialog::checkAccounts() {
 	if(!categoryCombo) return true;
 	switch(transtype) {
 		case TRANSACTION_TYPE_INCOME: {
-			if(!categoryButton->isChecked()) return true;
-			if(!categoryCombo->hasAccount()) {
-				QMessageBox::critical(this, tr("Error"), tr("No income category available."));
+			if(categoryButton->isChecked() && !categoryCombo->hasAccount()) {
+				QMessageBox::critical(this, tr("Error"), tr("No expense category available."));
+				return false;
+			}
+			if(accountButton->isChecked() && !accountCombo->hasAccount()) {
+				QMessageBox::critical(this, tr("Error"), tr("No suitable account available."));
 				return false;
 			}
 			break;
 		}
 		case TRANSACTION_TYPE_EXPENSE: {
-			if(!categoryButton->isChecked()) return true;
-			if(!categoryCombo->hasAccount()) {
+			if(categoryButton->isChecked() && !categoryCombo->hasAccount()) {
 				QMessageBox::critical(this, tr("Error"), tr("No expense category available."));
+				return false;
+			}
+			if(accountButton->isChecked() && !accountCombo->hasAccount()) {
+				QMessageBox::critical(this, tr("Error"), tr("No suitable account available."));
 				return false;
 			}
 			break;
@@ -2592,10 +2611,11 @@ bool MultipleTransactionsEditDialog::validValues() {
 	}
 	if(!checkAccounts()) return false;
 	if(categoryCombo && !categoryCombo->currentAccount()) return false;
+	if(accountCombo && !accountCombo->currentAccount()) return false;
 	return true;
 }
 void MultipleTransactionsEditDialog::accept() {
-	if(!descriptionButton->isChecked() && (!valueButton || !valueButton->isChecked()) && !dateButton->isChecked() && (!categoryButton || !categoryButton->isChecked()) && (!payeeButton || !payeeButton->isChecked())) {
+	if(!descriptionButton->isChecked() && (!valueButton || !valueButton->isChecked()) && !dateButton->isChecked() && (!categoryButton || !categoryButton->isChecked()) && (!accountButton || !accountButton->isChecked()) && (!payeeButton || !payeeButton->isChecked())) {
 		reject();
 	} else if(validValues()) {
 		QDialog::accept();

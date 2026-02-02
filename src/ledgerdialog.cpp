@@ -1414,10 +1414,10 @@ void LedgerDialog::edit() {
 		else if(i->transaction()) mainWin->editTransaction(i->transaction(), this);
 	} else if(selection.count() > 1) {
 		bool warned1 = false, warned2 = false, warned3 = false;
-		bool equal_date = true, equal_description = true, equal_value = true, equal_category = true, equal_payee = b_extra;
+		bool equal_date = true, equal_description = true, equal_value = true, equal_category = true, equal_account = true, equal_payee = b_extra;
 		int transtype = -1;
 		Transaction *comptrans = NULL;
-		Account *compcat = NULL;
+		Account *compcat = NULL, *compacc = NULL;
 		QDate compdate;
 		for(int index = 0; index < selection.size(); index++) {
 			LedgerListViewItem *i = (LedgerListViewItem*) selection[index];
@@ -1429,11 +1429,14 @@ void LedgerDialog::edit() {
 					if(i->transaction()->type() != TRANSACTION_TYPE_EXPENSE && i->transaction()->type() != TRANSACTION_TYPE_INCOME) equal_payee = false;
 					if(i->transaction()->type() == TRANSACTION_TYPE_INCOME) {
 						compcat = ((Income*) i->transaction())->category();
+						compacc = ((Income*) i->transaction())->to();
 					} else if(i->transaction()->type() == TRANSACTION_TYPE_EXPENSE) {
 						compcat = ((Expense*) i->transaction())->category();
+						compacc = ((Expense*) i->transaction())->from();
 					} else if(i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL) {
 						equal_value = false;
 						equal_description = false;
+						equal_account = false;
 						compcat = ((SecurityTransaction*) i->transaction())->account();
 						if(compcat->type() == ACCOUNT_TYPE_ASSETS) {
 							equal_category = false;
@@ -1470,6 +1473,19 @@ void LedgerDialog::edit() {
 							}
 						}
 					}
+					if(equal_account) {
+						if(i->transaction()->type() == TRANSACTION_TYPE_INCOME) {
+							if(compacc != ((Income*) i->transaction())->to()) {
+								equal_account = false;
+							}
+						} else if(i->transaction()->type() == TRANSACTION_TYPE_EXPENSE) {
+							if(compacc != ((Expense*) i->transaction())->from()) {
+								equal_account = false;
+							}
+						} else if(i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL) {
+							equal_account = false;
+						}
+					}
 				}
 			}
 		}
@@ -1484,6 +1500,7 @@ void LedgerDialog::edit() {
 		if(equal_value && dialog->valueButton) dialog->valueButton->setChecked(true);
 		if(equal_date) dialog->dateButton->setChecked(true);
 		if(equal_category && dialog->categoryButton) dialog->categoryButton->setChecked(true);
+		if(equal_account && dialog->accountButton) dialog->accountButton->setChecked(true);
 		if(dialog->exec() == QDialog::Accepted) {
 			QDate date = dialog->date();
 			bool future = !date.isNull() && date > QDate::currentDate();

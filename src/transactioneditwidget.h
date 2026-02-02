@@ -226,7 +226,7 @@ class MultipleTransactionsEditDialog : public QDialog {
 		bool checkAccounts();
 		QDate date();
 
-		QCheckBox *descriptionButton, *valueButton, *categoryButton, *dateButton, *payeeButton;
+		QCheckBox *descriptionButton, *valueButton, *categoryButton, *dateButton, *payeeButton, *accountButton;
 
 	protected:
 
@@ -236,14 +236,13 @@ class MultipleTransactionsEditDialog : public QDialog {
 		bool b_create_accounts;
 		QVector<Account*> categories;
 		QLineEdit *descriptionEdit, *payeeEdit;
-		AccountComboBox *categoryCombo;
+		AccountComboBox *categoryCombo, *accountCombo;
 		EqonomizeValueEdit *valueEdit;
 		QDateEdit *dateEdit;
 		Account *added_account;
 
 	protected slots:
 
-		void newCategory();
 		void accept();
 
 };
