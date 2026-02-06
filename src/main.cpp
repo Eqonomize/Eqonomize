@@ -55,6 +55,7 @@ int main(int argc, char **argv) {
 	app.setApplicationDisplayName("Eqonomize!");
 	app.setOrganizationName("Eqonomize");
 	app.setApplicationVersion(VERSION);
+	app.setStyleSheet("QComboBox {combobox-popup: 0}");
 
 #ifdef PACKAGE_PORTABLE
 	QSettings::setDefaultFormat(QSettings::IniFormat);
