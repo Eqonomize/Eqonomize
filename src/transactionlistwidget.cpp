@@ -129,6 +129,7 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 			tags_col = 7;
 			headers << tr("Tags");
 			from_col = 4; to_col = 3;
+			headers << tr("Comments");
 			break;
 		}
 		case TRANSACTION_TYPE_INCOME: {
@@ -141,6 +142,7 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 			tags_col = 6;
 			headers << tr("Tags");
 			from_col = 3; to_col = 4;
+			headers << tr("Comments");
 			break;
 		}
 		default: {
@@ -148,10 +150,13 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 			headers << tr("From");
 			headers << tr("To");
 			from_col = 3; to_col = 4;
+			headers << tr("Comments");
+			tags_col = 6;
+			headers << tr("Tags");
+
 			break;
 		}
 	}
-	headers << tr("Comments");
 	headers << "t";
 	transactionsView->setColumnCount(comments_col + 2);
 	transactionsView->setHeaderLabels(headers);
@@ -253,7 +258,7 @@ void TransactionListWidget::updateColumnWidths() {
 			break;
 		}
 		default: {
-			from_col = 3; to_col = 4;
+			from_col = 3; to_col = 4; tags_col = 6;
 			break;
 		}
 	}
