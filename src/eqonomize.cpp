@@ -2628,6 +2628,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	accountsView->header()->setStretchLastSection(false);
 	accountsView->setDragDropMode(QAbstractItemView::InternalMove);
 	accountsView->setDragEnabled(true);
+	accountsView->setColumnHidden(BUDGET_COLUMN, true);
 	QSizePolicy sp = accountsView->sizePolicy();
 	sp.setVerticalPolicy(QSizePolicy::MinimumExpanding);
 	accountsView->setSizePolicy(sp);
@@ -7535,8 +7536,10 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			outf << "\t\t\t<thead>" << '\n';
 			outf << "\t\t\t\t<tr>" << '\n';
 			outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Category")) << "</th>";
-			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Budget")) << "</th>";
-			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Remaining Budget")) << "</th>";
+			if(incomes_budget >= 0) {
+				outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Budget")) << "</th>";
+				outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Remaining Budget")) << "</th>";
+			}
 			//: Noun, how much the account balance has changed
 			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Change")) << "</th>" << '\n';
 			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Total Incomes")) << "</th>" << '\n';
@@ -7555,7 +7558,7 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 				outf << htmlize_string(account->name());
 				if(b_sub) outf << "</i>";
 				outf << "</td>";
-				if(account_budget[account] < 0.0) {
+				if(incomes_budget >= 0 && account_budget[account] < 0.0) {
 					if(b_sub) {
 						outf << "<td align=\"right\"><i>-</i></td>";
 						outf << "<td align=\"right\"><i>-</i></td>";
@@ -7563,7 +7566,7 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 						outf << "<td align=\"right\">-</td>";
 						outf << "<td align=\"right\">-</td>";
 					}
-				} else {
+				} else if(incomes_budget >= 0) {
 					outf << "<td nowrap align=\"right\">";
 					if(b_sub) outf << "<i>";
 					outf << htmlize_string(budget->formatMoney(account_budget[account]));
@@ -7593,9 +7596,6 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			if(incomes_budget >= 0.0) {
 				outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(budget->formatMoney(incomes_budget)) << "</b></td>";
 				outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(budget->formatMoney(incomes_budget_diff)) << "</b></td>";
-			} else {
-				outf << "<td align=\"right\" style=\"border-top: thin solid\"><b>" << "-" << "</b></td>";
-				outf << "<td align=\"right\" style=\"border-top: thin solid\"><b>" << "-" << "</b></td>";
 			}
 			outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(budget->formatMoney(incomes_accounts_change)) << "</b></td>";
 			outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(budget->formatMoney(incomes_accounts_value)) << "</b></td>" << "\n";
@@ -7609,8 +7609,10 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			outf << "\t\t\t<thead>" << '\n';
 			outf << "\t\t\t\t<tr>" << '\n';
 			outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Category")) << "</th>";
-			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Budget")) << "</th>";
-			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Remaining Budget")) << "</th>";
+			if(expenses_budget >= 0) {
+				outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Budget")) << "</th>";
+				outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Remaining Budget")) << "</th>";
+			}
 			//: Noun, how much the account balance has changed
 			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Change")) << "</th>" << '\n';
 			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Total Expenses")) << "</th>" << '\n';
@@ -7629,7 +7631,7 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 				outf << htmlize_string(account->name());
 				if(b_sub) outf << "</i>";
 				outf << "</td>";
-				if(account_budget[account] < 0.0) {
+				if(expenses_budget >= 0 && account_budget[account] < 0.0) {
 					if(b_sub) {
 						outf << "<td align=\"right\"><i>-</i></td>";
 						outf << "<td align=\"right\"><i>-</i></td>";
@@ -7637,7 +7639,7 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 						outf << "<td align=\"right\">-</td>";
 						outf << "<td align=\"right\">-</td>";
 					}
-				} else {
+				} else if(expenses_budget >= 0) {
 					outf << "<td nowrap align=\"right\">";
 					if(b_sub) outf << "<i>";
 					outf << htmlize_string(budget->formatMoney(account_budget[account]));
@@ -7667,9 +7669,6 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			if(expenses_budget >= 0.0) {
 				outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(budget->formatMoney(expenses_budget)) << "</b></td>";
 				outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(budget->formatMoney(expenses_budget_diff)) << "</b></td>";
-			} else {
-				outf << "<td align=\"right\" style=\"border-top: thin solid\"><b>" << "-" << "</b></td>";
-				outf << "<td align=\"right\" style=\"border-top: thin solid\"><b>" << "-" << "</b></td>";
 			}
 			outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(budget->formatMoney(expenses_accounts_change)) << "</b></td>";
 			outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(budget->formatMoney(expenses_accounts_value)) << "</b></td>" << "\n";
@@ -11707,6 +11706,7 @@ void Eqonomize::filterAccounts() {
 	liabilitiesItem->setText(VALUE_COLUMN, budget->formatMoney(-liabilities_accounts_value) + " ");
 	liabilitiesItem->setText(CHANGE_COLUMN, budget->formatMoney(-liabilities_accounts_change));
 	setAccountChangeColor(liabilitiesItem, -liabilities_accounts_change, true);
+	accountsView->setColumnHidden(BUDGET_COLUMN, incomes_budget < 0 && expenses_budget < 0);
 	budgetMonthEdit->blockSignals(true);
 	budgetMonthEdit->setDate(budget->budgetDateToMonth(to_date));
 	budgetMonthEdit->blockSignals(false);
