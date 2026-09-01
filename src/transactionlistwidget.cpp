@@ -1008,8 +1008,8 @@ void TransactionListWidget::editTransaction() {
 						if(trans->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_LOAN) {
 							equal_payee = false;
 							equal_date = false;
-							equal_payee = false;
-							equal_date = false;
+							equal_description = false;
+							equal_category = false;
 							equal_account = false;
 						} else if(trans->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS) {
 							MultiItemTransaction *split = (MultiItemTransaction*) trans->parentSplit();

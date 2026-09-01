@@ -2467,7 +2467,7 @@ void MultipleTransactionsEditDialog::updateAccounts() {
 }
 bool MultipleTransactionsEditDialog::modifyTransaction(Transaction *trans, bool change_parent) {
 	if(!validValues()) return false;
-	bool b_descr = true, b_value = true, b_payee = true, b_category = true, b_date = true, b_account = true;;
+	bool b_descr = true, b_value = true, b_payee = true, b_category = true, b_date = true, b_account = true;
 	if(trans->parentSplit()) {
 		switch(trans->parentSplit()->type()) {
 			case SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS: {

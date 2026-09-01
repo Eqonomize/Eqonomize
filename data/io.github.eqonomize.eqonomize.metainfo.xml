@@ -37,6 +37,18 @@
  </provides>
  <translation type="qt">eqonomize</translation>
  <releases>
+  <release version="1.5.13" date="2026-09-07">
+   <description>
+    <p>Changes:</p>
+    <ul>
+     <li>Hide remaining budget column if budget is not set for any category</li>
+     <li>Add option to show tags column in transfers list</li>
+     <li>Use scrollbars in combo box regardless of style</li>
+     <li>Enable modification of account for multiple transactions</li>
+     <li>Do not assume that char is signed (affects file import date format)</li>
+    </ul>
+   </description>
+  </release>
   <release version="1.5.12" date="2026-01-26">
    <description>
     <p>Changes:</p>

@@ -4593,15 +4593,19 @@ What do you want to do with them?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>No income category available.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>No expense category available.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Invalid date.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Account:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No suitable account available.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6334,15 +6338,6 @@ Date: %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Cannot change date, description, expense category or payee of transactions that are part of a debt payment using the dialog for modifying multiple transactions.</source>
-        <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cannot change date of transactions that are part of a split transaction, unless all individual transactions are selected.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Delete transactions?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6392,6 +6387,15 @@ Date: %3</source>
     </message>
     <message>
         <source>Cannot transfer money to and from the same account.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cannot change date, description, expense category, account, or payee of transactions that are part of a debt payment using the dialog for modifying multiple transactions.</source>
+        <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cannot change date or account of transactions that are part of a split transaction, unless all individual transactions are selected.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

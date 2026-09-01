@@ -1,3 +1,23 @@
+2026-08-11  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Hide remaining budget column if budget is not set for any category
+
+2026-03-12  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Add option to show tags column in transfers list
+
+2026-02-06  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Use scrollbars in combo box regardless of style
+
+2026-02-02  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Enable modification of account for multiple transactions
+
+2026-01-27  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Do not assume that char is signed (affects date format on file import)
+
 2026-01-24  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Add option, in context menu of ledger, to show transfer in ledger of other account
