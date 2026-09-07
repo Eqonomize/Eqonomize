@@ -33,7 +33,7 @@ parts:
   eqonomize:
     source: https://github.com/Eqonomize/eqonomize/releases/download/v1.5.13/eqonomize-1.5.13.tar.gz
     source-type: tar
-    source-checksum: sha512/c74ec2c01bf7dc65e1792d30b9f08b7edaa095debb559e9559651f871989a1e733a11f1458a7cda14c023cdb1a864bd7b9283676b31fa5129b409830ed132a67
+    source-checksum: sha512/7df53c390bf93fcb2779a93142608244f0135e2a280f0d5713fed5f06c34ee58ae54b1f1f727e10045bb6ab10742c134c8eb15e47cafd317cb5f865d90036fb0
     plugin: qmake
     qmake-parameters:
       - COMPILE_RESOURCES="yes"

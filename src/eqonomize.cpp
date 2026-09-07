@@ -3005,6 +3005,13 @@ Eqonomize::Eqonomize() : QMainWindow() {
 		QFontMetrics fm(accountsView->font());
 		int w = fm.boundingRect(accountsView->headerItem()->text(0)).width() + fm.boundingRect(QString(15, 'h')).width();
 		accountsView->setMinimumWidth(w + accountsView->columnWidth(BUDGET_COLUMN) + accountsView->columnWidth(CHANGE_COLUMN) + accountsView->columnWidth(VALUE_COLUMN));
+		if(tabs->usesScrollButtons()) {
+			tabs->setUsesScrollButtons(false);
+			QTimer *timer = new QTimer();
+			timer->setSingleShot(true);
+			connect(timer, SIGNAL(timeout()), this, SLOT(onReenableScrollButtonsTimer()));
+			timer->start(1);
+		}
 	}
 
 
@@ -3038,6 +3045,9 @@ Eqonomize::Eqonomize() : QMainWindow() {
 }
 Eqonomize::~Eqonomize() {}
 
+void Eqonomize::onReenableScrollButtonsTimer() {
+	tabs->setUsesScrollButtons(true);
+}
 void Eqonomize::serverNewConnection() {
 	socket = server->nextPendingConnection();
 	if(socket) {
@@ -3373,10 +3383,6 @@ void Eqonomize::updatePalette(bool dark_mode, bool initial) {
 #endif
 	QPalette p;
 	if(dark_mode) {
-#if defined _WIN32 && (QT_VERSION < QT_VERSION_CHECK(6, 5, 0))
-		QApplication::setStyle(QStyleFactory::create("Fusion"));
-		qApp->setStyleSheet("QComboBox {combobox-popup: 0}");
-#endif
 		p.setColor(QPalette::Active, QPalette::Window, QColor(42, 46, 50));
 		p.setColor(QPalette::Active, QPalette::WindowText, QColor(252, 252, 252));
 		p.setColor(QPalette::Active, QPalette::Base, QColor(27, 30, 32));
@@ -3416,6 +3422,13 @@ void Eqonomize::updatePalette(bool dark_mode, bool initial) {
 		p.setColor(QPalette::Disabled, QPalette::Button, QColor(47, 52, 56));
 		p.setColor(QPalette::Disabled, QPalette::ButtonText,QColor(101, 101, 101));
 		p.setColor(QPalette::Disabled, QPalette::BrightText, QColor(39, 174, 96));
+		QApplication::setPalette(p);
+#if defined _WIN32 && (QT_VERSION < QT_VERSION_CHECK(6, 5, 0))
+		QApplication::setStyle(QStyleFactory::create("Fusion"));
+#else
+		QApplication::setStyle(QApplication::style());
+#endif
+		qApp->setStyleSheet("QComboBox {combobox-popup: 0}");
 	} else {
 #ifdef _WIN32
 		QStyle *s = NULL;
@@ -3429,8 +3442,10 @@ void Eqonomize::updatePalette(bool dark_mode, bool initial) {
 		if(initial) return;
 		p = QApplication::style()->standardPalette();
 #endif
+		QApplication::setPalette(p);
+		QApplication::setStyle(QApplication::style());
+		qApp->setStyleSheet("QComboBox {combobox-popup: 0}");
 	}
-	QApplication::setPalette(p);
 }
 
 void Eqonomize::checkDate() {

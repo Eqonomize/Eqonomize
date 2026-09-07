@@ -46,6 +46,7 @@
      <li>Use scrollbars in combo box regardless of style</li>
      <li>Enable modification of account for multiple transactions</li>
      <li>Do not assume that char is signed (affects file import date format)</li>
+     <li>Fix dark mode not fully applied until restart</li>
     </ul>
    </description>
   </release>

@@ -1,3 +1,8 @@
+2026-09-05  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix dark mode not fully applied until restart
+	* Improve initial window size (avoid tab bar scroll buttons)
+
 2026-08-11  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Hide remaining budget column if budget is not set for any category

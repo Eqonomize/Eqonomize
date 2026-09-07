@@ -364,6 +364,7 @@ class Eqonomize : public QMainWindow {
 #if defined _WIN32 && (QT_VERSION >= QT_VERSION_CHECK(6, 5, 0))
 		void updateColors();
 #endif
+		void onReenableScrollButtonsTimer();
 
 
 	public slots:
