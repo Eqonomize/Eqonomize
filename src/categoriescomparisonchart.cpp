@@ -722,7 +722,23 @@ void CategoriesComparisonChart::updateDisplay() {
 				if(account->accountType() == ASSETS_TYPE_SECURITIES) {
 					values[account] = 0.0;
 				} else {
-					values[account] = account->initialBalance();
+					if(account->currency() && account->currency() != budget->defaultCurrency()) {
+						QDate d;
+						if(budget->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE) {
+							for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
+								Transaction *trans = *it;
+								if(trans->relatesToAccount(account, false, true)) {
+									d = trans->date();
+									break;
+								}
+							}
+							values[account] = account->currency()->convertTo(account->initialBalance(), budget->defaultCurrency(), d);
+						} else {
+							values[account] = account->currency()->convertTo(account->initialBalance(), budget->defaultCurrency());
+						}
+					} else {
+						values[account] = account->initialBalance();
+					}
 				}
 				counts[account] = 0.0;
 			}
