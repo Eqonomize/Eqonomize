@@ -624,13 +624,11 @@ void CategoriesComparisonReport::save() {
 	url = urls[0];
 	QSaveFile ofile(url);
 	ofile.setDirectWriteFallback(true);
-	ofile.open(QIODevice::WriteOnly);
-	ofile.setPermissions((QFile::Permissions) 0x0660);
-	if(!ofile.isOpen()) {
-		ofile.cancelWriting();
+	if(!ofile.open(QIODevice::WriteOnly)) {
 		QMessageBox::critical(this, tr("Error"), tr("Couldn't open file for writing."));
 		return;
 	}
+	ofile.setPermissions((QFile::Permissions) 0x0660);
 	last_document_directory = fileDialog.directory().absolutePath();
 	QTextStream outf(&ofile);
 #if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
@@ -656,7 +654,6 @@ void CategoriesComparisonReport::updateDisplay() {
 
 	if(!isVisible() || block_display_update) return;
 
-	int columns = 1;
 	bool enabled[6];
 	enabled[0] = valueButton->isChecked();
 	enabled[1] = dailyButton->isChecked();
@@ -664,9 +661,6 @@ void CategoriesComparisonReport::updateDisplay() {
 	enabled[3] = yearlyButton->isChecked();
 	enabled[4] = countButton->isChecked();
 	enabled[5] = perButton->isChecked();
-	for(size_t i = 0; i < 6; i++) {
-		if(enabled[i]) columns++;
-	}
 
 	QMap<Account*, QVector<double> > month_values;
 	QMap<QString, QVector<double> > desc_month_values;
@@ -779,7 +773,6 @@ void CategoriesComparisonReport::updateDisplay() {
 	}
 	bool b_tags = tagsButton->isChecked();
 	if(b_tags) {
-		columns = budget->tags.count() + 2;
 		for(size_t i = 0; i < 6; i++) {
 			enabled[i] = false;
 		}
@@ -790,7 +783,6 @@ void CategoriesComparisonReport::updateDisplay() {
 		}
 	}
 	if(i_months > 0) {
-		columns = i_months + 2;
 		for(size_t i = 0; i < 6; i++) {
 			enabled[i] = false;
 		}

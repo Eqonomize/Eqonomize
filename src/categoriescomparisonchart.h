@@ -21,6 +21,8 @@
 #ifndef CATEGORIES_COMPARISON_CHART_H
 #define CATEGORIES_COMPARISON_CHART_H
 
+#include <QChar>
+#include <QString>
 #include <QDateTime>
 #include <QResizeEvent>
 #include <QWidget>

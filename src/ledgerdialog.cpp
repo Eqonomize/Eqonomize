@@ -964,9 +964,7 @@ void LedgerDialog::saveView() {
 	if((fileDialog.selectedNameFilter() == csv_filter || db.mimeTypeForFile(url, QMimeDatabase::MatchExtension) == db.mimeTypeForName("text/csv")) && db.mimeTypeForFile(url, QMimeDatabase::MatchExtension) != db.mimeTypeForName("text/html")) filetype = 'c';
 	QSaveFile ofile(url);
 	ofile.setDirectWriteFallback(true);
-	ofile.open(QIODevice::WriteOnly);
-	if(!ofile.isOpen()) {
-		ofile.cancelWriting();
+	if(!ofile.open(QIODevice::WriteOnly)) {
 		QMessageBox::critical(this, tr("Error"), tr("Couldn't open file for writing."));
 		return;
 	}

@@ -512,13 +512,11 @@ void CategoriesComparisonChart::save() {
 	QMimeType url_mime = db.mimeTypeForFile(url, QMimeDatabase::MatchExtension);
 	QSaveFile ofile(url);
 	ofile.setDirectWriteFallback(true);
-	ofile.open(QIODevice::WriteOnly);
-	ofile.setPermissions((QFile::Permissions) 0x0660);
-	if(!ofile.isOpen()) {
-		ofile.cancelWriting();
+	if(!ofile.open(QIODevice::WriteOnly)) {
 		QMessageBox::critical(this, tr("Error"), tr("Couldn't open file for writing."));
 		return;
 	}
+	ofile.setPermissions((QFile::Permissions) 0x0660);
 	last_picture_directory = fileDialog.directory().absolutePath();
 
 	QRectF rect = scene->sceneRect();

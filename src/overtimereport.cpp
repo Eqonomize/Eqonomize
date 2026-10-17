@@ -965,13 +965,11 @@ void OverTimeReport::save() {
 	url = urls[0];
 	QSaveFile ofile(url);
 	ofile.setDirectWriteFallback(true);
-	ofile.open(QIODevice::WriteOnly);
-	ofile.setPermissions((QFile::Permissions) 0x0660);
-	if(!ofile.isOpen()) {
-		ofile.cancelWriting();
+	if(!ofile.open(QIODevice::WriteOnly)) {
 		QMessageBox::critical(this, tr("Error"), tr("Couldn't open file for writing."));
 		return;
 	}
+	ofile.setPermissions((QFile::Permissions) 0x0660);
 	last_document_directory = fileDialog.directory().absolutePath();
 	QTextStream outf(&ofile);
 #if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))

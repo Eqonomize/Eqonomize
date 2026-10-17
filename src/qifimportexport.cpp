@@ -567,13 +567,11 @@ void ExportQIFDialog::accept() {
 	}
 	QSaveFile ofile(url);
 	ofile.setDirectWriteFallback(true);
-	ofile.open(QIODevice::WriteOnly);
-	ofile.setPermissions((QFile::Permissions) 0x0660);
-	if(!ofile.isOpen()) {
-		ofile.cancelWriting();
+	if(!ofile.open(QIODevice::WriteOnly)) {
 		QMessageBox::critical(this, tr("Error"), tr("Couldn't open file for writing."));
 		return;
 	}
+	ofile.setPermissions((QFile::Permissions) 0x0660);
 
 	QFileInfo fileInfo(url);
 	last_document_directory = fileInfo.absoluteDir().absolutePath();

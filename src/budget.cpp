@@ -815,9 +815,7 @@ QString Budget::saveCurrencies() {
 
 	QSaveFile ofile(filename);
 	ofile.setDirectWriteFallback(true);
-	ofile.open(QIODevice::WriteOnly);
-	if(!ofile.isOpen()) {
-		ofile.cancelWriting();
+	if(!ofile.open(QIODevice::WriteOnly)) {
 		return tr("Couldn't open file for writing");
 	}
 	QXmlStreamWriter xml(&ofile);
@@ -1666,7 +1664,9 @@ bool Budget::sync(QString &error, QString &errors, bool do_upload, bool on_load)
 	syncProcess = NULL;
 	syncReply = NULL;
 	QTemporaryFile file;
-	file.open();
+	if(!file.open()) {
+		return false;
+	}
 	QString perror;
 	if(!o_sync->download.isEmpty()) {
 		file.close();
@@ -2467,12 +2467,10 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions, bool 
 
 	QSaveFile ofile(filename);
 	ofile.setDirectWriteFallback(true);
-	ofile.open(QIODevice::WriteOnly);
-	ofile.setPermissions(permissions);
-	if(!ofile.isOpen()) {
-		ofile.cancelWriting();
+	if(!ofile.open(QIODevice::WriteOnly)) {
 		return tr("Couldn't open file for writing");
 	}
+	ofile.setPermissions(permissions);
 
 	if(!is_backup) i_opened_revision = i_revision;
 

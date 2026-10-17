@@ -1595,9 +1595,7 @@ void EditQuotationsDialog::exportQuotations() {
 	if((fileDialog.selectedNameFilter() == csv_filter || db.mimeTypeForFile(url, QMimeDatabase::MatchExtension) == db.mimeTypeForName("text/csv")) && db.mimeTypeForFile(url, QMimeDatabase::MatchExtension) != db.mimeTypeForName("text/html")) filetype = 'c';
 	QSaveFile ofile(url);
 	ofile.setDirectWriteFallback(true);
-	ofile.open(QIODevice::WriteOnly);
-	if(!ofile.isOpen()) {
-		ofile.cancelWriting();
+	if(!ofile.open(QIODevice::WriteOnly)) {
 		QMessageBox::critical(this, tr("Error"), tr("Couldn't open file for writing."));
 		return;
 	}
@@ -6481,7 +6479,10 @@ void Eqonomize::uploadClicked() {
 	budget->o_sync->upload = syncUploadEdit->text().trimmed();
 	budget->o_sync->autosync = syncAutoBox->isChecked();
 	QTemporaryFile file;
-	file.open();
+	if(!file.open()) {
+		QMessageBox::critical(this, tr("Error"), tr("Couldn't open file for uploading."));
+		return;
+	}
 	QProgressDialog *syncProgressDialog = new QProgressDialog(tr("Uploading…"), tr("Abort"), 0, 1, syncDialog);
 	syncProgressDialog->setWindowModality(Qt::WindowModal);
 	syncProgressDialog->setMinimumDuration(200);
@@ -7908,9 +7909,7 @@ void Eqonomize::saveView() {
 	if((fileDialog.selectedNameFilter() == csv_filter || db.mimeTypeForFile(url, QMimeDatabase::MatchExtension) == db.mimeTypeForName("text/csv")) && db.mimeTypeForFile(url, QMimeDatabase::MatchExtension) != db.mimeTypeForName("text/html")) filetype = 'c';
 	QSaveFile ofile(url);
 	ofile.setDirectWriteFallback(true);
-	ofile.open(QIODevice::WriteOnly);
-	if(!ofile.isOpen()) {
-		ofile.cancelWriting();
+	if(!ofile.open(QIODevice::WriteOnly)) {
 		QMessageBox::critical(this, tr("Error"), tr("Couldn't open file for writing."));
 		return;
 	}
