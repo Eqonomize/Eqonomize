@@ -115,8 +115,7 @@ class AssetsAccount : public Account {
 		AssetsAccount(const AssetsAccount *account);
 		virtual ~AssetsAccount();
 
-		using Account::set;
-		virtual void set(const AssetsAccount *account);
+		virtual void set(const Account *account);
 
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
@@ -168,8 +167,7 @@ class CategoryAccount : public Account {
 		CategoryAccount(const CategoryAccount *account);
 		virtual ~CategoryAccount();
 
-		using Account::set;
-		virtual void set(const CategoryAccount *account);
+		virtual void set(const Account *account);
 		void setMergeBudgets(const CategoryAccount *account);
 		void mergeBudgets(const CategoryAccount *account, bool keep = true);
 

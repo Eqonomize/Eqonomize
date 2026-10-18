@@ -104,12 +104,14 @@ AssetsAccount::AssetsAccount() : Account(), at_type(ASSETS_TYPE_CASH), d_initbal
 AssetsAccount::AssetsAccount(const AssetsAccount *account) : Account(account), at_type(account->accountType()), d_initbal(account->initialBalance()), b_closed(account->isClosed()), o_currency(account->currency()) {}
 AssetsAccount::~AssetsAccount() {if(o_budget->budgetAccount == this) o_budget->budgetAccount = NULL;}
 
-void AssetsAccount::set(const AssetsAccount *account) {
+void AssetsAccount::set(const Account *account) {
 	Account::set(account);
-	at_type = account->accountType();
-	d_initbal = account->initialBalance();
-	b_closed = account->isClosed();
-	o_currency = account->currency();
+	if(account->type() == ACCOUNT_TYPE_ASSETS) {
+		at_type = ((AssetsAccount*) account)->accountType();
+		d_initbal = ((AssetsAccount*) account)->initialBalance();
+		b_closed = ((AssetsAccount*) account)->isClosed();
+		o_currency = ((AssetsAccount*) account)->currency();
+	}
 }
 void AssetsAccount::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	Account::readAttributes(attr, valid);
@@ -273,11 +275,13 @@ CategoryAccount::~CategoryAccount() {
 	subCategories.clear();
 }
 
-void CategoryAccount::set(const CategoryAccount *account) {
+void CategoryAccount::set(const Account *account) {
 	Account::set(account);
-	setParentCategory(account->parentCategory());
-	mbudgets = account->mbudgets;
-	subCategories = account->subCategories;
+	if(account->type() == ACCOUNT_TYPE_INCOMES || account->type() == ACCOUNT_TYPE_EXPENSES) {
+		setParentCategory(((CategoryAccount*) account)->parentCategory());
+		mbudgets = ((CategoryAccount*) account)->mbudgets;
+		subCategories = ((CategoryAccount*) account)->subCategories;
+	}
 }
 void CategoryAccount::setMergeBudgets(const CategoryAccount *account) {
 	Account::set(account);

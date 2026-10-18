@@ -1665,6 +1665,7 @@ bool Budget::sync(QString &error, QString &errors, bool do_upload, bool on_load)
 	syncReply = NULL;
 	QTemporaryFile file;
 	if(!file.open()) {
+		error = tr("Couldn't create temporary file.");
 		return false;
 	}
 	QString perror;
@@ -1677,7 +1678,10 @@ bool Budget::sync(QString &error, QString &errors, bool do_upload, bool on_load)
 		syncProcess = new QProcess();
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
 		QStringList list = QProcess::splitCommand(command);
-		if(list.isEmpty()) return "Empty command";
+		if(list.isEmpty()) {
+			error = "Empty command";
+			return false;
+		}
 		syncProcess->start(list.takeFirst(), list);
 #else
 		syncProcess->start(command);

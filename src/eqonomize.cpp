@@ -6470,6 +6470,11 @@ void Eqonomize::uploadClicked() {
 			if(!saveURL(current_url, true, false, syncDialog)) return;
 		}
 	}
+	QTemporaryFile file;
+	if(!file.open()) {
+		QMessageBox::critical(syncDialog, tr("Error uploading file"), tr("Couldn't create temporary file."));
+		return;
+	}
 	QString upload_bak = budget->o_sync->upload;
 	QString download_bak = budget->o_sync->download;
 	QString url_bak = budget->o_sync->url;
@@ -6478,11 +6483,6 @@ void Eqonomize::uploadClicked() {
 	budget->o_sync->download = syncDownloadEdit->text().trimmed();
 	budget->o_sync->upload = syncUploadEdit->text().trimmed();
 	budget->o_sync->autosync = syncAutoBox->isChecked();
-	QTemporaryFile file;
-	if(!file.open()) {
-		QMessageBox::critical(this, tr("Error"), tr("Couldn't open file for uploading."));
-		return;
-	}
 	QProgressDialog *syncProgressDialog = new QProgressDialog(tr("Uploading…"), tr("Abort"), 0, 1, syncDialog);
 	syncProgressDialog->setWindowModality(Qt::WindowModal);
 	syncProgressDialog->setMinimumDuration(200);
