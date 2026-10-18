@@ -21,6 +21,8 @@
 #ifndef OVER_TIME_CHART_H
 #define OVER_TIME_CHART_H
 
+#include <QChar>
+#include <QString>
 #include <QDateTime>
 #include <QResizeEvent>
 #include <QWidget>

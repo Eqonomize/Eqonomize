@@ -976,7 +976,7 @@ void TransactionListWidget::editTransaction() {
 					}
 					compcur = i->transaction()->fromCurrency();
 					if(i->transaction()->toCurrency() != compcur) equal_currency = false;
-					compdesc != i->transaction()->description();
+					compdesc = i->transaction()->description();
 				}
 				compdate = i->date();
 			} else {

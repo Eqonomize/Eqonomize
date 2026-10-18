@@ -21,6 +21,8 @@
 #ifndef EQONOMIZE_MONTH_SELECTOR_H
 #define EQONOMIZE_MONTH_SELECTOR_H
 
+#include <QChar>
+#include <QString>
 #include <QDateTime>
 #include <QWidget>
 
