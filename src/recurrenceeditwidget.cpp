@@ -567,8 +567,8 @@ RecurrenceEditWidget::RecurrenceEditWidget(const QDate &startdate, Budget *budg,
 		int months2 = 12;
 		if(months2 > months) {
 			for(int i2 = months + 1; i2 <= months2; i2++) {
-				yearlyMonthCombo_week->addItem(QLocale().monthName(i2, QLocale::LongFormat));
-				yearlyMonthCombo->addItem(QLocale().monthName(i2, QLocale::LongFormat));
+				yearlyMonthCombo_week->addItem(budget->monthName(i2, QLocale::LongFormat));
+				yearlyMonthCombo->addItem(budget->monthName(i2, QLocale::LongFormat));
 			}
 			months = months2;
 		}

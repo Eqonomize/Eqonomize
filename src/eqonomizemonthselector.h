@@ -28,6 +28,7 @@
 
 class QComboBox;
 class QSpinBox;
+class Budget;
 
 class EqonomizeMonthSelector : public QWidget {
 
@@ -35,7 +36,7 @@ class EqonomizeMonthSelector : public QWidget {
 
 	public:
 
-		EqonomizeMonthSelector(QWidget *parent);
+		EqonomizeMonthSelector(QWidget *parent, Budget *budg);
 		~EqonomizeMonthSelector();
 
 		QDate date() const;
@@ -45,6 +46,7 @@ class EqonomizeMonthSelector : public QWidget {
 		QComboBox *monthCombo;
 		QSpinBox *yearEdit;
 
+		Budget *budget;
 		QDate d_date;
 
 		void updateMonths();

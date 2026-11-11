@@ -32,7 +32,7 @@
 
 #include "eqonomizemonthselector.h"
 
-EqonomizeMonthSelector::EqonomizeMonthSelector(QWidget *parent) : QWidget(parent) {
+EqonomizeMonthSelector::EqonomizeMonthSelector(QWidget *parent, Budget *budg) : QWidget(parent), budget(budg) {
 	d_date = QDate::currentDate();
 	d_date.setDate(d_date.year(), d_date.month(), 1);
 	QHBoxLayout *layout = new QHBoxLayout(this);
@@ -88,7 +88,7 @@ void EqonomizeMonthSelector::updateMonths() {
 	if(monthCombo->count() != 12 || !IS_GREGORIAN_CALENDAR) {
 		monthCombo->clear();
 		for(int i = 1; i <= months; i++) {
-			monthCombo->addItem(QLocale().monthName(i, QLocale::LongFormat));
+			monthCombo->addItem(budget->monthName(i, QLocale::LongFormat));
 		}
 		monthCombo->setCurrentIndex(d_date.month() - 1);
 	}

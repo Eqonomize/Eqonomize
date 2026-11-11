@@ -2732,7 +2732,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	budgetEdit->setFocus();
 	budgetLayout2->addWidget(budgetEdit);
 	budgetLayout2->addWidget(new QLabel(tr("Month:"), budgetWidget));
-	budgetMonthEdit = new EqonomizeMonthSelector(budgetWidget);
+	budgetMonthEdit = new EqonomizeMonthSelector(budgetWidget, budget);
 	sp = budgetMonthEdit->sizePolicy();
 	sp.setHorizontalPolicy(QSizePolicy::Expanding);
 	budgetMonthEdit->setSizePolicy(sp);
@@ -3282,7 +3282,7 @@ void Eqonomize::setBudgetPeriod() {
 	layout->addWidget(new QLabel(tr("First month in budget year:"), dialog), 2, 0);
 	QComboBox *yearlyMonthCombo = new QComboBox(dialog);
 	for(int i = 1; i <= 12; i++) {
-		yearlyMonthCombo->addItem(QLocale().monthName(i, QLocale::LongFormat));
+		yearlyMonthCombo->addItem(budget->monthName(i, QLocale::LongFormat));
 	}
 	yearlyMonthCombo->setCurrentIndex(budget->budgetMonth() - 1);
 	layout->addWidget(yearlyMonthCombo, 2, 1, 1, 2);

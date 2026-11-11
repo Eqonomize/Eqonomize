@@ -149,6 +149,7 @@ class Budget {
 		int i_quotation_decimals, i_share_decimals, i_budget_day, i_budget_week, i_budget_month, i_opened_revision, i_revision;
 		bool b_record_new_tags, b_record_new_accounts, b_record_new_securities, b_default_currency_changed, b_currency_modified;
 		TransactionConversionRateDate i_tcrd;
+		QString slang;
 
 		qlonglong last_id;
 
@@ -339,6 +340,7 @@ class Budget {
 		double yearsBetweenDates(const QDate &date1, const QDate &date2, bool use_budget_months = true);
 		double monthsBetweenDates(const QDate &date1, const QDate &date2, bool use_budget_months = true);
 		int calendarMonthsBetweenDates(const QDate &date1, const QDate &date2, bool use_budget_months = true);
+		QString monthName(int month, QLocale::FormatType type = QLocale::LongFormat) const;
 
 		int getAccountType(const QString &type, bool localized = false, bool plural = false);
 		QString getAccountTypeName(int at_type, bool localized = false, bool plural = false);

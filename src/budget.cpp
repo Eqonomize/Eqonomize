@@ -39,6 +39,7 @@
 #include <QNetworkReply>
 #include <QProcess>
 #include <QTemporaryFile>
+#include <QSettings>
 #include <math.h>
 
 #include <QDebug>
@@ -284,6 +285,9 @@ Budget::Budget() {
 	if(monetary_decimal_separator.isEmpty()) monetary_decimal_separator = QLocale().decimalPoint();
 	if(monetary_group_separator.isEmpty()) monetary_group_separator = QLocale().groupSeparator();
 	show_default_currency = true;
+	QSettings settings;
+	settings.beginGroup("GeneralOptions");
+	slang = settings.value("language", QString()).toString();
 }
 Budget::~Budget() {}
 
@@ -3746,6 +3750,10 @@ int Budget::calendarMonthsBetweenDates(const QDate &date1, const QDate &date2, b
 	i_budget_week = saved_i_budget_week;
 	i_budget_month = saved_i_budget_month;
 	return months;
+}
+QString Budget::monthName(int month, QLocale::FormatType type) const {
+	if(slang.isEmpty()) return QLocale().monthName(month, type);
+	return QLocale(slang).monthName(month, type);
 }
 
 int Budget::getAccountType(const QString &type, bool localized, bool plural) {

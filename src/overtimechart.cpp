@@ -263,11 +263,11 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 	settingsLayout->addWidget(new QLabel(tr("Start date:"), settingsWidget), 0, 0);
 	QHBoxLayout *monthLayout = new QHBoxLayout();
 	settingsLayout->addLayout(monthLayout, 0, 1);
-	startDateEdit = new EqonomizeMonthSelector(settingsWidget);
+	startDateEdit = new EqonomizeMonthSelector(settingsWidget, budget);
 	monthLayout->addWidget(startDateEdit);
 	monthLayout->setStretchFactor(startDateEdit, 1);
 	monthLayout->addWidget(new QLabel(tr("End date:"), settingsWidget));
-	endDateEdit = new EqonomizeMonthSelector(settingsWidget);
+	endDateEdit = new EqonomizeMonthSelector(settingsWidget, budget);
 	monthLayout->addWidget(endDateEdit);
 	monthLayout->setStretchFactor(endDateEdit, 1);
 	monthLayout->addStretch(1);
@@ -4033,12 +4033,12 @@ void OverTimeChart::updateDisplay() {
 		monthdate = first_date;
 		while(monthdate <= curmonth) {
 			if(b_long_month_names) {
-				if(fm.boundingRect(QLocale().monthName(budget->budgetMonth(monthdate), QLocale::LongFormat)).width() > linelength - 8) {
+				if(fm.boundingRect(budget->monthName(budget->budgetMonth(monthdate), QLocale::LongFormat)).width() > linelength - 8) {
 					b_long_month_names = false;
 				}
 			}
 			if(!b_long_month_names) {
-				if(fm.boundingRect(QLocale().monthName(budget->budgetMonth(monthdate), QLocale::ShortFormat)).width() > linelength) {
+				if(fm.boundingRect(budget->monthName(budget->budgetMonth(monthdate), QLocale::ShortFormat)).width() > linelength) {
 					b_month_names = false;
 					break;
 				}
@@ -4063,8 +4063,8 @@ void OverTimeChart::updateDisplay() {
 		}
 		if(b_month_names) {
 			QGraphicsSimpleTextItem *axis_text = new QGraphicsSimpleTextItem();
-			if((includes_budget || includes_scheduled) && next_date > imonth) axis_text->setText(QLocale().monthName(budget->budgetMonth(monthdate), b_long_month_names ? QLocale::LongFormat : QLocale::ShortFormat) + "*");
-			else axis_text->setText(QLocale().monthName(budget->budgetMonth(monthdate), b_long_month_names ? QLocale::LongFormat : QLocale::ShortFormat));
+			if((includes_budget || includes_scheduled) && next_date > imonth) axis_text->setText(o_budget->monthName(budget->budgetMonth(monthdate), b_long_month_names ? QLocale::LongFormat : QLocale::ShortFormat) + "*");
+			else axis_text->setText(o_budget->monthName(budget->budgetMonth(monthdate), b_long_month_names ? QLocale::LongFormat : QLocale::ShortFormat));
 			axis_text->setFont(legend_font);
 			axis_text->setBrush(Qt::black);
 			axis_text->setPos(margin + axis_width + index * linelength + (linelength - axis_text->boundingRect().width()) / 2, chart_height + chart_y + 11);
