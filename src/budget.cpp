@@ -3755,6 +3755,10 @@ QString Budget::monthName(int month, QLocale::FormatType type) const {
 	if(slang.isEmpty()) return QLocale().monthName(month, type);
 	return QLocale(slang).monthName(month, type);
 }
+QString Budget::dayName(int day, QLocale::FormatType type) const {
+	if(slang.isEmpty()) return QLocale().standaloneDayName(day, type);
+	return QLocale(slang).standaloneDayName(day, type);
+}
 
 int Budget::getAccountType(const QString &type, bool localized, bool plural) {
 	if(plural && localized) {

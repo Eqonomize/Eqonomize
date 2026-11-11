@@ -341,6 +341,7 @@ class Budget {
 		double monthsBetweenDates(const QDate &date1, const QDate &date2, bool use_budget_months = true);
 		int calendarMonthsBetweenDates(const QDate &date1, const QDate &date2, bool use_budget_months = true);
 		QString monthName(int month, QLocale::FormatType type = QLocale::LongFormat) const;
+		QString dayName(int day, QLocale::FormatType type = QLocale::LongFormat) const;
 
 		int getAccountType(const QString &type, bool localized = false, bool plural = false);
 		QString getAccountTypeName(int at_type, bool localized = false, bool plural = false);

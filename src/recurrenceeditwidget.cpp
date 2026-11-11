@@ -371,7 +371,7 @@ RecurrenceEditWidget::RecurrenceEditWidget(const QDate &startdate, Budget *budg,
 	weeklyRuleLayout->addLayout(weeklyDaysLayout);
 	int weekStart = QLocale().firstDayOfWeek();
 	for(int i = 0; i < 7; ++i ) {
-		weeklyButtons[i] = new QCheckBox(QLocale().standaloneDayName(i + 1, QLocale::ShortFormat), weeklyRuleWidget);
+		weeklyButtons[i] = new QCheckBox(budget->dayName(i + 1, QLocale::ShortFormat), weeklyRuleWidget);
 	}
 	for(int i = weekStart - 1; i < 7; ++i ) {
 		weeklyDaysLayout->addWidget(weeklyButtons[i]);
