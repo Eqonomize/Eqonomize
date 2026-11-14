@@ -11,7 +11,7 @@
     <message>
         <location filename="../src/accountcombobox.cpp" line="262"/>
         <source>Paid with loan…</source>
-        <translation>Betalad med lån…</translation>
+        <translation>Betald med lån…</translation>
     </message>
     <message>
         <location filename="../src/accountcombobox.cpp" line="263"/>
@@ -238,7 +238,7 @@
         <location filename="../src/budget.cpp" line="821"/>
         <location filename="../src/budget.cpp" line="2474"/>
         <source>Couldn&apos;t open file for writing</source>
-        <translation>Kunde öppna och skriva till filen</translation>
+        <translation>Kunde inte öppna och skriva till filen</translation>
     </message>
     <message>
         <location filename="../src/budget.cpp" line="844"/>
@@ -246,7 +246,7 @@
         <location filename="../src/budget.cpp" line="2636"/>
         <location filename="../src/budget.cpp" line="2640"/>
         <source>Error while writing file; file was not saved</source>
-        <translation>Fil vid skrivande till fil; filen sparades inte</translation>
+        <translation>Fel vid skrivande till fil; filen sparades inte</translation>
     </message>
     <message>
         <location filename="../src/budget.cpp" line="1688"/>
@@ -351,6 +351,11 @@
         <location filename="../src/qifimportexport.cpp" line="1314"/>
         <source>Uncategorized</source>
         <translation>Okategoriserade</translation>
+    </message>
+    <message>
+        <location filename="../src/budget.cpp" line="1672"/>
+        <source>Couldn&apos;t create temporary file.</source>
+        <translation>Kunde inte skapa en temporär fil.</translation>
     </message>
 </context>
 <context>
@@ -669,7 +674,7 @@ Värde: %2</translation>
         <location filename="../src/categoriescomparisonreport.cpp" line="102"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="2106"/>
         <source>All Categories, including subcategories</source>
-        <translation>Alla kategorier, inclusive underkategorier</translation>
+        <translation>Alla kategorier, inklusive underkategorier</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="103"/>
@@ -1094,7 +1099,7 @@ Värde: %2</translation>
         <location filename="../src/eqonomize.cpp" line="1804"/>
         <source>The following transactions was scheduled to occur today or before today.
 Confirm that they have indeed occurred (or will occur today).</source>
-        <translation>Följande transaktioner  var planerade att infalla idag eller tidigare.
+        <translation>Följande transaktioner var planerade att infalla idag eller tidigare.
 Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</translation>
     </message>
     <message>
@@ -1240,7 +1245,7 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
         <location filename="../src/overtimereport.cpp" line="204"/>
         <location filename="../src/overtimereport.cpp" line="263"/>
         <source>All Tags Combined</source>
-        <translation>All etiketter kombinerade</translation>
+        <translation>Alla etiketter kombinerade</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="144"/>
@@ -2297,7 +2302,7 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
     <message>
         <location filename="../src/eqonomize.cpp" line="1469"/>
         <source>Unrecognized date format.</source>
-        <translation>Obekant datum format.</translation>
+        <translation>Obekant datumformat.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1474"/>
@@ -2307,7 +2312,7 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
     <message>
         <location filename="../src/eqonomize.cpp" line="1479"/>
         <source>The format of dates and/or numbers in the CSV file is ambiguous. Please select the correct format.</source>
-        <translation>Formatet på datum och/eller nummer i CSV-filen är tvetydiga. Var vänlig välj det korrekta formatet.</translation>
+        <translation>Formatet på datum och/eller tal i CSV-filen är tvetydigt. Var vänlig välj det korrekta formatet.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1484"/>
@@ -2383,7 +2388,7 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="309"/>
         <source>End date before start date.</source>
-        <translation>Slutdatum är efter startdatum.</translation>
+        <translation>Slutdatum är före startdatum.</translation>
     </message>
 </context>
 <context>
@@ -3037,7 +3042,7 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
     <message>
         <location filename="../src/eqonomize.cpp" line="2830"/>
         <source>Yearly Rate</source>
-        <translation>Årlig ränta</translation>
+        <translation>Årlig avkastning</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2831"/>
@@ -3363,22 +3368,22 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
     <message>
         <location filename="../src/eqonomize.cpp" line="6415"/>
         <source>Download command:</source>
-        <translation>Neddladdningskommando:</translation>
+        <translation>Nedladdningskommando:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="8033"/>
         <source>Group by Type</source>
-        <translation>Grupper efter typ</translation>
+        <translation>Gruppera efter typ</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="8035"/>
         <source>Group by Bank</source>
-        <translation>Grupper efter bank</translation>
+        <translation>Gruppera efter bank</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="8037"/>
         <source>Group by Currency</source>
-        <translation>Grupper efter valuta</translation>
+        <translation>Gruppera efter valuta</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="8057"/>
@@ -3515,7 +3520,7 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
     <message>
         <location filename="../src/eqonomize.cpp" line="6481"/>
         <source>Error uploading %1: %2.</source>
-        <translation>Fil vid uppladdning av %1: %2.</translation>
+        <translation>Fel vid uppladdning av %1: %2.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="6513"/>
@@ -3547,7 +3552,7 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
     <message>
         <location filename="../src/eqonomize.cpp" line="6554"/>
         <source>The file has been modified by a different user or program. Do you wish to merge changes?</source>
-        <translation>Filen har ändrats av en användare eller ett annat program. Vill du slå samman förändringarna?</translation>
+        <translation>Filen har ändrats av en annan användare eller ett annat program. Vill du slå samman förändringarna?</translation>
     </message>
     <message>
         <source>&amp;Synchronize</source>
@@ -3610,7 +3615,7 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
     <message>
         <location filename="../src/eqonomize.cpp" line="6959"/>
         <source>No exchange rate is available for the default currency (%1). If you wish to use multiple currencies you should set the exchange rate manually.</source>
-        <translation>Inga växelkurser är tillgängliga för den förvalda vlutan (%1). Om du vill använda flera valutor så bör du ange växelkursen manuellt.</translation>
+        <translation>Inga växelkurser är tillgängliga för den förvalda valutan (%1). Om du vill använda flera valutor så bör du ange växelkursen manuellt.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="6983"/>
@@ -3650,7 +3655,7 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
     <message>
         <location filename="../src/eqonomize.cpp" line="8147"/>
         <source>Show quantity and payer/payee properties for incomes and expenses.</source>
-        <translation>Visa kvantitet och utbetalare/mottage för inkomster och utgifter.</translation>
+        <translation>Visa kvantitet och utbetalare/mottagare för inkomster och utgifter.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="8129"/>
@@ -4249,7 +4254,7 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
         <location filename="../src/eqonomize.cpp" line="3671"/>
         <source>Are you sure you want to delete the security &quot;%1&quot; and all associated transactions?</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
-        <translation>Är du säker på att vill ta bort värdepappret &quot;%1&quot; och alla tillhörande transaktioner?</translation>
+        <translation>Är du säker på att du vill ta bort värdepappret &quot;%1&quot; och alla tillhörande transaktioner?</translation>
     </message>
     <message>
         <source>No security available.</source>
@@ -4279,7 +4284,7 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
     <message>
         <location filename="../src/eqonomize.cpp" line="6811"/>
         <source>Updating exchange rates…</source>
-        <translation>Updatera valutakurser…</translation>
+        <translation>Uppdaterar växelkurser…</translation>
     </message>
     <message>
         <source>Failed to save currencies.</source>
@@ -4478,7 +4483,7 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
     <message>
         <location filename="../src/eqonomize.cpp" line="8141"/>
         <source>Use the exchange rate nearest the transaction date, instead of the latest available rate, when converting the value of transactions.</source>
-        <translation>Använd växelkursen för datum närmast transaktionens datum, istället för den seanste tillgängliga kursen, vid omvandling av transaktionsvärden.</translation>
+        <translation>Använd växelkursen för datum närmast transaktionens datum, istället för den senaste tillgängliga kursen, vid omvandling av transaktionsvärden.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="8153"/>
@@ -4566,7 +4571,7 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
     <message>
         <location filename="../src/eqonomize.cpp" line="8356"/>
         <source>Please restart the application for the language change to take effect.</source>
-        <translation>Vängligen starta om programmet för att språkändringen skall ha effekt.</translation>
+        <translation>Vänligen starta om programmet för att språkändringen skall ha effekt.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="8428"/>
@@ -4712,7 +4717,7 @@ Vill du öppna den senast automatiskt sparade versionen av filen?</translation>
     <message>
         <location filename="../src/eqonomize.cpp" line="8449"/>
         <source>Crash Recovery</source>
-        <translation>Krashåterhämtning</translation>
+        <translation>Kraschåterhämtning</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2531"/>
@@ -4741,13 +4746,13 @@ Vill du öppna den senast automatiskt sparade versionen av filen?</translation>
         <location filename="../src/eqonomize.cpp" line="8109"/>
         <source>Shares Exchanged…</source>
         <comment>Shares of one security directly exchanged for shares of another; Financial shares</comment>
-        <translation>Andelar flyttade…</translation>
+        <translation>Andelar utbytta…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="8110"/>
         <source>Shares of one security directly exchanged for shares of another</source>
         <comment>Financial shares</comment>
-        <translation>Andelar av ett väderpapper direkt utbytta mot andelar av ett annat</translation>
+        <translation>Andelar av ett värdepapper direkt utbytta mot andelar av ett annat</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="8117"/>
@@ -4984,6 +4989,11 @@ Vad vill du göra med dem?</translation>
         <source>%1 (with budget %2)</source>
         <translation>%1 (med budget %2)</translation>
     </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="6475"/>
+        <source>Couldn&apos;t create temporary file.</source>
+        <translation>Kunde inte skapa en temporär fil.</translation>
+    </message>
 </context>
 <context>
     <name>EqonomizeCalendarWidget</name>
@@ -5096,7 +5106,7 @@ Vad vill du göra med dem?</translation>
     <message>
         <location filename="../src/eqonomizevalueedit.cpp" line="418"/>
         <source>Empty denominator.</source>
-        <translation>Tom täljare.</translation>
+        <translation>Tom nämnare.</translation>
     </message>
     <message>
         <location filename="../src/eqonomizevalueedit.cpp" line="420"/>
@@ -5319,7 +5329,7 @@ Vad vill du göra med dem?</translation>
         <location filename="../src/importcsvdialog.cpp" line="1236"/>
         <location filename="../src/importcsvdialog.cpp" line="1243"/>
         <source>No account/category selected.</source>
-        <translation>Inget konto/kategori vald.</translation>
+        <translation>Konto eller kategori har inte valts.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="174"/>
@@ -5411,12 +5421,12 @@ Vad vill du göra med dem?</translation>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="807"/>
         <source>Imports data as expenses. Costs have positive value. Value is the only required column.</source>
-        <translation>Importerar data som utgifter. Kostnader har positivt värde. Värde är enda nödvändiga kolumn.</translation>
+        <translation>Importerar data som utgifter. Kostnader har positivt värde. Värde är den enda nödvändiga kolumnen.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="817"/>
         <source>Imports data as incomes. Value is the only required column.</source>
-        <translation>Importerar data som inkomster. Värde är enda nödvändiga kolumn.</translation>
+        <translation>Importerar data som inkomster. Värde är den enda nödvändiga kolumnen.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="818"/>
@@ -5438,7 +5448,7 @@ Vad vill du göra med dem?</translation>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="827"/>
         <source>Imports data as transfers. Value is the only required column.</source>
-        <translation>Importerar data som överföringar. Värde är enda nödvändiga kolumn.</translation>
+        <translation>Importerar data som överföringar. Värde är den enda nödvändiga kolumnen.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="828"/>
@@ -5475,7 +5485,7 @@ Vad vill du göra med dem?</translation>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="858"/>
         <source>Imports data as expenses, incomes, and transfers. Costs have negative or positive value. Value, to, and from are all required columns. Accounts and categories must be existing.</source>
-        <translation>Importerar data som utgifter, inkomster och överföringar. Kostnader har negativt eller positivt värde. Värde, till och från är alla nödvändinga kolumner. Konton och kategorier måste existera.</translation>
+        <translation>Importerar data som utgifter, inkomster och överföringar. Kostnader har negativt eller positivt värde. Värde, till och från är alla nödvändiga kolumner. Konton och kategorier måste existera.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="868"/>
@@ -5570,7 +5580,7 @@ Vad vill du göra med dem?</translation>
         <location filename="../src/importcsvdialog.cpp" line="1765"/>
         <source>%n duplicate transaction(s) was ignored.</source>
         <translation>
-            <numerusform>%n transaktionsdubbletter ignorerades.</numerusform>
+            <numerusform>%n transaktionsdubblett ignorerades.</numerusform>
             <numerusform>%n transaktionsdubbletter ignorerades.</numerusform>
         </translation>
     </message>
@@ -5591,7 +5601,7 @@ Vad vill du göra med dem?</translation>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1770"/>
         <source>Required columns missing.</source>
-        <translation>Nödvändig kolumn fattas.</translation>
+        <translation>Nödvändiga kolumner saknas.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="386"/>
@@ -5667,7 +5677,7 @@ Vad vill du göra med dem?</translation>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1795"/>
         <source>Unrecognized date format.</source>
-        <translation>Obekant datum format.</translation>
+        <translation>Obekant datumformat.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1800"/>
@@ -5677,7 +5687,7 @@ Vad vill du göra med dem?</translation>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1805"/>
         <source>The format of dates and/or numbers in the CSV file is ambiguous. Please select the correct format.</source>
-        <translation>Formatet på datum och/eller nummer i CSV-filen är tvetydiga. Var vänlig välj det korrekta formatet.</translation>
+        <translation>Formatet på datum och/eller tal i CSV-filen är tvetydigt. Var vänlig välj det korrekta formatet.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1810"/>
@@ -5705,7 +5715,7 @@ Vad vill du göra med dem?</translation>
     <message>
         <location filename="../src/qifimportexport.cpp" line="82"/>
         <source>Select a QIF file to import. When you click next, the file be analysed and you might need to answer some questions about the format of the file.</source>
-        <translation>Välj en QIF-fil att importera. När du klickar nästa kommer filen att analyseras och du kanske behöver svara på några frågor om format på filen.</translation>
+        <translation>Välj en QIF-fil att importera. När du går vidare analyseras filen, och du kan behöva svara på några frågor om filens format.</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="85"/>
@@ -5720,7 +5730,7 @@ Vad vill du göra med dem?</translation>
     <message>
         <location filename="../src/qifimportexport.cpp" line="100"/>
         <source>Unknown elements where found in the QIF file. It is possible that this is because of localized type names. Please map them to the correct standard names.</source>
-        <translation>Programmet fann okända element i QIF-filen. Det är möjligt att det beror på användande av översatta typnamn. Var vänliga passa ihop dessa med de korrekta standardnamnen.</translation>
+        <translation>Programmet fann okända element i QIF-filen. Det är möjligt att det beror på användande av översatta typnamn. Var vänlig passa ihop dessa med de korrekta standardnamnen.</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="106"/>
@@ -5886,7 +5896,7 @@ Vad vill du göra med dem?</translation>
     <message>
         <location filename="../src/qifimportexport.cpp" line="328"/>
         <source>Unrecognized date format.</source>
-        <translation>Obekant datum format.</translation>
+        <translation>Obekant datumformat.</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/qifimportexport.cpp" line="431"/>
@@ -5916,7 +5926,7 @@ Vad vill du göra med dem?</translation>
         <location filename="../src/qifimportexport.cpp" line="442"/>
         <source>%n duplicate transaction(s) was ignored.</source>
         <translation>
-            <numerusform>%n transaktionsdubbletter ignorerades.</numerusform>
+            <numerusform>%n transaktionsdubblett ignorerades.</numerusform>
             <numerusform>%n transaktionsdubbletter ignorerades.</numerusform>
         </translation>
     </message>
@@ -6120,7 +6130,7 @@ Vad vill du göra med dem?</translation>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="648"/>
         <source>Closing date is before opening date.</source>
-        <translation>Slutdatum är efter startdatum.</translation>
+        <translation>Slutdatum är före startdatum.</translation>
     </message>
     <message>
         <source>Ascending sort</source>
@@ -6193,13 +6203,13 @@ Vad vill du göra med dem?</translation>
         <location filename="../src/ledgerdialog.cpp" line="1513"/>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
-        <translation>Kan inte ange värde för värdepapperstransaktioner med dialogen för att modifier flera transaktioner.</translation>
+        <translation>Kan inte ange värde för värdepapperstransaktioner med dialogen för att ändra flera transaktioner.</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="1519"/>
         <source>Cannot change description of dividends and security transactions.</source>
         <comment>Referring to the transaction description property (transaction title/generic article name); Financial security (e.g. stock, mutual fund)</comment>
-        <translation>Kan inte ändra beskrivning för utdelningar och värdepapperstransaktioner.</translation>
+        <translation>Kan inte ändra benämningen för utdelningar och värdepapperstransaktioner.</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="1525"/>
@@ -6569,7 +6579,7 @@ Vad vill du göra med dem?</translation>
         <location filename="../src/transactioneditwidget.cpp" line="2581"/>
         <location filename="../src/transactioneditwidget.cpp" line="2592"/>
         <source>No expense category available.</source>
-        <translation>Ingen utgiftskategori finns tillänglig.</translation>
+        <translation>Ingen utgiftskategori finns tillgänglig.</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="2585"/>
@@ -7282,7 +7292,7 @@ Datum: %3</translation>
     <message>
         <location filename="../src/overtimechart.cpp" line="3319"/>
         <source>%3, %2, %1</source>
-        <translation>%3: %2, %1</translation>
+        <translation>%3, %2, %1</translation>
     </message>
     <message>
         <source>%1/%2</source>
@@ -7680,7 +7690,7 @@ Datum: %3</translation>
     <message>
         <location filename="../src/main.cpp" line="112"/>
         <source>Start with incomes list displayed</source>
-        <translation>Starta med inkomstslistan visad</translation>
+        <translation>Starta med inkomstlistan visad</translation>
     </message>
     <message>
         <location filename="../src/main.cpp" line="114"/>
@@ -7810,7 +7820,7 @@ Datum: %3</translation>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="391"/>
         <source>month(s), after the start month</source>
-        <translation>månad(er), efter startdatum</translation>
+        <translation>månad(er), efter startmånaden</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="396"/>
@@ -8722,7 +8732,7 @@ Datum: %3</translation>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1604"/>
         <source>No expense category available.</source>
-        <translation>Ingen utgiftskategori finns tillänglig.</translation>
+        <translation>Ingen utgiftskategori finns tillgänglig.</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1626"/>
@@ -8758,7 +8768,7 @@ Datum: %3</translation>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1673"/>
         <source>Zero value not allowed.</source>
-        <translation>Noll värde är inte tillåtet.</translation>
+        <translation>Nollvärde är inte tillåtet.</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1677"/>
@@ -8848,7 +8858,7 @@ Datum: %3</translation>
         <location filename="../src/transactionfilterwidget.cpp" line="116"/>
         <source>Description:</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
-        <translation>Beskrivning:</translation>
+        <translation>Benämning:</translation>
     </message>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="124"/>
@@ -9029,12 +9039,12 @@ Datum: %3</translation>
         <location filename="../src/transactionlistwidget.cpp" line="1135"/>
         <source>Cannot change date, description, expense category, account, or payee of transactions that are part of a debt payment using the dialog for modifying multiple transactions.</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
-        <translation>Datum, benämning, utgiftskategori, konto och mottagare kan inte ändras för skuldbetalningar i dialogen för att ändra flera transaktioner.</translation>
+        <translation>Datum, benämning, utgiftskategori, konto eller mottagare kan inte ändras för transaktioner som ingår i en skuldbetalning i dialogen för att ändra flera transaktioner.</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="1141"/>
         <source>Cannot change date or account of transactions that are part of a split transaction, unless all individual transactions are selected.</source>
-        <translation>Kan inte ändra datum och konto på transaktioner som ingår i en delad transaktion, såvida inte alla enskilda transaktioner är valda.</translation>
+        <translation>Kan inte ändra datum eller konto på transaktioner som ingår i en delad transaktion, såvida inte alla enskilda transaktioner är valda.</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="2194"/>
@@ -9168,13 +9178,13 @@ Datum: %3</translation>
         <location filename="../src/transactionlistwidget.cpp" line="1115"/>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
-        <translation>Kan inte ange värde för värdepapperstransaktioner med dialogen för att modifier flera transaktioner.</translation>
+        <translation>Kan inte ange värde för värdepapperstransaktioner med dialogen för att ändra flera transaktioner.</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="1121"/>
         <source>Cannot change description of dividends and security transactions.</source>
         <comment>Referring to the transaction description property (transaction title/generic article name); Financial security (e.g. stock, mutual fund)</comment>
-        <translation>Kan inte ändra beskrivning för utdelningar och värdepapperstransaktioner.</translation>
+        <translation>Kan inte ändra benämningen för utdelningar och värdepapperstransaktioner.</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="1127"/>
@@ -9217,7 +9227,7 @@ Datum: %3</translation>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="1486"/>
         <source>Join as multiple accounts/payments?</source>
-        <translation>Sammanfoga som flera konton/betalning?</translation>
+        <translation>Sammanfoga som flera konton/betalningar?</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="1486"/>
