@@ -233,6 +233,10 @@
         <source>Uncategorized</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Couldn&apos;t create temporary file.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CategoriesComparisonChart</name>
@@ -3469,6 +3473,10 @@ What do you want to do with them?</source>
         <source>The entered name is used by another expense category.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Couldn&apos;t create temporary file.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>EqonomizeCalendarWidget</name>
@@ -6122,11 +6130,6 @@ Date: %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Description:</source>
-        <comment>Transaction description property (transaction title/generic article name)</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Tag:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6164,6 +6167,18 @@ Date: %3</source>
     </message>
     <message>
         <source>Invalid date.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Text:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Matches description, payee/payer, and comments.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Matches description, payee/payer, comments, and tags.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

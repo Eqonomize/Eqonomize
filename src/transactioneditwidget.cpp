@@ -785,7 +785,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		editLayout->addWidget(lenderEdit, TEROWCOL(i, 1));
 		i++;
 	}
-	if(!b_autoedit && ((transtype == TRANSACTION_TYPE_INCOME && !sec && !select_security) || transtype == TRANSACTION_TYPE_EXPENSE) && !multiaccount) {
+	if(!b_autoedit && ((transtype == TRANSACTION_TYPE_INCOME && !sec && !select_security) || transtype == TRANSACTION_TYPE_EXPENSE || transtype == TRANSACTION_TYPE_TRANSFER) && !multiaccount) {
 		editLayout->addWidget(new QLabel(tr("Tags:"), this), TEROWCOL(i, 0));
 		tagButton = new TagButton(false, allow_account_creation, budget, this);
 		editLayout->addWidget(tagButton, TEROWCOL(i, 1));
@@ -832,7 +832,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		commentsEditT = new CommentsTextEdit(this);
 		commentsEdit = commentsEditT;
 	}
-	if(b_autoedit && (transtype == TRANSACTION_TYPE_INCOME || transtype == TRANSACTION_TYPE_EXPENSE) && !sec) {
+	if(b_autoedit && (transtype == TRANSACTION_TYPE_INCOME || transtype == TRANSACTION_TYPE_EXPENSE || transtype == TRANSACTION_TYPE_TRANSFER) && !sec) {
 		QHBoxLayout *box = new QHBoxLayout();
 		editLayout->addLayout(box, TEROWCOL(i, 1));
 		box->addWidget(commentsEdit, 1);

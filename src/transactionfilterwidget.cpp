@@ -113,14 +113,15 @@ TransactionFilterWidget::TransactionFilterWidget(bool extra_parameters, int tran
 	sp.setHorizontalPolicy(QSizePolicy::Expanding);
 	maxEdit->setSizePolicy(sp);
 	filterLayout->addWidget(maxEdit, 1, 3);
-	filterLayout->addWidget(new QLabel(tr("Description:", "Transaction description property (transaction title/generic article name)"), this), 3, 0);
+	filterLayout->addWidget(new QLabel(tr("Text:"), this), 3, 0);
 	descriptionEdit = new QLineEdit(this);
+	descriptionEdit->setToolTip(b_extra ? tr("Matches descriptions, payees/payers, and comments.") : tr("Matches descriptions, payees/payers, comments, and tags."));
 	descriptionEdit->setCompleter(new QCompleter(this));
 	descriptionEdit->completer()->setModel(new QStandardItemModel(this));
 	descriptionEdit->completer()->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
 	descriptionEdit->completer()->setCaseSensitivity(Qt::CaseInsensitive);
 	filterLayout->addWidget(descriptionEdit, 3, 1);
-	if(b_extra && (transtype == TRANSACTION_TYPE_EXPENSE || transtype == TRANSACTION_TYPE_INCOME)) {
+	if(b_extra) {
 		filterLayout->addWidget(new QLabel(tr("Tag:"), this), 3, 2);
 		tagCombo = new QComboBox(this);
 		tagCombo->setEditable(false);
@@ -705,7 +706,7 @@ void TransactionFilterWidget::transactionsReset() {
 		}
 		default: {}
 	}
-	if(transtype != TRANSACTION_TYPE_TRANSFER) {
+	if(transtype != TRANSACTION_TYPE_TRANSFER && !tagCombo) {
 		for(int i = 0; i < budget->tags.count(); i++) {
 			QList<QStandardItem*> row;
 			row << new QStandardItem(budget->tags[i]);

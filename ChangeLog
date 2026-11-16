@@ -1,3 +1,17 @@
+2026-11-16  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Add tag selection to edit and filter tabs below transfer list
+	* Change label "Description" to "Text", and add tooltip, in filter widget
+	* Do not add tags to completion for description/text filter if tags selection is shown separately
+
+2026-11-11  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix moanth and day names with languages other than default
+
+2026-09-22  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix initial balance not converted to default currency in accounts pie/bar chart
+
 2026-09-05  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix dark mode not fully applied until restart
