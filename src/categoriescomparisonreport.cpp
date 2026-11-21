@@ -188,6 +188,7 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 	ActionP_pbm = periodMenu->addAction(tr("Previous Month"));
 	ActionP_pby = periodMenu->addAction(tr("Previous Year"));
 	periodButton->setMenu(periodMenu);
+	choicesLayout->addWidget(periodButton);
 	choicesLayout->addStretch(1);
 
 	settingsLayout->addWidget(new QLabel(tr("Columns:"), settingsWidget), b_extra ? 3 : 2, 0);
@@ -293,8 +294,6 @@ void CategoriesComparisonReport::resetOptions() {
 	settings.beginGroup("CategoriesComparisonReport");
 	int period = settings.value("initialPeriod", -1).toInt();
 	bool from_enabled = settings.value("fromEnabled", true).toBool();
-	fromButton->setChecked(from_enabled);
-	fromEdit->setEnabled(from_enabled);
 	if(!from_enabled) periodSelected(ActionP_y);
 	else if(period == 0 || (period == 4 && budget->isLastBudgetDay(QDate::currentDate()))) periodSelected(ActionP_cbm);
 	else if(period == 1 || (period == 5 && QDate::currentDate() == budget->lastBudgetDayOfYear(QDate::currentDate()))) periodSelected(ActionP_cby);
@@ -302,7 +301,10 @@ void CategoriesComparisonReport::resetOptions() {
 	else if(period == 4) periodSelected(ActionP_pbm);
 	else if(period == 5) periodSelected(ActionP_pby);
 	else periodSelected(ActionP_y);
+	fromButton->setChecked(from_enabled);
+	fromEdit->setEnabled(from_enabled);
 	settings.setValue("initialPeriod", period);
+	settings.setValue("fromEnabled", from_enabled);
 	settings.endGroup();
 	subsButton->setChecked(false);
 	columnsToggled(tagsButton->isChecked() ? 3 : (yearsButton->isChecked() ? 2 : (monthsButton->isChecked() ? 1 : 0)), true);

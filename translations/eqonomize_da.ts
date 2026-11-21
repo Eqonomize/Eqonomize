@@ -381,7 +381,7 @@
         <translation>Til</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="177"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="187"/>
         <source>Source:</source>
         <translation>Kilde:</translation>
     </message>
@@ -419,89 +419,124 @@
         <translation>Standard</translation>
     </message>
     <message>
+        <location filename="../src/categoriescomparisonchart.cpp" line="174"/>
+        <source>Select Period</source>
+        <translation type="unfinished">Vælg periode</translation>
+    </message>
+    <message>
+        <location filename="../src/categoriescomparisonchart.cpp" line="176"/>
+        <source>Current Month</source>
+        <translation type="unfinished">Indeværende måned</translation>
+    </message>
+    <message>
+        <location filename="../src/categoriescomparisonchart.cpp" line="177"/>
+        <source>Current Year</source>
+        <translation type="unfinished">Indeværende år</translation>
+    </message>
+    <message>
+        <location filename="../src/categoriescomparisonchart.cpp" line="178"/>
+        <source>Whole Past Month</source>
+        <translation type="unfinished">Hele sidste måned</translation>
+    </message>
+    <message>
+        <location filename="../src/categoriescomparisonchart.cpp" line="179"/>
+        <source>Whole Past Year</source>
+        <translation type="unfinished">Hele sidste år</translation>
+    </message>
+    <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="180"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1536"/>
+        <source>Previous Month</source>
+        <translation type="unfinished">Forrige måned</translation>
+    </message>
+    <message>
+        <location filename="../src/categoriescomparisonchart.cpp" line="181"/>
+        <source>Previous Year</source>
+        <translation type="unfinished">Forrige år</translation>
+    </message>
+    <message>
+        <location filename="../src/categoriescomparisonchart.cpp" line="190"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1600"/>
         <source>All Expenses, without subcategories</source>
         <translation>Alle udgifter uden underkategorier</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="181"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1537"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="191"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1601"/>
         <source>All Expenses, with subcategories</source>
         <translation>Alle udgifter med underkategorier</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="182"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1538"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="192"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1602"/>
         <source>All Incomes, without subcategories</source>
         <translation>Alle indkomster, uden underkategorier</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="183"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1539"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="193"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1603"/>
         <source>All Incomes, with subcategories</source>
         <translation>Alle indkomster, med underkategorier</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="184"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1540"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="194"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1604"/>
         <source>All Accounts</source>
         <translation>Alle konti</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="187"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="755"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1544"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="197"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="819"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1608"/>
         <source>Expenses: %1</source>
         <translation>Udgifter: %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="191"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="756"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1550"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="201"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="820"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1614"/>
         <source>Incomes: %1</source>
         <translation>Indkomster: %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="196"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="319"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="206"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="322"/>
         <source>Subcategories</source>
         <translation type="unfinished">Underkategorier</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="197"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="320"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="207"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="323"/>
         <source>Descriptions</source>
         <translation type="unfinished">Beskrivelser</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="199"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="322"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="209"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="325"/>
         <source>Tags</source>
         <translation type="unfinished">Etiketter</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="198"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="321"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="208"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="324"/>
         <source>Payees</source>
         <translation type="unfinished">Betalingsmodtagere</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="321"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="324"/>
         <source>Payers</source>
         <translation type="unfinished">Betalere</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="346"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="377"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="516"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="549"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="349"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="380"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="580"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="613"/>
         <source>Error</source>
         <translation>Fejl</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="346"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="377"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="349"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="380"/>
         <source>Invalid date.</source>
         <translation>Forkert dato.</translation>
     </message>
@@ -514,125 +549,125 @@
         <translation type="vanished">Startdato er efter slutdato.</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="516"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="580"/>
         <source>Couldn&apos;t open file for writing.</source>
         <translation>Kunne ikke åbne og skrive til filen.</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="549"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="613"/>
         <source>Error while writing file; file was not saved.</source>
         <translation>Fejl ved skrivning af fil; filen blev ikke gemt.</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="671"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="735"/>
         <source>Expenses</source>
         <translation>Udgifter</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="695"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="759"/>
         <source>Expenses, %1</source>
         <translation>Udgifter, %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="704"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="768"/>
         <source>Incomes, %1</source>
         <translation>Indkomster, %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="705"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="769"/>
         <source>Incomes</source>
         <translation>Indkomster</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="715"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="779"/>
         <source>Accounts</source>
         <translation>Konti</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="752"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="816"/>
         <source>Expenses, %2: %1</source>
         <translation>Udgifter, %2: %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="753"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="817"/>
         <source>Incomes, %2: %1</source>
         <translation>Indkomster, %2: %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1097"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1161"/>
         <source>Other payers</source>
         <translation type="unfinished">Andre betalere</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1097"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1161"/>
         <source>Other payees</source>
         <translation type="unfinished">Andre betalingsmodtagere</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1098"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1162"/>
         <source>Other tags</source>
         <translation type="unfinished">Andre etiketter</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1099"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1163"/>
         <source>Other descriptions</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation>Andre beskrivelser</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1255"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1418"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1319"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1482"/>
         <source>No payer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1255"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1418"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1319"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1482"/>
         <source>No payee</source>
         <translation type="unfinished">Ingen betalingsmodtager</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1256"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1419"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1320"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1483"/>
         <source>No tag</source>
         <translation type="unfinished">Ingen etiket</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1257"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1420"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1321"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1484"/>
         <source>No description</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation>Ingen beskrivelse</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1265"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1428"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1329"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1492"/>
         <source>Other accounts</source>
         <translation>Andre konti</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1266"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1429"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1330"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1493"/>
         <source>Other categories</source>
         <translation>Andre kategorier</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1352"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1416"/>
         <source>Value</source>
         <translation>Værdi</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1353"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1417"/>
         <source>Income</source>
         <translation>Indkomst</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1354"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1418"/>
         <source>Cost</source>
         <translation>Omkostninger</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1735"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1799"/>
         <source>%1
 Value: %2</source>
         <translation type="unfinished"></translation>
@@ -669,25 +704,25 @@ Value: %2</source>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="101"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2097"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2174"/>
         <source>All Categories, excluding subcategories</source>
         <translation>Alle kategorier, exklusive underkategorier</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="102"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2098"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2175"/>
         <source>All Categories, including subcategories</source>
         <translation>Alle kategorier, inclusive underkategorier</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="103"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2099"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2176"/>
         <source>All Tags</source>
         <translation>Alle etiketter</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="105"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2101"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2178"/>
         <source>All Payees and Payers</source>
         <translation>Alle betalingsmodtagere og betalere</translation>
     </message>
@@ -702,25 +737,25 @@ Value: %2</source>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="112"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1571"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1574"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1587"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2108"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1648"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1651"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1664"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2185"/>
         <source>Expenses: %1</source>
         <translation>Udgifter: %1</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="116"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1577"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1580"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1588"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2113"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1654"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1657"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1665"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2190"/>
         <source>Incomes: %1</source>
         <translation>Indkomster: %1</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="119"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2117"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2194"/>
         <source>Tag: %1</source>
         <translation type="unfinished">Etiket: %1</translation>
     </message>
@@ -749,40 +784,75 @@ Value: %2</source>
         <translation>Til</translation>
     </message>
     <message>
+        <location filename="../src/categoriescomparisonreport.cpp" line="182"/>
+        <source>Select Period</source>
+        <translation type="unfinished">Vælg periode</translation>
+    </message>
+    <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="184"/>
+        <source>Current Month</source>
+        <translation type="unfinished">Indeværende måned</translation>
+    </message>
+    <message>
+        <location filename="../src/categoriescomparisonreport.cpp" line="185"/>
+        <source>Current Year</source>
+        <translation type="unfinished">Indeværende år</translation>
+    </message>
+    <message>
+        <location filename="../src/categoriescomparisonreport.cpp" line="186"/>
+        <source>Whole Past Month</source>
+        <translation type="unfinished">Hele sidste måned</translation>
+    </message>
+    <message>
+        <location filename="../src/categoriescomparisonreport.cpp" line="187"/>
+        <source>Whole Past Year</source>
+        <translation type="unfinished">Hele sidste år</translation>
+    </message>
+    <message>
+        <location filename="../src/categoriescomparisonreport.cpp" line="188"/>
+        <source>Previous Month</source>
+        <translation type="unfinished">Forrige måned</translation>
+    </message>
+    <message>
+        <location filename="../src/categoriescomparisonreport.cpp" line="189"/>
+        <source>Previous Year</source>
+        <translation type="unfinished">Forrige år</translation>
+    </message>
+    <message>
+        <location filename="../src/categoriescomparisonreport.cpp" line="193"/>
         <source>Columns:</source>
         <translation>Kolonner:</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="206"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1657"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1662"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="215"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1734"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1739"/>
         <source>Value</source>
         <translation>Værdi</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="209"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="218"/>
         <source>Daily</source>
         <translation>Dagligt</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="212"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="221"/>
         <source>Monthly</source>
         <translation>Månadsligt</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="215"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="224"/>
         <source>Yearly</source>
         <translation>Årligt</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="218"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1667"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="227"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1744"/>
         <source>Quantity</source>
         <translation>Kvantitet</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="221"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="230"/>
         <source>Average value</source>
         <translation>Gennemsnitlig værdi</translation>
     </message>
@@ -811,32 +881,32 @@ Value: %2</source>
         <translation>Beskrivelser</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="187"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="196"/>
         <source>Months</source>
         <translation>Måneder</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="190"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="199"/>
         <source>Years</source>
         <translation>År</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="193"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1562"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1563"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1587"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1588"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1589"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="202"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1639"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1640"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1664"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1665"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1666"/>
         <source>Tags</source>
         <translation>Etiketter</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="196"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="205"/>
         <source>Total:</source>
         <translation>Totalt:</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="427"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="443"/>
         <source>All descriptions</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation>Alle Beskrivelser</translation>
@@ -846,32 +916,32 @@ Value: %2</source>
         <translation type="vanished">Alle betalingsmodtagere / betalere</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1791"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1868"/>
         <source>No description</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation>Ingen beskrivelse</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1788"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1865"/>
         <source>No payee</source>
         <translation>Ingen betalingsmodtager</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1789"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1866"/>
         <source>No payer</source>
         <translation>Ingen betaler</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="512"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="543"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="628"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="639"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="528"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="559"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="705"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="716"/>
         <source>Error</source>
         <translation>Fejl</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="512"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="543"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="528"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="559"/>
         <source>Invalid date.</source>
         <translation>Ugyldig dato.</translation>
     </message>
@@ -884,77 +954,77 @@ Value: %2</source>
         <translation type="vanished">Startdato er efter slutdato.</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="628"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="705"/>
         <source>Couldn&apos;t open file for writing.</source>
         <translation>Kunne ikke åbne filen til skrivning.</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="639"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="716"/>
         <source>Error while writing file; file was not saved.</source>
         <translation>Fejl under skrivning af fil filen blev ikke gemt.</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1546"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1549"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1562"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1623"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1626"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1639"/>
         <source>Expenses, %2: %1</source>
         <translation>Udgifter, %2: %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1547"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1548"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1624"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1625"/>
         <source>Expenses, %3: %2, %1</source>
         <translation>Udgifter, %3: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1552"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1555"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1563"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1629"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1632"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1640"/>
         <source>Incomes, %2: %1</source>
         <translation>Indkomster, %2: %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1553"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1554"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1630"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1631"/>
         <source>Incomes, %3: %2, %1</source>
         <translation>Indkomster, %3: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1558"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1559"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1635"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1636"/>
         <source>%3: %2, %1</source>
         <translation>%3: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1560"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1637"/>
         <source>%2: %1</source>
         <translation>%2: %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1564"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1641"/>
         <source>Tags, %1</source>
         <translation>Etiketter, %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1566"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1643"/>
         <source>Incomes &amp; Expenses, %1</source>
         <translation>Indkomster og udgifter, %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1572"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1573"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1649"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1650"/>
         <source>Expenses: %2, %1</source>
         <translation>Udgifter: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1578"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1579"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1655"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1656"/>
         <source>Incomes: %2, %1</source>
         <translation>Indkomster: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1583"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1584"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1660"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1661"/>
         <source>%2, %1</source>
         <translation>%2, %1</translation>
     </message>
@@ -963,127 +1033,127 @@ Value: %2</source>
         <translation type="obsolete">%1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1591"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1668"/>
         <source>Incomes &amp; Expenses</source>
         <translation>Indkomster og udgifter</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1621"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1698"/>
         <source>%1 (%2&amp;ndash;%3)</source>
         <comment>html format; %1: title; %2: from date; %3: to date</comment>
         <translation>%1 (%2 &amp;ndash; %3)</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1622"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1699"/>
         <source>%1 (to %2)</source>
         <comment>html format; %1: title; %2: to date</comment>
         <translation>%1 (till %2)</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1641"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1647"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1661"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1718"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1724"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1738"/>
         <source>Category</source>
         <translation>Kategori</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1642"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1653"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1719"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1730"/>
         <source>Payee</source>
         <translation>Modtagare</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1643"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1649"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1656"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1720"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1726"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1733"/>
         <source>Description</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation>Beskrivelse</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1644"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1721"/>
         <source>Cost</source>
         <translation>Omkostninger</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1648"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1654"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1725"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1731"/>
         <source>Payer</source>
         <translation>Betalere</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1650"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1727"/>
         <source>Income</source>
         <translation>Indkomst</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1655"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1659"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1732"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1736"/>
         <source>Payee/Payer</source>
         <translation>Betalingsmodtager / Betaler</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1640"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1646"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1660"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1717"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1723"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1737"/>
         <source>Tag</source>
         <translation type="unfinished">Etiket</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1664"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1741"/>
         <source>Daily Average</source>
         <translation>Dagligt gennemsnit</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1665"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1742"/>
         <source>Monthly Average</source>
         <translation>Månedligt gennemsnit</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1666"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1743"/>
         <source>Yearly Average</source>
         <translation>Årligt gennemsnit</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1669"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1746"/>
         <source>Average Cost</source>
         <translation>Gennemsnitlige Omkostninger</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1671"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1748"/>
         <source>Average Income</source>
         <translation>Gennemsnitlig indkomst</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1673"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1750"/>
         <source>Average Value</source>
         <translation>Gennemsnitlig værdi</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1790"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1867"/>
         <source>No payee/payer</source>
         <translation>Ingen betalingsmodtager / betaler</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1681"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1822"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1895"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1965"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1758"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1899"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1972"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2042"/>
         <source>Total</source>
         <translation>Ialt</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1895"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1972"/>
         <source>Total incomes</source>
         <translation>Total indkomster</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1965"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2042"/>
         <source>Total expenses</source>
         <translation>Totale udgifter</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1988"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2065"/>
         <source>Total (Profits)</source>
         <translation>Totalte(Fortjenester)</translation>
     </message>
@@ -8868,12 +8938,12 @@ Date: %3</source>
     </message>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="118"/>
-        <source>Matches description, payee/payer, and comments.</source>
+        <source>Matches descriptions, payees/payers, and comments.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="118"/>
-        <source>Matches description, payee/payer, comments, and tags.</source>
+        <source>Matches descriptions, payees/payers, comments, and tags.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

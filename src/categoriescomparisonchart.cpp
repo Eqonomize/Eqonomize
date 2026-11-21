@@ -277,8 +277,6 @@ void CategoriesComparisonChart::resetOptions() {
 	percentButton->blockSignals(false);
 	int period = settings.value("initialPeriod", -1).toInt();
 	bool from_enabled = settings.value("fromEnabled", true).toBool();
-	fromButton->setChecked(from_enabled);
-	fromEdit->setEnabled(from_enabled);
 	if(!from_enabled) periodSelected(ActionP_y);
 	else if(period == 0 || (period == 4 && budget->isLastBudgetDay(QDate::currentDate()))) periodSelected(ActionP_cbm);
 	else if(period == 1 || (period == 5 && QDate::currentDate() == budget->lastBudgetDayOfYear(QDate::currentDate()))) periodSelected(ActionP_cby);
@@ -286,7 +284,10 @@ void CategoriesComparisonChart::resetOptions() {
 	else if(period == 4) periodSelected(ActionP_pbm);
 	else if(period == 5) periodSelected(ActionP_pby);
 	else periodSelected(ActionP_y);
+	fromButton->setChecked(from_enabled);
+	fromEdit->setEnabled(from_enabled);
 	settings.setValue("initialPeriod", period);
+	settings.setValue("fromEnabled", from_enabled);
 	settings.endGroup();
 	accountCombo->blockSignals(true);
 	accountCombo->deselectAll();

@@ -431,6 +431,34 @@ Value: %2</source>
         <source>No tag</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Select Period</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current Month</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current Year</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Whole Past Month</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Whole Past Year</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Previous Month</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Previous Year</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CategoriesComparisonChartDialog</name>
@@ -722,6 +750,34 @@ Value: %2</source>
     </message>
     <message>
         <source>Total (Profits)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select Period</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current Month</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current Year</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Whole Past Month</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Whole Past Year</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Previous Month</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Previous Year</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6174,11 +6230,11 @@ Date: %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Matches description, payee/payer, and comments.</source>
+        <source>Matches descriptions, payees/payers, and comments.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Matches description, payee/payer, comments, and tags.</source>
+        <source>Matches descriptions, payees/payers, comments, and tags.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
