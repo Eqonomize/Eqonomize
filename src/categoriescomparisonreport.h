@@ -61,6 +61,7 @@ class CategoriesComparisonReport : public QWidget {
 		QTextEdit *htmlview;
 		QCheckBox *fromButton;
 		QDateEdit *fromEdit, *toEdit;
+		QAction *ActionP_m, *ActionP_y, *ActionP_cbm, *ActionP_cby, *ActionP_pbm, *ActionP_pby;
 		QPushButton *nextYearButton, *prevYearButton, *nextMonthButton, *prevMonthButton;
 		QPushButton *saveButton, *printButton;
 		QCheckBox *valueButton, *dailyButton, *monthlyButton, *yearlyButton, *countButton, *perButton;
@@ -87,6 +88,8 @@ class CategoriesComparisonReport : public QWidget {
 		void nextMonth();
 		void prevYear();
 		void nextYear();
+		void periodSelected(QAction*);
+		void fromToggled(bool);
 		void sourceChanged(int);
 		void descriptionChanged();
 		void payeeChanged();

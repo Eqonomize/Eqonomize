@@ -171,6 +171,16 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 	choicesLayout->addWidget(nextMonthButton);
 	nextYearButton = new QPushButton(LOAD_ICON("eqz-next-year"), "", settingsWidget);
 	choicesLayout->addWidget(nextYearButton);
+	QPushButton *periodButton = new QPushButton(tr("Select Period"), settingsWidget);
+	QMenu *periodMenu = new QMenu(this);
+	ActionP_cbm = periodMenu->addAction(tr("Current Month"));
+	ActionP_cby = periodMenu->addAction(tr("Current Year"));
+	ActionP_m = periodMenu->addAction(tr("Whole Past Month"));
+	ActionP_y = periodMenu->addAction(tr("Whole Past Year"));
+	ActionP_pbm = periodMenu->addAction(tr("Previous Month"));
+	ActionP_pby = periodMenu->addAction(tr("Previous Year"));
+	periodButton->setMenu(periodMenu);
+	choicesLayout->addWidget(periodButton);
 	choicesLayout->addStretch(1);
 
 	QHBoxLayout *typeLayout = new QHBoxLayout();
@@ -227,10 +237,12 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 	connect(nextMonthButton, SIGNAL(clicked()), this, SLOT(nextMonth()));
 	connect(prevYearButton, SIGNAL(clicked()), this, SLOT(prevYear()));
 	connect(nextYearButton, SIGNAL(clicked()), this, SLOT(nextYear()));
-	connect(fromButton, SIGNAL(toggled(bool)), fromEdit, SLOT(setEnabled(bool)));
+	connect(fromButton, SIGNAL(toggled(bool)), this, SLOT(fromToggled(bool)));
 	connect(fromButton, SIGNAL(toggled(bool)), this, SLOT(updateDisplay()));
 	connect(fromEdit, SIGNAL(dateChanged(const QDate&)), this, SLOT(fromChanged(const QDate&)));
 	connect(toEdit, SIGNAL(dateChanged(const QDate&)), this, SLOT(toChanged(const QDate&)));
+	connect(periodMenu, SIGNAL(triggered(QAction*)), this, SLOT(periodSelected(QAction*)));
+	connect(periodMenu, SIGNAL(triggered(QAction*)), this, SLOT(updateDisplay()));
 	connect(saveButton, SIGNAL(clicked()), this, SLOT(save()));
 	connect(printButton, SIGNAL(clicked()), this, SLOT(print()));
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -257,34 +269,25 @@ void CategoriesComparisonChart::resetOptions() {
 	chart->setTheme(theme >= 0 ? (QChart::ChartTheme) theme : QChart::ChartThemeBlueNcs);
 #endif
 	int value_type = settings.value("valueType", 2).toInt();
-	settings.endGroup();
 	valueButton->blockSignals(true);
 	percentButton->blockSignals(true);
 	if(value_type == 2) valueButton->setChecked(true);
 	else percentButton->setChecked(true);
 	valueButton->blockSignals(false);
 	percentButton->blockSignals(false);
-	QDate first_date;
-	for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
-		Transaction *trans = *it;
-		if(trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS || trans->toAccount()->type() != ACCOUNT_TYPE_ASSETS) {
-			first_date = trans->date();
-			break;
-		}
-	}
-	to_date = QDate::currentDate();
-	from_date = to_date.addYears(-1).addDays(1);
-	if(first_date.isNull()) {
-		from_date = to_date;
-	} else if(from_date < first_date) {
-		from_date = first_date;
-	}
-	fromEdit->blockSignals(true);
-	toEdit->blockSignals(true);
-	fromEdit->setDate(from_date);
-	toEdit->setDate(to_date);
-	fromEdit->blockSignals(false);
-	toEdit->blockSignals(false);
+	int period = settings.value("initialPeriod", -1).toInt();
+	bool from_enabled = settings.value("fromEnabled", true).toBool();
+	fromButton->setChecked(from_enabled);
+	fromEdit->setEnabled(from_enabled);
+	if(!from_enabled) periodSelected(ActionP_y);
+	else if(period == 0 || (period == 4 && budget->isLastBudgetDay(QDate::currentDate()))) periodSelected(ActionP_cbm);
+	else if(period == 1 || (period == 5 && QDate::currentDate() == budget->lastBudgetDayOfYear(QDate::currentDate()))) periodSelected(ActionP_cby);
+	else if(period == 2) periodSelected(ActionP_m);
+	else if(period == 4) periodSelected(ActionP_pbm);
+	else if(period == 5) periodSelected(ActionP_pby);
+	else periodSelected(ActionP_y);
+	settings.setValue("initialPeriod", period);
+	settings.endGroup();
 	accountCombo->blockSignals(true);
 	accountCombo->deselectAll();
 	accountCombo->blockSignals(false);
@@ -439,6 +442,67 @@ void CategoriesComparisonChart::nextYear() {
 	fromEdit->blockSignals(false);
 	toEdit->blockSignals(false);
 	updateDisplay();
+}
+void CategoriesComparisonChart::periodSelected(QAction *a) {
+	QDate first_date;
+	for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
+		Transaction *trans = *it;
+		if(trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS || trans->toAccount()->type() != ACCOUNT_TYPE_ASSETS) {
+			first_date = trans->date();
+			break;
+		}
+	}
+	QDate curdate = QDate::currentDate();
+	QSettings settings;
+	settings.beginGroup("CategoriesComparisonChart");
+	if(a == ActionP_cbm) {
+		from_date = budget->firstBudgetDay(curdate);
+		to_date = curdate;
+		settings.setValue("initialPeriod", 0);
+	} else if(a == ActionP_cby) {
+		from_date = budget->firstBudgetDayOfYear(curdate);
+		to_date = curdate;
+		settings.setValue("initialPeriod", 1);
+	} else if(a == ActionP_m) {
+		to_date = curdate;
+		from_date = to_date.addMonths(-1).addDays(1);
+		settings.setValue("initialPeriod", 2);
+	} else if(a == ActionP_y) {
+		to_date = curdate;
+		from_date = to_date.addYears(-1).addDays(1);
+		settings.setValue("initialPeriod", 3);
+	} else if(a == ActionP_pbm) {
+		from_date = budget->firstBudgetDay(curdate);
+		budget->addBudgetMonthsSetFirst(from_date, -1);
+		to_date = budget->lastBudgetDay(from_date);
+		settings.setValue("initialPeriod", 4);
+	} else if(a == ActionP_pby) {
+		from_date = budget->firstBudgetDayOfYear(curdate);
+		budget->addBudgetMonthsSetFirst(from_date, -12);
+		to_date = budget->lastBudgetDayOfYear(from_date);
+		settings.setValue("initialPeriod", 5);
+	}
+	settings.endGroup();
+	if(first_date.isNull()) {
+		from_date = to_date;
+	} else if(from_date < first_date) {
+		from_date = first_date;
+	}
+	fromEdit->setEnabled(true);
+	fromButton->setChecked(true);
+	fromEdit->blockSignals(true);
+	toEdit->blockSignals(true);
+	fromEdit->setDate(from_date);
+	toEdit->setDate(to_date);
+	fromEdit->blockSignals(false);
+	toEdit->blockSignals(false);
+}
+void CategoriesComparisonChart::fromToggled(bool b) {
+	fromEdit->setEnabled(b);
+	QSettings settings;
+	settings.beginGroup("CategoriesComparisonChart");
+	settings.setValue("fromEnabled", b);
+	settings.endGroup();
 }
 void CategoriesComparisonChart::onFilterSelected(QString filter) {
 	QMimeDatabase db;
